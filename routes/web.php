@@ -31,9 +31,12 @@ Route::get('/admin', [App\Http\Controllers\HomeController::class, 'root'])->name
 Route::post('/update-profile/{id}', [App\Http\Controllers\HomeController::class, 'updateProfile'])->name('updateProfile');
 Route::post('/update-password/{id}', [App\Http\Controllers\HomeController::class, 'updatePassword'])->name('updatePassword');
 
-Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
 
 
 // Category
-Route::get('/apps-category', [CategoryController::class, 'index'])->name('category');
+Route::get('/admin/category/list-all', [CategoryController::class, 'index'])->name('category');
+Route::get('/admin/category/add', [CategoryController::class, 'add'])->name('add');
 // Route::get('/apps-category/{id}', [CategoryController::class, 'add'])->name('add');
+
+
+Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('index');

@@ -754,4 +754,4 @@
         </div>
     </div>
 </div>
-<?php /**PATH D:\shushin_projects\pharmacy\resources\views/layouts/customizer.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\laravel\my-pharmacy\resources\views/layouts/customizer.blade.php ENDPATH**/ ?>

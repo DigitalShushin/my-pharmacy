@@ -11,13 +11,15 @@ class CategoryController extends Controller
     {
         // Fetch categories from the database
         $categories = Category::select('id', 'name')->get();
-
-        // Debugging: Dump and die to check the fetched categories
-        //  dd($categories);
-
-        return view('apps-category', ['categories' => $categories]); 
+        //dd($categories);
+        // Pass the categories to the view
+        //return view('apps-category', ['categories' => $categories]); 
+        return view('apps-category', compact('categories'));
     }
 
-    
+    public function add()
+    {
+        return view('apps-category-add');
+    }
 }
 

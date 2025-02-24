@@ -43,4 +43,4 @@
 </body>
 
 </html>
-<?php /**PATH D:\shushin_projects\pharmacy\resources\views/layouts/master.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\laravel\my-pharmacy\resources\views/layouts/master.blade.php ENDPATH**/ ?>
