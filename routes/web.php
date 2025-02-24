@@ -37,3 +37,4 @@ Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name
 // Category
 Route::get('/apps-category', [CategoryController::class, 'index'])->name('category');
 // Route::get('/apps-category/{id}', [CategoryController::class, 'add'])->name('add');
+
