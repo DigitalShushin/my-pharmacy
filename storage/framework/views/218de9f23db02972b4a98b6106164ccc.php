@@ -12,4 +12,4 @@
         </div>
     </div>
 </footer>
-<?php /**PATH D:\shushin_projects\pharmacy\resources\views/layouts/footer.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\laravel\my-pharmacy\resources\views/layouts/footer.blade.php ENDPATH**/ ?>

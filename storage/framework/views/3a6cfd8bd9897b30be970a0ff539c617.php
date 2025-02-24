@@ -10,4 +10,4 @@
 <!-- custom Css-->
 <link href="<?php echo e(URL::asset('build/css/custom.min.css')); ?>"  rel="stylesheet" type="text/css" />
 
-<?php /**PATH D:\shushin_projects\pharmacy\resources\views/layouts/head-css.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\laravel\my-pharmacy\resources\views/layouts/head-css.blade.php ENDPATH**/ ?>

@@ -764,4 +764,4 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<?php /**PATH D:\shushin_projects\pharmacy\resources\views/layouts/topbar.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\laravel\my-pharmacy\resources\views/layouts/topbar.blade.php ENDPATH**/ ?>
