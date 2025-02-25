@@ -35,6 +35,13 @@
                 </div>
             </div>
             <div class="card-body">
+            <?php if(session('success')): ?>
+    <div class="alert alert-success">
+        <?php echo e(session('success')); ?>
+
+    </div>
+<?php endif; ?>
+                
                 <div id="recomended-category" class="table-card"></div>
                 <script id="category-data" type="application/json">
                     <?php echo json_encode($categories); ?>
@@ -64,4 +71,4 @@
 <!-- App js -->
 <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laravel\my-pharmacy\resources\views/apps-category.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\shushin_projects\pharmacy\resources\views/apps-category.blade.php ENDPATH**/ ?>

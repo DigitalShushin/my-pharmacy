@@ -35,6 +35,12 @@
                 </div>
             </div>
             <div class="card-body">
+            @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+                
                 <div id="recomended-category" class="table-card"></div>
                 <script id="category-data" type="application/json">
                     {!! json_encode($categories) !!}

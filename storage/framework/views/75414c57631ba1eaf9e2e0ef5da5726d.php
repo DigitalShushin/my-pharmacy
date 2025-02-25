@@ -6,4 +6,4 @@
 <script src="<?php echo e(URL::asset('build/js/plugins.js')); ?>"></script>
 <?php echo $__env->yieldContent('script'); ?>
 <?php echo $__env->yieldContent('script-bottom'); ?>
-<?php /**PATH C:\laravel\my-pharmacy\resources\views/layouts/vendor-scripts.blade.php ENDPATH**/ ?>
+<?php /**PATH D:\shushin_projects\pharmacy\resources\views/layouts/vendor-scripts.blade.php ENDPATH**/ ?>

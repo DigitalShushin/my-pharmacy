@@ -17,4 +17,4 @@
     </div>
 </div>
 <!-- end page title -->
-<?php /**PATH C:\laravel\my-pharmacy\resources\views/components/breadcrumb.blade.php ENDPATH**/ ?>
+<?php /**PATH D:\shushin_projects\pharmacy\resources\views/components/breadcrumb.blade.php ENDPATH**/ ?>

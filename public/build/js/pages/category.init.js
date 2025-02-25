@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 { name: 'Action', width: '150px' },
             ],
             sort: true,
-            pagination: { limit: 6 },
+            pagination: { limit: 10 },
             data: categoryListAllData,
         }).render(document.getElementById("recomended-category"));
 

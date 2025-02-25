@@ -21,5 +21,39 @@ class CategoryController extends Controller
     {
         return view('apps-category-add');
     }
+
+    public function store(Request $request)
+    {
+        // Validate input
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        try {
+            $category = Category::createCategory($validated);
+
+            // Return a success response
+            return redirect()->route('category')->with('success', 'Category created successfully');
+        } catch (\Exception $e) {
+            return redirect()->route('category')->with('error', 'Error: ' . $e->getMessage());
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Validate input
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        try {
+            $category = Category::updateCategory($id, $validated);
+
+            // Return a success response
+            return response()->json(['success' => true, 'message' => 'Category updated successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+        }
+    }
 }
 
