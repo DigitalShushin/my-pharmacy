@@ -8,4 +8,4 @@
 <body>
     <h1>Welcome to the Frontend</h1>
 </body>
-</html><?php /**PATH C:\laravel\my-pharmacy\resources\views/frontend/home.blade.php ENDPATH**/ ?>
+</html><?php /**PATH D:\shushin_projects\pharmacy\resources\views/frontend/home.blade.php ENDPATH**/ ?>
