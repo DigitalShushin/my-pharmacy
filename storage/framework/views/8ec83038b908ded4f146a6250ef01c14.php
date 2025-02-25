@@ -35,6 +35,13 @@
                 </div>
             </div>
             <div class="card-body">
+            <?php if(session('success')): ?>
+    <div class="alert alert-success">
+        <?php echo e(session('success')); ?>
+
+    </div>
+<?php endif; ?>
+                
                 <div id="recomended-category" class="table-card"></div>
                 <script id="category-data" type="application/json">
                     <?php echo json_encode($categories); ?>

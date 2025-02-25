@@ -35,9 +35,12 @@ Route::post('/update-password/{id}', [App\Http\Controllers\HomeController::class
 
 // Category
 Route::get('/admin/category/list-all', [CategoryController::class, 'index'])->name('category');
-Route::get('/admin/category/add', [CategoryController::class, 'add'])->name('add');
+Route::get('/admin/category/add', [CategoryController::class, 'add'])->name('category.add');
+Route::post('/admin/category/store', [CategoryController::class, 'store'])->name('category.store');
+Route::post('/admin/category/update/{id}', [CategoryController::class, 'update'])->name('category.update');
+
 // Route::get('/apps-category/{id}', [CategoryController::class, 'add'])->name('add');
 
 
 
-Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
+// Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
