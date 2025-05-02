@@ -10,7 +10,7 @@ class CompanyController extends Controller
     public function index()
     {
         // $companies = Company::all();
-        $companies = Company::with('parent')->paginate(20); // eager load parent company
+        $companies = Company::with('parent')->get(); // eager load parent company
         $parentCompanies = Company::all(); // List of all companies to use in the parent dropdown
 
         return view('companies.index', compact('companies', 'parentCompanies'));

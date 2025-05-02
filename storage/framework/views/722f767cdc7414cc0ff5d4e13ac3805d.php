@@ -1,10 +1,10 @@
-@extends('layouts.master')
-@section('title') @lang('translation.dashboards') @endsection
-@section('css')
-<link href="{{ URL::asset('build/libs/jsvectormap/css/jsvectormap.min.css')}}" rel="stylesheet" type="text/css" />
-<link href="{{ URL::asset('build/libs/swiper/swiper-bundle.min.css')}}" rel="stylesheet" type="text/css" />
-@endsection
-@section('content')
+
+<?php $__env->startSection('title'); ?> <?php echo app('translator')->get('translation.dashboards'); ?> <?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
+<link href="<?php echo e(URL::asset('build/libs/jsvectormap/css/jsvectormap.min.css')); ?>" rel="stylesheet" type="text/css" />
+<link href="<?php echo e(URL::asset('build/libs/swiper/swiper-bundle.min.css')); ?>" rel="stylesheet" type="text/css" />
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <!--datatable css-->
 <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
 <!--datatable responsive css-->
@@ -66,11 +66,11 @@
                     </thead>
                     <tbody>
                         <?php $sn=0; ?>
-                        @foreach($companies as $company)
+                        <?php $__currentLoopData = $companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr>
-                            <td>{{ ++$sn }}</td>
-                            <td>{{ $company->parent ? $company->parent->name : 'Parent Company' }}</td>
-                            <td>{{ $company->name }}</td>
+                            <td><?php echo e(++$sn); ?></td>
+                            <td><?php echo e($company->parent ? $company->parent->name : 'Parent Company'); ?></td>
+                            <td><?php echo e($company->name); ?></td>
                             <td>
                                 <div class="dropdown d-inline-block">
                                     <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -80,11 +80,11 @@
                                         <li><a href="#!" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a></li>
                                         <li><a class="dropdown-item edit-item-btn"href="#showModal"
                                             data-bs-toggle="modal"
-                                            data-company-id="{{ $company->id }}"
-                                            data-company-name="{{ $company->name }}"
-                                            data-parent-id="{{ $company->parent_id }}"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
+                                            data-company-id="<?php echo e($company->id); ?>"
+                                            data-company-name="<?php echo e($company->name); ?>"
+                                            data-parent-id="<?php echo e($company->parent_id); ?>"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
                                         <li>
-                                            <a class="dropdown-item remove-item-btn" href="#deleteRecordModal" data-company-id="{{ $company->id }}">
+                                            <a class="dropdown-item remove-item-btn" href="#deleteRecordModal" data-company-id="<?php echo e($company->id); ?>">
                                                 <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete
                                             </a>
                                         </li>
@@ -92,30 +92,30 @@
                                 </div>
                             </td>
                         </tr>                        
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
-@endsection
-@section('script')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
 <!-- apexcharts -->
-<script src="{{ URL::asset('build/libs/apexcharts/apexcharts.min.js') }}"></script>
-<script src="{{ URL::asset('build/libs/jsvectormap/js/jsvectormap.min.js') }}"></script>
-<script src="{{ URL::asset('build/libs/jsvectormap/maps/world-merc.js') }}"></script>
-<script src="{{ URL::asset('build/libs/swiper/swiper-bundle.min.js')}}"></script>
+<script src="<?php echo e(URL::asset('build/libs/apexcharts/apexcharts.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('build/libs/jsvectormap/js/jsvectormap.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('build/libs/jsvectormap/maps/world-merc.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('build/libs/swiper/swiper-bundle.min.js')); ?>"></script>
 <!-- dashboard init -->
-<script src="{{ URL::asset('build/js/pages/dashboard-ecommerce.init.js') }}"></script>
-<script src="{{ URL::asset('build/js/app.js') }}"></script>
+<script src="<?php echo e(URL::asset('build/js/pages/dashboard-ecommerce.init.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
 
 
 
-<script src="{{ URL::asset('build/libs/list.js/list.min.js') }}"></script>
-<script src="{{ URL::asset('build/libs/list.pagination.js/list.pagination.min.js') }}"></script>
-<!-- <script src="{{ URL::asset('build/js/pages/crm-contact.init.js') }}"></script> -->
-<script src="{{ URL::asset('build/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+<script src="<?php echo e(URL::asset('build/libs/list.js/list.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('build/libs/list.pagination.js/list.pagination.min.js')); ?>"></script>
+<!-- <script src="<?php echo e(URL::asset('build/js/pages/crm-contact.init.js')); ?>"></script> -->
+<script src="<?php echo e(URL::asset('build/libs/sweetalert2/sweetalert2.min.js')); ?>"></script>
 
 <!-- Custom AJAX script -->
 
@@ -128,7 +128,7 @@
         fetch('/companies', {
             method: 'POST',
             headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -212,7 +212,7 @@
             fetch(`/companies/${id}`, {
                 method: 'PUT',
                 headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
@@ -297,7 +297,7 @@
             fetch(`/companies/${companyId}`, {
                 method: 'DELETE',
                 headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>',
                     'Content-Type': 'application/json'
                 }
             })
@@ -352,7 +352,7 @@
     });
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
@@ -360,7 +360,9 @@
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 
-<script src="{{ URL::asset('build/js/pages/datatables.init.js') }}"></script>
+<script src="<?php echo e(URL::asset('build/js/pages/datatables.init.js')); ?>"></script>
 
 
 
+
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laravel\my-pharmacy\resources\views/companies/index.blade.php ENDPATH**/ ?>
