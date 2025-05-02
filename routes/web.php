@@ -4,6 +4,7 @@ use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\CompanyController;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -39,8 +40,6 @@ Route::get('/admin/category/list-all', [CategoryController::class, 'index'])->na
 Route::get('/admin/category/add', [CategoryController::class, 'add'])->name('add');
 // Route::get('/apps-category/{id}', [CategoryController::class, 'add'])->name('add');
 
-// Supplier
-Route::get('/admin/supplier/list', [SupplierController::class, 'index'])->name('supplier');
-Route::get('/admin/supplier/add', [SupplierController::class, 'add'])->name('add');
+
 
 // Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
