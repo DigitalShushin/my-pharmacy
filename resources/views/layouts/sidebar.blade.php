@@ -1017,15 +1017,15 @@
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarApps" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
-                        <i class="lab la-delicious"></i> <span>Categories</span>
+                        <i class="lab la-delicious"></i> <span>Company</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarApps">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="apps-category" class="nav-link">List</a>
+                                <a href="{{ route('companies.index') }}" class="nav-link">List</a>
                             </li>
                             <li class="nav-item">
-                                <a href="apps-chat" class="nav-link">Add New</a>
+                                <a href="{{ route('companies.create') }}" class="nav-link">Add New</a>
                             </li>                            
                         </ul>
                     </div>
@@ -1038,10 +1038,10 @@
                     <div class="collapse menu-dropdown" id="sidebarApps">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="admin/supplier/list" class="nav-link">List</a>
+                            <a href="{{ route('suppliers.index') }}" class="nav-link">List</a>
                             </li>
                             <li class="nav-item">
-                                <a href="admin/supplier/add" class="nav-link">Add New</a>
+                                <a href="{{ route('suppliers.create') }}" class="nav-link">Add New</a>
                             </li>                            
                         </ul>
                     </div>

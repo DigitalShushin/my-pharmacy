@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('email');
             $table->text('address');
             $table->json('companies_array'); // Stores multiple company references
+            $table->string('pan_number')->nullable();
+            $table->string('registration_number')->nullable();
             $table->timestamps();
         });
     }

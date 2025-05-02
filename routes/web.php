@@ -4,6 +4,7 @@ use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\CompanyController;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -40,5 +41,14 @@ Route::get('/admin/category/add', [CategoryController::class, 'add'])->name('add
 // Route::get('/apps-category/{id}', [CategoryController::class, 'add'])->name('add');
 
 
+// Supplier
+// Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
+// Route::get('/suppliers/create', [SupplierController::class, 'create'])->name('suppliers.create');
+// Route::post('/suppliers', [SupplierController::class, 'store'])->name('suppliers.store');
+Route::resource('suppliers', SupplierController::class);
+
+
+// Company
+Route::resource('companies', CompanyController::class);
 
 // Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
