@@ -69,33 +69,103 @@
                         <?php $__currentLoopData = $companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr>
                             <td><?php echo e(++$sn); ?></td>
-                            <td><?php echo e($company->parent ? $company->parent->name : 'Parent Company'); ?></td>
+                            <td><?php echo e($company->parent ? $company->parent->name : ''); ?></td>
                             <td><?php echo e($company->name); ?></td>
                             <td>
-                                <div class="dropdown d-inline-block">
-                                    <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="ri-more-fill align-middle"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a href="#!" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a></li>
-                                        <li><a class="dropdown-item edit-item-btn"href="#showModal"
-                                            data-bs-toggle="modal"
-                                            data-company-id="<?php echo e($company->id); ?>"
-                                            data-company-name="<?php echo e($company->name); ?>"
-                                            data-parent-id="<?php echo e($company->parent_id); ?>"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
-                                        <li>
-                                            <a class="dropdown-item remove-item-btn" href="#deleteRecordModal" data-company-id="<?php echo e($company->id); ?>">
-                                                <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <!-- <a href="#!" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>  -->
+                                <a class="edit-item-btn" href="#showModal" data-bs-toggle="modal" data-company-id="<?php echo e($company->id); ?>" data-company-name="<?php echo e($company->name); ?>" data-parent-id="<?php echo e($company->parent_id); ?>"><i class="ri-pencil-fill align-bottom me-2 text-muted" style="color: green !important;"></i></a> 
+                                <a class="remove-item-btn" href="#deleteRecordModal" data-company-id="<?php echo e($company->id); ?>"><i class="ri-delete-bin-fill align-bottom me-2 text-muted" style="color: red !important;"></i></a>
                             </td>
                         </tr>                        
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>
                 </table>
             </div>
+            <div class="modal fade" id="addRecordModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content border-0">
+                                <div class="modal-header bg-soft-primary p-3">
+                                    <h5 class="modal-title" id="addModalLabel">Add Company</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close" id="close-modal"></button>
+                                </div>
+                                <form class="tablelist-form" autocomplete="off">
+                                    <div class="modal-body">
+                                        <div class="row g-3">
+                                            <div class="col-lg-12">
+                                                <label for="add-parent-company-field" class="form-label">Parent Company</label>
+                                                <select id="add-parent-company-field" class="form-select">
+                                                    <option value="">Select parent company</option>
+                                                    <?php $__currentLoopData = $parentCompanies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $parent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($parent->id); ?>"><?php echo e($parent->name); ?></option>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-lg-12">
+                                                <label for="add-company-name-field" class="form-label">Company Name</label>
+                                                <input type="text" id="add-company-name-field" class="form-control" placeholder="Enter company name" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="hstack gap-2 justify-content-end">
+                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-success" id="add-btn">Add</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end add modal-->
+
+                    <div class="modal fade" id="showModal" tabindex="-1"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content border-0">
+                                <div class="modal-header bg-soft-info p-3">
+                                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close" id="close-modal"></button>
+                                </div>
+                                <form class="tablelist-form" autocomplete="off">
+                                    <div class="modal-body">
+                                        <input type="hidden" id="id-field" />
+                                        <div class="row g-3">
+                                            <div class="col-lg-12">                                                
+                                                <div>                                                   
+                                                    <label for="parent-company-field" class="form-label">Parent Company</label>
+                                                    <select id="parent-company-field" class="form-select">
+                                                        <option value="">Select parent company</option>
+                                                        <?php $__currentLoopData = $parentCompanies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $parent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                            <option value="<?php echo e($parent->id); ?>"><?php echo e($parent->name); ?></option>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            
+                                            <div class="col-lg-12">
+                                                <div>
+                                                    <label for="company_name-field" class="form-label">Company Name</label>
+                                                    <input type="text" id="company_name-field" class="form-control" placeholder="Enter company name" required />
+                                                </div>
+                                            </div>
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="hstack gap-2 justify-content-end">
+                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-success" id="edit-btn">Update</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end edit modal-->
         </div>
     </div>
 </div>
