@@ -1022,10 +1022,10 @@
                     <div class="collapse menu-dropdown" id="sidebarApps">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="<?php echo e(route('companies.index')); ?>" class="nav-link">List</a>
+                                <a href="<?php echo e(route('company.index')); ?>" class="nav-link">List</a>
                             </li>
                             <li class="nav-item">
-                                <a href="<?php echo e(route('companies.create')); ?>" class="nav-link">Add New</a>
+                                <a href="<?php echo e(route('company.create')); ?>" class="nav-link">Add New</a>
                             </li>                            
                         </ul>
                     </div>

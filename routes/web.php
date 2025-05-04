@@ -49,6 +49,11 @@ Route::resource('suppliers', SupplierController::class);
 
 
 // Company
-Route::resource('companies', CompanyController::class);
+Route::resource('admin/company', CompanyController::class);
+Route::post('/admin/company/add_process/', [CompanyController::class, 'store'])->name('company.store');
+Route::get('/admin/company/edit/{id}', [CompanyController::class, 'edit']);
+Route::put('/admin/company/update/{id}', [CompanyController::class, 'update']);
+Route::delete('/admin/company/delete/{id}', [CompanyController::class, 'destroy'])->name('company.destroy');
+
 
 // Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
