@@ -78,13 +78,10 @@
                                     <td>{{ $company->name }}</td>
                                     <td>
                                         <!-- <a href="#!" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>  -->
-                                        <a class="edit-item-btn" href="#showModal" data-bs-toggle="modal"
-                                            data-company-id="{{ $company->id }}" data-company-name="{{ $company->name }}"
-                                            data-parent-id="{{ $company->parent_id }}"><i
-                                                class="ri-pencil-fill align-bottom me-2 text-muted"
+                                        <a class="edit-item-btn" href="#showModal" data-bs-toggle="modal" data-id="{{ $company->id }}" data-company-id="{{ $company->id }}" data-company-name="{{ $company->name }}"
+                                            data-parent-id="{{ $company->parent_id }}"><i class="ri-pencil-fill align-bottom me-2 text-muted"
                                                 style="color: green !important;"></i></a>
-                                        <a class="remove-item-btn" data-bs-toggle="modal" href="#deleteRecordModal"
-                                            data-company-id="{{ $company->id }}"><i
+                                        <a class="remove-item-btn" href="#deleteRecordModal" data-bs-toggle="modal" data-company-id="{{ $company->id }}"><i
                                                 class="ri-delete-bin-fill align-bottom me-2 text-muted"
                                                 style="color: red !important;"></i></a>
                                     </td>
@@ -184,18 +181,20 @@
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button type="button" class="btn-close" id="deleteRecord-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close"></button>
+                                <button type="button" class="btn-close" id="deleteRecord-close" data-bs-dismiss="modal"
+                                    aria-label="Close" id="btn-close"></button>
                             </div>
                             <div class="modal-body p-5 text-center">
                                 <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
                                     colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
                                 <div class="mt-4 text-center">
-                                    <h4 class="fs-semibold">You are about to delete a contact ?</h4>
-                                    <p class="text-muted fs-14 mb-4 pt-1">Deleting your contact will
+                                    <h4 class="fs-semibold">You are about to delete a Company</h4>
+                                    <p class="text-muted fs-14 mb-4 pt-1">Deleting will
                                         remove all of your information from our database.</p>
                                     <div class="hstack gap-2 justify-content-center remove">
-                                        <button class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close"
-                                            data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                                        <button class="btn btn-link link-success fw-medium text-decoration-none"
+                                            id="deleteRecord-close" data-bs-dismiss="modal"><i
+                                                class="ri-close-line me-1 align-middle"></i> Close</button>
                                         <button class="btn btn-danger" id="delete-record">Yes,
                                             Delete It!!</button>
                                     </div>
@@ -292,16 +291,34 @@
     <!-- Edit Comapny -->
 
     <script>
+        $(document).ready(function () {
+            $('.edit-item-btn').on('click', function () {
+                var companyId = $(this).data('id');
+
+                $.ajax({
+                    url: '/company/edit/' + companyId,
+                    method: 'GET',
+                    success: function (response) {
+                        $('#editCompanyModalBody').html(response);
+                        $('#editCompanyModal').modal('show');
+                    },
+                    error: function () {
+                        alert('Unable to fetch company data.');
+                    }
+                });
+            });
+        });
+
+
         document.addEventListener('DOMContentLoaded', function () {
         const table = $('#model-datatables').DataTable();
 
-        // Delegate event for dynamically generated buttons
-        document.querySelector('#model-datatables').addEventListener('click', function (e) {
-            const btn = e.target.closest('.edit-item-btn');
-            if (btn) {
-                const companyId = btn.getAttribute('data-company-id');
-                const companyName = btn.getAttribute('data-company-name');
-                const parentId = btn.getAttribute('data-parent-id');
+                    alert(companyId+''+companyName+''+parentId);
+
+                    // Fill the modal form fields with the company details from the data attributes
+                    document.getElementById('id-field').value = companyId;
+                    document.getElementById('company_name-field').value = companyName;
+                    document.getElementById('parent-company-field').value = parentId;
 
                 document.getElementById('id-field').value = companyId;
                 document.getElementById('company_name-field').value = companyName;
