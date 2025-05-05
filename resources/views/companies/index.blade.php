@@ -72,7 +72,7 @@
                         <tbody>
                             <?php $sn = 0; ?>
                             @foreach($companies as $company)
-                                <tr>
+                                <tr data-row-id="{{ $company->id }}">
                                     <td>{{ ++$sn }}</td>
                                     <td>{{ $company->parent ? $company->parent->name : '' }}</td>
                                     <td>{{ $company->name }}</td>
@@ -83,7 +83,7 @@
                                             data-parent-id="{{ $company->parent_id }}"><i
                                                 class="ri-pencil-fill align-bottom me-2 text-muted"
                                                 style="color: green !important;"></i></a>
-                                        <a class="remove-item-btn" href="#deleteRecordModal"
+                                        <a class="remove-item-btn" data-bs-toggle="modal" href="#deleteRecordModal"
                                             data-company-id="{{ $company->id }}"><i
                                                 class="ri-delete-bin-fill align-bottom me-2 text-muted"
                                                 style="color: red !important;"></i></a>
@@ -293,23 +293,23 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Handle Edit button click
-            document.querySelectorAll('.edit-item-btn').forEach(function (btn) {
-                btn.addEventListener('click', function () {
-                    // Set company ID
-                    const companyId = this.getAttribute('data-company-id');
-                    const companyName = this.getAttribute('data-company-name');
-                    const parentId = this.getAttribute('data-parent-id');
+        const table = $('#model-datatables').DataTable();
 
-                    // Fill the modal form fields with the company details from the data attributes
-                    document.getElementById('id-field').value = companyId;
-                    document.getElementById('company_name-field').value = companyName;
-                    document.getElementById('parent-company-field').value = parentId;
+        // Delegate event for dynamically generated buttons
+        document.querySelector('#model-datatables').addEventListener('click', function (e) {
+            const btn = e.target.closest('.edit-item-btn');
+            if (btn) {
+                const companyId = btn.getAttribute('data-company-id');
+                const companyName = btn.getAttribute('data-company-name');
+                const parentId = btn.getAttribute('data-parent-id');
 
-                    // Optional: set modal title (customize this based on context)
-                    document.getElementById('exampleModalLabel').textContent = "Edit Company";
-                });
-            });
+                document.getElementById('id-field').value = companyId;
+                document.getElementById('company_name-field').value = companyName;
+                document.getElementById('parent-company-field').value = parentId;
+
+                document.getElementById('exampleModalLabel').textContent = "Edit Company";
+            }
+        });
 
             // Handle update button click
             document.getElementById('edit-btn').addEventListener('click', function () {
@@ -319,68 +319,55 @@
 
                 // Send the updated data to the server via PUT request
                 fetch(`/companies/${id}`, {
-                    method: 'PUT',
+                    method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}',
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
+                        _method: 'PUT',
                         name: companyName,
                         parent_id: parentId
                     })
                 })
-                    .then(response => response.json())
-                    .then(data => {
-                        // Find the row in the table by data-row-id
-                        const row = document.querySelector(`tr[data-row-id="${id}"]`);
+                .then(response => response.json())
+                .then(data => {
+                    
+                    // Close the modal after the update
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('showModal'));
+                    modal.hide();
 
-                        if (row) {
-                            // Update the company name in the table row
-                            const companyNameCell = row.querySelector('.company_name');
-                            companyNameCell.textContent = companyName;
+                    
+                    // location.reload(); 
 
-                            // Update the parent company name in the table row
-                            const parentCompanyCell = row.querySelector('.name .flex-grow-1');
-                            const parentSelect = document.getElementById('parent-company-field');
-                            const selectedOption = parentSelect.options[parentSelect.selectedIndex];
-                            const parentCompanyName = selectedOption.textContent === 'Select parent company' ? '' : selectedOption.textContent;
-                            parentCompanyCell.textContent = parentCompanyName;
-
-                            const aTag = row.querySelector('.list-inline-item'); // or use a more specific selector
-                            aTag.setAttribute('data-company-id', id);
-                            aTag.setAttribute('data-company-name', companyName);
-                            aTag.setAttribute('data-parent-id', parentId);
+                    // Show success message
+                    // Swal.fire('Updated!', 'Company updated successfully.', 'success');
+                    Swal.fire({
+                        title: 'Updated!',
+                        text: 'Company updated successfully.',
+                        icon: 'success',
+                        customClass: {
+                            title: 'swal2-title', // Custom class for title
+                            htmlContainer: 'custom-html' // Custom class for HTML container
                         }
-
-                        // Close the modal after the update
-                        const modal = bootstrap.Modal.getInstance(document.getElementById('showModal'));
-                        modal.hide();
-
-                        // Show success message
-                        // Swal.fire('Updated!', 'Company updated successfully.', 'success');
-                        Swal.fire({
-                            title: 'Updated!',
-                            text: 'Company updated successfully.',
-                            icon: 'success',
-                            customClass: {
-                                title: 'swal2-title', // Custom class for title
-                                htmlContainer: 'custom-html' // Custom class for HTML container
-                            }
-                        });
-                    })
-                    .catch(error => {
-                        console.error(error);
-                        // Swal.fire('Error!', 'Something went wrong with the update.', 'error');
-                        Swal.fire({
-                            title: 'Error!',
-                            text: 'Something went wrong with the update.',
-                            icon: 'error',
-                            customClass: {
-                                title: 'swal2-title', // Custom class for title
-                                htmlContainer: 'custom-html' // Custom class for HTML container
-                            }
-                        });
                     });
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
+                })
+                .catch(error => {
+                    console.error(error);
+                    // Swal.fire('Error!', 'Something went wrong with the update.', 'error');
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Something went wrong with the update.',
+                        icon: 'error',
+                        customClass: {
+                            title: 'swal2-title', // Custom class for title
+                            htmlContainer: 'custom-html' // Custom class for HTML container
+                        }
+                    });
+                });
             });
         });
     </script>
@@ -390,35 +377,39 @@
     <!-- Delete Company -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            let companyId = null;
+        let companyId = null;
+        const table = $('#model-datatables').DataTable(); // Initialize DataTable
 
-            // Step 1: When clicking on the trash/delete icon
-            document.querySelectorAll('.remove-item-btn').forEach(function (btn) {
-                btn.addEventListener('click', function () {
-                    companyId = this.getAttribute('data-company-id');
-                });
-            });
+        // 🧠 Use event delegation to catch delete button clicks (works across pages)
+        document.querySelector('#model-datatables').addEventListener('click', function (e) {
+            const btn = e.target.closest('.remove-item-btn');
+            if (btn) {
+                companyId = btn.getAttribute('data-company-id');
+            }
+        });
 
-            // Step 2: When confirming delete in modal
-            document.getElementById('delete-record').addEventListener('click', function () {
-                if (!companyId) return;
+        // ✅ When delete is confirmed from modal
+        document.getElementById('delete-record').addEventListener('click', function () {
+            if (!companyId) return;
 
-                fetch(`/companies/${companyId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json'
+            fetch(`/companies/${companyId}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // 🔥 Find the row by data-row-id and remove using DataTables API
+                    const rowElement = document.querySelector(`[data-row-id="${companyId}"]`);
+                    if (rowElement) {
+                        table.row(rowElement).remove().draw(); // Remove and redraw
                     }
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            // Remove row from table
-                            const row = document.querySelector(`[data-row-id="${companyId}"]`);
-                            if (row) row.remove();
 
-                            // Close the modal
-                            const modal = bootstrap.Modal.getInstance(document.getElementById('deleteRecordModal'));
-                            modal.hide();
+                    // 🧼 Close modal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('deleteRecordModal'));
+                    modal.hide();
 
                             // Swal.fire('Deleted!', 'Company deleted successfully.', 'success');
                             Swal.fire({
@@ -442,7 +433,9 @@
                                     htmlContainer: 'custom-html' // Custom class for HTML container
                                 }
                             });
+                            
                         }
+                        
                     })
                     .catch(error => {
                         console.error(error);
