@@ -1,10 +1,10 @@
-@extends('layouts.master')
-@section('title') @lang('translation.dashboards') @endsection
-@section('css')
-    <link href="{{ URL::asset('build/libs/jsvectormap/css/jsvectormap.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{ URL::asset('build/libs/swiper/swiper-bundle.min.css')}}" rel="stylesheet" type="text/css" />
-@endsection
-@section('content')
+
+<?php $__env->startSection('title'); ?> <?php echo app('translator')->get('translation.dashboards'); ?> <?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
+    <link href="<?php echo e(URL::asset('build/libs/jsvectormap/css/jsvectormap.min.css')); ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo e(URL::asset('build/libs/swiper/swiper-bundle.min.css')); ?>" rel="stylesheet" type="text/css" />
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
     <!--datatable css-->
     <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
     <!--datatable responsive css-->
@@ -26,8 +26,8 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Company
-                        <a href="#addRecordModal" class="btn btn-info add-btn float-right" data-bs-toggle="modal" style="float: right;"><i class="ri-add-fill me-1 align-bottom"></i> Add New</a></h5>
+                    <h5 class="card-title mb-0">Products List
+                        <a href="<?php echo e(route('products.create')); ?>" class="btn btn-info add-btn float-right" style="float: right;"><i class="ri-add-fill me-1 align-bottom"></i> Add New</a></h5>
                     
                     <!-- <a class="addCompanyBtn btn btn-info add-btn" href="javascript:void(0);" data-bs-toggle="modal"><i class="ri-add-fill me-1 align-bottom text-muted"></i> Add New</a> -->
                 </div>
@@ -37,35 +37,35 @@
                         <thead>
                             <tr>
                                 <th>SN</th>
-                                <th>Company Name</th>
-                                <th>Parent Company</th>
+                                <th class="sort" data-sort="product_name" scope="col">Product Name</th>
+                                <th class="sort" data-sort="description" scope="col">Description</th>
+                                <th class="sort" data-sort="category_name" scope="col">Category Name</th>
+                                <th class="sort" data-sort="company_name" scope="col">Company Name</th>
+                                <th class="sort" data-sort="product_image" scope="col">Product Image</th>
+                                
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php $sn = 0; ?>
-                            @foreach($companies as $company)
-                                <tr data-row-id="{{ $company->id }}">
-                                    <td>{{ ++$sn }}</td>
-                                    <td>{{ $company->name }}</td>
-                                    <td>{{ $company->parent ? $company->parent->name : '' }}</td>
+                            <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <tr data-row-id="<?php echo e($supplier->id); ?>">
+                                    <td><?php echo e(++$sn); ?></td>
+                                    <td><?php echo e($product->name); ?></td>
+                                    <td><?php echo e($product->description); ?></td>
+                                    <td><?php echo e($product->category_name); ?></td>
+                                    <!-- <td><?php echo e($product->company->name ?? ''); ?></td> -->
+
+                                    <td><?php echo e($product->company ? $product->company->name : ''); ?></td>
+                                    <td><?php echo e($product->image_path); ?></td>
+                                    
+                                        
                                     <td>
-                                        <a class="editCompanyBtn" href="javascript:void(0);" data-bs-toggle="modal" data-id="{{ $company->id }}"><i class="ri-pencil-fill align-bottom me-2 text-muted" style="color: green !important;"></i></a>
-                                        <a class="remove-item-btn" href="#deleteRecordModal" data-bs-toggle="modal" data-company-id="{{ $company->id }}"><i class="ri-delete-bin-fill align-bottom me-2 text-muted" style="color: red !important;"></i></a>
+                                        <a href="<?php echo e(route('products.edit', $product->id)); ?>"><i class="ri-pencil-fill align-bottom me-2 text-muted" style="color: green !important;"></i></a>
+                                        <a class="remove-item-btn" href="#deleteRecordModal" data-bs-toggle="modal" data-company-id="<?php echo e($supplier->id); ?>"><i class="ri-delete-bin-fill align-bottom me-2 text-muted" style="color: red !important;"></i></a>
                                     </td>
                                 </tr>
-                                @foreach($company->subcompanies as $subcompany)
-                                <tr>
-                                    <td></td>
-                                    <td>-- {{ $subcompany->name }}</td>
-                                    <td>{{ $company->name }}</td>
-                                    <td>
-                                        <a class="editCompanyBtn" href="javascript:void(0);" data-bs-toggle="modal" data-id="{{ $subcompany->id }}"><i class="ri-pencil-fill align-bottom me-2 text-muted" style="color: green !important;"></i></a>
-                                        <a class="remove-item-btn" href="#deleteRecordModal" data-bs-toggle="modal" data-company-id="{{ $subcompany->id }}"><i class="ri-delete-bin-fill align-bottom me-2 text-muted" style="color: red !important;"></i></a>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
                     </table>
                 </div>
@@ -82,15 +82,7 @@
                             <form class="tablelist-form" autocomplete="off">
                                 <div class="modal-body">
                                     <div class="row g-3">
-                                        <div class="col-lg-12">
-                                            <label for="add-parent-company-field" class="form-label">Parent Company</label>
-                                            <select name="parent_id" id="add-parent-company-field" class="form-select">
-                                                <option value="">Select parent company</option>
-                                                @foreach($parentCompanies as $parent)
-                                                    <option value="{{ $parent->id }}">{{ $parent->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                        
 
                                         <div class="col-lg-12">
                                             <label for="add-company-name-field" class="form-label">Company Name</label>
@@ -128,7 +120,6 @@
                 <!--end edit modal-->
                 
                 <!-- Delete Company Modal -->
-                <!-- Delete Company Modal -->
                 <div class="modal fade zoomIn" id="deleteRecordModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
@@ -140,7 +131,7 @@
                                 <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
                                     colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
                                 <div class="mt-4 text-center">
-                                    <h4 class="fs-semibold">You are about to delete a Company</h4>
+                                    <h4 class="fs-semibold">You are about to delete a Supplier</h4>
                                     <p class="text-muted fs-14 mb-4 pt-1">Deleting will remove all of your information from our database.</p>
                                     <input type="hidden" id="delete-company-id" />
                                     <div class="hstack gap-2 justify-content-center remove">
@@ -181,23 +172,23 @@
             </div>
         </div>
     </div>
-@endsection
-@section('script')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
     <!-- apexcharts -->
-    <script src="{{ URL::asset('build/libs/apexcharts/apexcharts.min.js') }}"></script>
-    <script src="{{ URL::asset('build/libs/jsvectormap/js/jsvectormap.min.js') }}"></script>
-    <script src="{{ URL::asset('build/libs/jsvectormap/maps/world-merc.js') }}"></script>
-    <script src="{{ URL::asset('build/libs/swiper/swiper-bundle.min.js')}}"></script>
+    <script src="<?php echo e(URL::asset('build/libs/apexcharts/apexcharts.min.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('build/libs/jsvectormap/js/jsvectormap.min.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('build/libs/jsvectormap/maps/world-merc.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('build/libs/swiper/swiper-bundle.min.js')); ?>"></script>
     <!-- dashboard init -->
-    <script src="{{ URL::asset('build/js/pages/dashboard-ecommerce.init.js') }}"></script>
-    <script src="{{ URL::asset('build/js/app.js') }}"></script>
+    <script src="<?php echo e(URL::asset('build/js/pages/dashboard-ecommerce.init.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
 
 
 
-    <script src="{{ URL::asset('build/libs/list.js/list.min.js') }}"></script>
-    <script src="{{ URL::asset('build/libs/list.pagination.js/list.pagination.min.js') }}"></script>
-    <!-- <script src="{{ URL::asset('build/js/pages/crm-contact.init.js') }}"></script> -->
-    <script src="{{ URL::asset('build/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="<?php echo e(URL::asset('build/libs/list.js/list.min.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('build/libs/list.pagination.js/list.pagination.min.js')); ?>"></script>
+    <!-- <script src="<?php echo e(URL::asset('build/js/pages/crm-contact.init.js')); ?>"></script> -->
+    <script src="<?php echo e(URL::asset('build/libs/sweetalert2/sweetalert2.min.js')); ?>"></script>
 
     <!-- Custom AJAX script -->
 
@@ -210,7 +201,7 @@
             fetch('/admin/company/add_process/', {
                 method: 'POST',
                 headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
@@ -282,12 +273,12 @@
 
             // Handle delete confirmation
             document.getElementById('delete-record').addEventListener('click', function () {
-                const companyId = document.getElementById('delete-company-id').value;
+                const supplierId = document.getElementById('delete-company-id').value;
                 // Send DELETE request
-                fetch(`/admin/company/delete/${companyId}`, {
+                fetch(`/suppliers/${supplierId}`, {
                     method: 'DELETE',
                     headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>',
                         'Content-Type': 'application/json'
                     }
                 })
@@ -299,7 +290,7 @@
                         modal.hide();
 
                         // Remove the row from the table
-                        const row = document.querySelector(`tr[data-row-id="${companyId}"]`);
+                        const row = document.querySelector(`tr[data-row-id="${supplierId}"]`);
                         if (row) row.remove();
 
                         // Show success message
@@ -313,6 +304,9 @@
                                 htmlContainer: 'custom-html' // Custom class for HTML container
                             }
                         });
+                        setTimeout(function () {
+                        location.reload();
+                    }, 2000);
                     } else {
                         // Show error message
                         Swal.fire('Error!', data.message, 'error');
@@ -355,7 +349,7 @@
         });
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
 <style>
     .swal2-title {
     font-size: 1.5rem;
@@ -374,4 +368,5 @@
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 
-<script src="{{ URL::asset('build/js/pages/datatables.init.js') }}"></script>
+<script src="<?php echo e(URL::asset('build/js/pages/datatables.init.js')); ?>"></script>
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laravel\my-pharmacy\resources\views/products/index.blade.php ENDPATH**/ ?>

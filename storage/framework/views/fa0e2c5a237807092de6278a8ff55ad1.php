@@ -1016,10 +1016,10 @@
                 </li> <!-- end Dashboard Menu -->
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarApps" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
+                    <a class="nav-link menu-link" href="#sidebarCompany" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
                         <i class="lab la-delicious"></i> <span>Company</span>
                     </a>
-                    <div class="collapse menu-dropdown" id="sidebarApps">
+                    <div class="collapse menu-dropdown" id="sidebarCompany">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="<?php echo e(route('company.index')); ?>" class="nav-link">List</a>
@@ -1032,10 +1032,10 @@
                 </li><!-- end Dashboard Menu -->
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarApps" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
+                    <a class="nav-link menu-link" href="#sidebarSupplier" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
                         <i class="lab la-delicious"></i> <span>Supplier</span>
                     </a>
-                    <div class="collapse menu-dropdown" id="sidebarApps">
+                    <div class="collapse menu-dropdown" id="sidebarSupplier">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                             <a href="<?php echo e(route('suppliers.index')); ?>" class="nav-link">List</a>
@@ -1070,10 +1070,10 @@
                     <div class="collapse menu-dropdown" id="sidebarApps3">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="apps-calendar" class="nav-link">List</a>
+                                <a href="<?php echo e(route('products.index')); ?>" class="nav-link">List</a>
                             </li>
                             <li class="nav-item">
-                                <a href="apps-chat" class="nav-link">Add New</a>
+                                <a href="" class="nav-link">Add New</a>
                             </li>                            
                         </ul>
                     </div>

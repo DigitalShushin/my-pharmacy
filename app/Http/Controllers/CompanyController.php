@@ -11,7 +11,9 @@ class CompanyController extends Controller
     {
         // $companies = Company::all();
         //$companies = Company::with('parent')->get(); // eager load parent company
-        $companies = Company::with('parent')->orderBy('name', 'asc')->get(); // Sort companies by name in ascending order
+        $companies = Company::with('parent')->where(function ($query) {
+            $query->whereNull('parent_id')->orWhere('parent_id', 0);
+        })->orderBy('name', 'asc')->get(); // Fetch companies with no parent or parent_id = 0 and sort by name
         $parentCompanies = Company::all(); // List of all companies to use in the parent dropdown
 
         return view('company.index', compact('companies', 'parentCompanies'));

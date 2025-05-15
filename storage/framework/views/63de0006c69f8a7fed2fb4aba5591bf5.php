@@ -37,8 +37,8 @@
                         <thead>
                             <tr>
                                 <th>SN</th>
-                                <th>Parent Company</th>
                                 <th>Company Name</th>
+                                <th>Parent Company</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -47,13 +47,24 @@
                             <?php $__currentLoopData = $companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr data-row-id="<?php echo e($company->id); ?>">
                                     <td><?php echo e(++$sn); ?></td>
-                                    <td><?php echo e($company->parent ? $company->parent->name : ''); ?></td>
                                     <td><?php echo e($company->name); ?></td>
+                                    <td><?php echo e($company->parent ? $company->parent->name : ''); ?></td>
                                     <td>
                                         <a class="editCompanyBtn" href="javascript:void(0);" data-bs-toggle="modal" data-id="<?php echo e($company->id); ?>"><i class="ri-pencil-fill align-bottom me-2 text-muted" style="color: green !important;"></i></a>
                                         <a class="remove-item-btn" href="#deleteRecordModal" data-bs-toggle="modal" data-company-id="<?php echo e($company->id); ?>"><i class="ri-delete-bin-fill align-bottom me-2 text-muted" style="color: red !important;"></i></a>
                                     </td>
                                 </tr>
+                                <?php $__currentLoopData = $company->subcompanies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcompany): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <tr>
+                                    <td></td>
+                                    <td>-- <?php echo e($subcompany->name); ?></td>
+                                    <td><?php echo e($company->name); ?></td>
+                                    <td>
+                                        <a class="editCompanyBtn" href="javascript:void(0);" data-bs-toggle="modal" data-id="<?php echo e($subcompany->id); ?>"><i class="ri-pencil-fill align-bottom me-2 text-muted" style="color: green !important;"></i></a>
+                                        <a class="remove-item-btn" href="#deleteRecordModal" data-bs-toggle="modal" data-company-id="<?php echo e($subcompany->id); ?>"><i class="ri-delete-bin-fill align-bottom me-2 text-muted" style="color: red !important;"></i></a>
+                                    </td>
+                                </tr>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
                     </table>
@@ -230,9 +241,9 @@
                     });
 
                     // Optional: reload the table or page
-                    // setTimeout(function () {
-                    //     location.reload();
-                    // }, 3000);
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
 
                 })
                 .catch(error => {
