@@ -26,8 +26,8 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Supplier List
-                        <a href="{{ route('suppliers.create') }}" class="btn btn-info add-btn float-right" style="float: right;"><i class="ri-add-fill me-1 align-bottom"></i> Add New</a></h5>
+                    <h5 class="card-title mb-0">Products List
+                        <a href="{{ route('products.create') }}" class="btn btn-info add-btn float-right" style="float: right;"><i class="ri-add-fill me-1 align-bottom"></i> Add New</a></h5>
                     
                     <!-- <a class="addCompanyBtn btn btn-info add-btn" href="javascript:void(0);" data-bs-toggle="modal"><i class="ri-add-fill me-1 align-bottom text-muted"></i> Add New</a> -->
                 </div>
@@ -37,33 +37,31 @@
                         <thead>
                             <tr>
                                 <th>SN</th>
-                                <th class="sort" data-sort="contact_name" scope="col">Company Name</th>
-                                <th class="sort" data-sort="contact_person" scope="col">Contact Person</th>
-                                <th class="sort" data-sort="phone" scope="col">Phone No</th>
-                                <th class="sort" data-sort="email_id" scope="col">Email ID</th>
-                                <th class="sort" data-sort="address" scope="col">Address</th>
-                                <th class="sort" data-sort="companies_array" scope="col">Companies Array</th>
-                                <th class="sort" data-sort="pan" scope="col">Pan Number</th>
-                                <th class="sort" data-sort="dda" scope="col">DDA Registration Number</th>
-                        <th>Action</th>
+                                <th class="sort" data-sort="product_name" scope="col">Product Name</th>
+                                <th class="sort" data-sort="description" scope="col">Description</th>
+                                <th class="sort" data-sort="category_name" scope="col">Category Name</th>
+                                <th class="sort" data-sort="company_name" scope="col">Company Name</th>
+                                <th class="sort" data-sort="product_image" scope="col">Product Image</th>
+                                
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php $sn = 0; ?>
-                            @foreach($suppliers as $supplier)
+                            @foreach($products as $product)
                                 <tr data-row-id="{{ $supplier->id }}">
                                     <td>{{ ++$sn }}</td>
-                                    <td>{{ $supplier->name }}</td>
-                                    <td>{{ $supplier->contact_person }}</td>
-                                    <td>{{ $supplier->phone }}</td>
-                                    <td>{{ $supplier->email }}</td>
-                                    <td>{{ $supplier->address }}</td>
-                                    <td>{{ $supplier->company_names }}</td>
-                                    <td>{{ $supplier->pan_number }}</td>
-                                    <td>{{ $supplier->registration_number }}</td>
+                                    <td>{{ $product->name }}</td>
+                                    <td>{{ $product->description }}</td>
+                                    <td>{{ $product->category_name }}</td>
+                                    <!-- <td>{{ $product->company->name ?? '' }}</td> -->
+
+                                    <td>{{ $product->company ? $product->company->name : '' }}</td>
+                                    <td>{{ $product->image_path }}</td>
+                                    
                                         
                                     <td>
-                                        <a href="{{ route('suppliers.edit', $supplier->id) }}"><i class="ri-pencil-fill align-bottom me-2 text-muted" style="color: green !important;"></i></a>
+                                        <a href="{{ route('products.edit', $product->id) }}"><i class="ri-pencil-fill align-bottom me-2 text-muted" style="color: green !important;"></i></a>
                                         <a class="remove-item-btn" href="#deleteRecordModal" data-bs-toggle="modal" data-company-id="{{ $supplier->id }}"><i class="ri-delete-bin-fill align-bottom me-2 text-muted" style="color: red !important;"></i></a>
                                     </td>
                                 </tr>

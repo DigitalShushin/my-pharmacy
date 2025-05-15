@@ -29,7 +29,7 @@
                 <div class="card-body">
                     
                     <div class="live-preview">
-                    <form action="<?php echo e(route('suppliers.store')); ?>" method="POST">
+                    <form action="<?php echo e(route('products.store')); ?>" method="POST">
                         <?php echo csrf_field(); ?>
                         <div class="row">
                             <!-- Company Name -->
@@ -73,21 +73,7 @@
                             </div>
 
                             <!-- Companies Array (checkboxes) -->
-                            <div class="col-lg-12">
-                                <h6 class="fw-semibold">Companies Array</h6>
-                                <div class="border p-3 rounded bg-light">
-                                <div class="row">
-                                        <?php $__currentLoopData = $companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <div class="col-md-3">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="companies_array[]" value="<?php echo e($company->id); ?>" id="company_<?php echo e($company->id); ?>">
-                                                    <label class="form-check-label" for="company_<?php echo e($company->id); ?>"><?php echo e($company->name); ?></label>
-                                                </div>
-                                            </div>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </div>
-                                </div>
-                            </div>
+                            
 
                             <!-- Pan Number -->
                             <div class="col-md-6">
@@ -151,4 +137,4 @@
 
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\shushin_projects\pharmacy-laravel\resources\views/suppliers/create.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\shushin_projects\pharmacy-laravel\resources\views/products/create.blade.php ENDPATH**/ ?>

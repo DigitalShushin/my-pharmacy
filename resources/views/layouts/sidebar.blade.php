@@ -1070,10 +1070,10 @@
                     <div class="collapse menu-dropdown" id="sidebarApps3">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="apps-calendar" class="nav-link">List</a>
+                                <a href="{{ route('products.index') }}" class="nav-link">List</a>
                             </li>
                             <li class="nav-item">
-                                <a href="apps-chat" class="nav-link">Add New</a>
+                                <a href="" class="nav-link">Add New</a>
                             </li>                            
                         </ul>
                     </div>

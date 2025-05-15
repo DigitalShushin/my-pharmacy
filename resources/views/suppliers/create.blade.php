@@ -36,7 +36,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="companyNameinput" class="form-label">Company Name</label>
-                                    <input type="text" class="form-control" name="name" placeholder="Enter company name" id="companyNameinput">
+                                    <input type="text" class="form-control" name="name" placeholder="Enter company name" id="companyNameinput" required>
                                 </div>
                             </div>
 
@@ -52,7 +52,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="phonenumberInput" class="form-label">Phone Number</label>
-                                    <input type="tel" class="form-control" name="phone" placeholder="+(245) 451 45123" id="phonenumberInput">
+                                    <input type="tel" class="form-control" name="phone" placeholder="+(245) 451 45123" id="phonenumberInput" required>
                                 </div>
                             </div>
 
@@ -68,7 +68,7 @@
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <label for="address1ControlTextarea" class="form-label">Address</label>
-                                    <input type="text" class="form-control" name="address" placeholder="Address 1" id="address1ControlTextarea">
+                                    <input type="text" class="form-control" name="address" placeholder="Address 1" id="address1ControlTextarea" required>
                                 </div>
                             </div>
 
@@ -76,15 +76,15 @@
                             <div class="col-lg-12">
                                 <h6 class="fw-semibold">Companies Array</h6>
                                 <div class="border p-3 rounded bg-light">
-                                    <div class="d-flex gap-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="companies_array[]" value="London" id="london">
-                                            <label class="form-check-label" for="london">London</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="companies_array[]" value="Manchester" id="manchester">
-                                            <label class="form-check-label" for="manchester">Manchester</label>
-                                        </div>
+                                <div class="row">
+                                        @foreach($companies as $company)
+                                            <div class="col-md-3">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="companies_array[]" value="{{ $company->id }}" id="company_{{ $company->id }}">
+                                                    <label class="form-check-label" for="company_{{ $company->id }}">{{ $company->name }}</label>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
