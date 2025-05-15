@@ -21,6 +21,11 @@
             padding-left: 100px;
             padding-bottom: 20px;
         }
+        .word-wrap {
+            white-space: normal !important;
+            word-break: break-word;
+            max-width: 250px; /* Optional: Limit cell width */
+        }
     </style>
     <div class="row">
         <div class="col-lg-12">
@@ -37,7 +42,7 @@
                         <thead>
                             <tr>
                                 <th>SN</th>
-                                <th class="sort" data-sort="contact_name" scope="col">Company Name</th>
+                                <th class="sort" data-sort="supplier_name" scope="col">Supplier Name</th>
                                 <th class="sort" data-sort="contact_person" scope="col">Contact Person</th>
                                 <th class="sort" data-sort="phone" scope="col">Phone No</th>
                                 <th class="sort" data-sort="email_id" scope="col">Email ID</th>
@@ -58,7 +63,7 @@
                                     <td>{{ $supplier->phone }}</td>
                                     <td>{{ $supplier->email }}</td>
                                     <td>{{ $supplier->address }}</td>
-                                    <td>{{ $supplier->company_names }}</td>
+                                    <td class="word-wrap">{{ $supplier->company_names }}</td>
                                     <td>{{ $supplier->pan_number }}</td>
                                     <td>{{ $supplier->registration_number }}</td>
                                         

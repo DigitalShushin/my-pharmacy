@@ -32,11 +32,11 @@
                     <form action="<?php echo e(route('suppliers.store')); ?>" method="POST">
                         <?php echo csrf_field(); ?>
                         <div class="row">
-                            <!-- Company Name -->
+                            <!-- Supplier Name -->
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="companyNameinput" class="form-label">Company Name</label>
-                                    <input type="text" class="form-control" name="name" placeholder="Enter company name" id="companyNameinput" required>
+                                    <label for="companyNameinput" class="form-label">Supplier Name</label>
+                                    <input type="text" class="form-control" name="name" placeholder="Enter supplier name" id="supplierNameinput" required>
                                 </div>
                             </div>
 
@@ -74,20 +74,48 @@
 
                             <!-- Companies Array (checkboxes) -->
                             <div class="col-lg-12">
-                                <h6 class="fw-semibold">Companies Array</h6>
-                                <div class="border p-3 rounded bg-light">
-                                <div class="row">
-                                        <?php $__currentLoopData = $companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <div class="col-md-3">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="companies_array[]" value="<?php echo e($company->id); ?>" id="company_<?php echo e($company->id); ?>">
-                                                    <label class="form-check-label" for="company_<?php echo e($company->id); ?>"><?php echo e($company->name); ?></label>
-                                                </div>
-                                            </div>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    <h6 class="fw-semibold">Companies Array</h6>
+    <div class="border p-3 rounded bg-light">
+        <div class="row">
+            <?php if($companies->has(null)): ?>
+                <?php $__currentLoopData = $companies[null]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $parent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <div class="col-md-3 mb-3">
+                        <!-- Parent checkbox -->
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" name="companies_array[]"
+                                value="<?php echo e($parent->id); ?>" id="company_parent_<?php echo e($parent->id); ?>"
+                                <?php if(isset($selectedCompanies) && in_array($parent->id, $selectedCompanies)): ?> checked <?php endif; ?>>
+                            <label class="form-check-label" for="company_parent_<?php echo e($parent->id); ?>">
+                                <?php echo e($parent->name); ?>
+
+                            </label>
+                        </div>
+
+                        <?php if($companies->has($parent->id)): ?>
+                            <div class="row ms-1">
+                                <?php $__currentLoopData = $companies[$parent->id]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $child): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <div class="col-12">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="companies_array[]"
+                                                value="<?php echo e($child->id); ?>" id="company_<?php echo e($child->id); ?>"
+                                                <?php if(isset($selectedCompanies) && in_array($child->id, $selectedCompanies)): ?> checked <?php endif; ?>>
+                                            <label class="form-check-label" for="company_<?php echo e($child->id); ?>">
+                                                <?php echo e($child->name); ?>
+
+                                            </label>
+                                        </div>
                                     </div>
-                                </div>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+
 
                             <!-- Pan Number -->
                             <div class="col-md-6">

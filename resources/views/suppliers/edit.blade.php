@@ -34,11 +34,11 @@
                     @method('PUT') <!-- Use PUT for updating -->
 
                     <div class="row">
-                        <!-- Company Name -->
+                        <!-- Supplier Name -->
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="companyNameinput" class="form-label">Company Name</label>
-                                <input type="text" class="form-control" name="name" placeholder="Enter company name" id="companyNameinput" value="{{ $supplier->name }}" required>
+                                <label for="companyNameinput" class="form-label">Supplier Name</label>
+                                <input type="text" class="form-control" name="name" placeholder="Enter Supplier name" id="supplierNameinput" value="{{ $supplier->name }}" required>
                             </div>
                         </div>
 
@@ -79,20 +79,42 @@
                             <h6 class="fw-semibold">Companies Array</h6>
                             <div class="border p-3 rounded bg-light">
                                 <div class="row">
-                                    @foreach($companies as $company)
-                                        <div class="col-md-3">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="companies_array[]" 
-                                                    value="{{ $company->id }}" 
-                                                    id="company_{{ $company->id }}"
-                                                    {{ in_array($company->id, $selectedCompanies) ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="company_{{ $company->id }}">{{ $company->name }}</label>
+                                    @if($companies->has(null))
+                                        @foreach($companies[null] as $parent)
+                                            <div class="col-md-3 mb-3">
+                                                <!-- Parent checkbox -->
+                                                <div class="form-check mb-2">
+                                                    <input class="form-check-input" type="checkbox" name="companies_array[]"
+                                                        value="{{ $parent->id }}" id="company_parent_{{ $parent->id }}"
+                                                        {{ in_array($parent->id, $selectedCompanies ?? []) ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="company_parent_{{ $parent->id }}">
+                                                        {{ $parent->name }}
+                                                    </label>
+                                                </div>
+
+                                                @if($companies->has($parent->id))
+                                                    <div class="row ms-1">
+                                                        @foreach($companies[$parent->id] as $child)
+                                                            <div class="col-12">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" name="companies_array[]"
+                                                                        value="{{ $child->id }}" id="company_{{ $child->id }}"
+                                                                        {{ in_array($child->id, $selectedCompanies ?? []) ? 'checked' : '' }}>
+                                                                    <label class="form-check-label" for="company_{{ $child->id }}">
+                                                                        {{ $child->name }}
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                @endif
                                             </div>
-                                        </div>
-                                    @endforeach
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
                         </div>
+
 
                         <!-- Pan Number -->
                         <div class="col-md-6">

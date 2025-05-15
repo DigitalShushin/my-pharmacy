@@ -28,7 +28,8 @@ class SupplierController extends Controller
     // Show form to create a new supplier
     public function create()
     {
-        $companies = Company::orderBy('name')->get(); // Fetch companies from the database and sort by name
+        // $companies = Company::orderBy('name')->get(); // Fetch companies from the database and sort by name
+        $companies = Company::orderBy('name')->get()->groupBy('parent_id');
         return view('suppliers.create', compact('companies'));
     }
 
@@ -72,7 +73,8 @@ class SupplierController extends Controller
         $supplier = Supplier::findOrFail($id);
 
         // Fetch all companies to populate the checkboxes
-        $companies = Company::orderBy('name')->get();
+        // $companies = Company::orderBy('name')->get();
+        $companies = Company::orderBy('name')->get()->groupBy('parent_id');
 
         // Decode or split the companies_array to pre-select checkboxes
         $selectedCompanies = explode(',', $supplier->companies_array); // Use json_decode() if stored as JSON
