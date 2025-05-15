@@ -230,9 +230,9 @@
                     });
 
                     // Optional: reload the table or page
-                    // setTimeout(function () {
-                    //     location.reload();
-                    // }, 3000);
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
 
                 })
                 .catch(error => {

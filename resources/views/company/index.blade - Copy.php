@@ -325,7 +325,7 @@
                 document.getElementById('parent-company-field').value = parentId;
 
                 document.getElementById('exampleModalLabel').textContent = "Edit Company";
-            }
+            
         });
 
             // Handle update button click
@@ -383,7 +383,7 @@
                             title: 'swal2-title', // Custom class for title
                             htmlContainer: 'custom-html' // Custom class for HTML container
                         }
-                    });
+                    
                 });
             });
         });

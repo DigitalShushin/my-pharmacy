@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('contact_person');
+            $table->string('contact_person')->nullable();
             $table->string('phone');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->text('address');
-            $table->json('companies_array'); // Stores multiple company references
+            $table->text('companies_array')->nullable(); // Stores multiple company references
             $table->string('pan_number')->nullable();
             $table->string('registration_number')->nullable();
             $table->timestamps();

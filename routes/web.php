@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ProductController;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -48,6 +49,7 @@ Route::get('/admin/category/add', [CategoryController::class, 'add'])->name('add
 Route::resource('suppliers', SupplierController::class);
 
 
+
 // Company
 Route::resource('admin/company', CompanyController::class);
 Route::post('/admin/company/add_process/', [CompanyController::class, 'store'])->name('company.store');
@@ -57,3 +59,7 @@ Route::delete('/admin/company/delete/{id}', [CompanyController::class, 'destroy'
 
 
 // Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
+
+
+// Product
+Route::resource('products', ProductController::class);

@@ -1,10 +1,10 @@
-@extends('layouts.master')
-@section('title') @lang('translation.dashboards') @endsection
-@section('css')
-    <link href="{{ URL::asset('build/libs/jsvectormap/css/jsvectormap.min.css')}}" rel="stylesheet" type="text/css" />
-    <link href="{{ URL::asset('build/libs/swiper/swiper-bundle.min.css')}}" rel="stylesheet" type="text/css" />
-@endsection
-@section('content')
+
+<?php $__env->startSection('title'); ?> <?php echo app('translator')->get('translation.dashboards'); ?> <?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
+    <link href="<?php echo e(URL::asset('build/libs/jsvectormap/css/jsvectormap.min.css')); ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo e(URL::asset('build/libs/swiper/swiper-bundle.min.css')); ?>" rel="stylesheet" type="text/css" />
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
     <!--datatable css-->
     <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
     <!--datatable responsive css-->
@@ -26,8 +26,8 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Supplier List
-                        <a href="{{ route('suppliers.create') }}" class="btn btn-info add-btn float-right" style="float: right;"><i class="ri-add-fill me-1 align-bottom"></i> Add New</a></h5>
+                    <h5 class="card-title mb-0">Products List
+                        <a href="<?php echo e(route('products.create')); ?>" class="btn btn-info add-btn float-right" style="float: right;"><i class="ri-add-fill me-1 align-bottom"></i> Add New</a></h5>
                     
                     <!-- <a class="addCompanyBtn btn btn-info add-btn" href="javascript:void(0);" data-bs-toggle="modal"><i class="ri-add-fill me-1 align-bottom text-muted"></i> Add New</a> -->
                 </div>
@@ -37,37 +37,35 @@
                         <thead>
                             <tr>
                                 <th>SN</th>
-                                <th class="sort" data-sort="contact_name" scope="col">Company Name</th>
-                                <th class="sort" data-sort="contact_person" scope="col">Contact Person</th>
-                                <th class="sort" data-sort="phone" scope="col">Phone No</th>
-                                <th class="sort" data-sort="email_id" scope="col">Email ID</th>
-                                <th class="sort" data-sort="address" scope="col">Address</th>
-                                <th class="sort" data-sort="companies_array" scope="col">Companies Array</th>
-                                <th class="sort" data-sort="pan" scope="col">Pan Number</th>
-                                <th class="sort" data-sort="dda" scope="col">DDA Registration Number</th>
-                        <th>Action</th>
+                                <th class="sort" data-sort="product_name" scope="col">Product Name</th>
+                                <th class="sort" data-sort="description" scope="col">Description</th>
+                                <th class="sort" data-sort="category_name" scope="col">Category Name</th>
+                                <th class="sort" data-sort="company_name" scope="col">Company Name</th>
+                                <th class="sort" data-sort="product_image" scope="col">Product Image</th>
+                                
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php $sn = 0; ?>
-                            @foreach($suppliers as $supplier)
-                                <tr data-row-id="{{ $supplier->id }}">
-                                    <td>{{ ++$sn }}</td>
-                                    <td>{{ $supplier->name }}</td>
-                                    <td>{{ $supplier->contact_person }}</td>
-                                    <td>{{ $supplier->phone }}</td>
-                                    <td>{{ $supplier->email }}</td>
-                                    <td>{{ $supplier->address }}</td>
-                                    <td>{{ $supplier->company_names }}</td>
-                                    <td>{{ $supplier->pan_number }}</td>
-                                    <td>{{ $supplier->registration_number }}</td>
+                            <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <tr data-row-id="<?php echo e($supplier->id); ?>">
+                                    <td><?php echo e(++$sn); ?></td>
+                                    <td><?php echo e($product->name); ?></td>
+                                    <td><?php echo e($product->description); ?></td>
+                                    <td><?php echo e($product->category_name); ?></td>
+                                    <!-- <td><?php echo e($product->company->name ?? ''); ?></td> -->
+
+                                    <td><?php echo e($product->company ? $product->company->name : ''); ?></td>
+                                    <td><?php echo e($product->image_path); ?></td>
+                                    
                                         
                                     <td>
-                                        <a href="{{ route('suppliers.edit', $supplier->id) }}"><i class="ri-pencil-fill align-bottom me-2 text-muted" style="color: green !important;"></i></a>
-                                        <a class="remove-item-btn" href="#deleteRecordModal" data-bs-toggle="modal" data-company-id="{{ $supplier->id }}"><i class="ri-delete-bin-fill align-bottom me-2 text-muted" style="color: red !important;"></i></a>
+                                        <a href="<?php echo e(route('products.edit', $product->id)); ?>"><i class="ri-pencil-fill align-bottom me-2 text-muted" style="color: green !important;"></i></a>
+                                        <a class="remove-item-btn" href="#deleteRecordModal" data-bs-toggle="modal" data-company-id="<?php echo e($supplier->id); ?>"><i class="ri-delete-bin-fill align-bottom me-2 text-muted" style="color: red !important;"></i></a>
                                     </td>
                                 </tr>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
                     </table>
                 </div>
@@ -174,23 +172,23 @@
             </div>
         </div>
     </div>
-@endsection
-@section('script')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
     <!-- apexcharts -->
-    <script src="{{ URL::asset('build/libs/apexcharts/apexcharts.min.js') }}"></script>
-    <script src="{{ URL::asset('build/libs/jsvectormap/js/jsvectormap.min.js') }}"></script>
-    <script src="{{ URL::asset('build/libs/jsvectormap/maps/world-merc.js') }}"></script>
-    <script src="{{ URL::asset('build/libs/swiper/swiper-bundle.min.js')}}"></script>
+    <script src="<?php echo e(URL::asset('build/libs/apexcharts/apexcharts.min.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('build/libs/jsvectormap/js/jsvectormap.min.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('build/libs/jsvectormap/maps/world-merc.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('build/libs/swiper/swiper-bundle.min.js')); ?>"></script>
     <!-- dashboard init -->
-    <script src="{{ URL::asset('build/js/pages/dashboard-ecommerce.init.js') }}"></script>
-    <script src="{{ URL::asset('build/js/app.js') }}"></script>
+    <script src="<?php echo e(URL::asset('build/js/pages/dashboard-ecommerce.init.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
 
 
 
-    <script src="{{ URL::asset('build/libs/list.js/list.min.js') }}"></script>
-    <script src="{{ URL::asset('build/libs/list.pagination.js/list.pagination.min.js') }}"></script>
-    <!-- <script src="{{ URL::asset('build/js/pages/crm-contact.init.js') }}"></script> -->
-    <script src="{{ URL::asset('build/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="<?php echo e(URL::asset('build/libs/list.js/list.min.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('build/libs/list.pagination.js/list.pagination.min.js')); ?>"></script>
+    <!-- <script src="<?php echo e(URL::asset('build/js/pages/crm-contact.init.js')); ?>"></script> -->
+    <script src="<?php echo e(URL::asset('build/libs/sweetalert2/sweetalert2.min.js')); ?>"></script>
 
     <!-- Custom AJAX script -->
 
@@ -203,7 +201,7 @@
             fetch('/admin/company/add_process/', {
                 method: 'POST',
                 headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
@@ -280,7 +278,7 @@
                 fetch(`/suppliers/${supplierId}`, {
                     method: 'DELETE',
                     headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>',
                         'Content-Type': 'application/json'
                     }
                 })
@@ -351,7 +349,7 @@
         });
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
 <style>
     .swal2-title {
     font-size: 1.5rem;
@@ -370,4 +368,5 @@
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 
-<script src="{{ URL::asset('build/js/pages/datatables.init.js') }}"></script>
+<script src="<?php echo e(URL::asset('build/js/pages/datatables.init.js')); ?>"></script>
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\shushin_projects\pharmacy-laravel\resources\views/products/index.blade.php ENDPATH**/ ?>
