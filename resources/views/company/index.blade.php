@@ -32,7 +32,7 @@
                     <!-- <a class="addCompanyBtn btn btn-info add-btn" href="javascript:void(0);" data-bs-toggle="modal"><i class="ri-add-fill me-1 align-bottom text-muted"></i> Add New</a> -->
                 </div>
                 <div class="card-body">
-                    <table id="model-datatables" class="table table-bordered nowrap table-striped align-middle"
+                    <table id="company_datatable" class="table table-bordered nowrap table-striped align-middle"
                         style="width:100%">
                         <thead>
                             <tr>

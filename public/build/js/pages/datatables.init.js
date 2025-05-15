@@ -64,6 +64,13 @@ $(document).ready(function() {
     $('#example').DataTable();
 });
 
+
+$(document).ready(function() {
+    $('#company_datatable').DataTable({
+        "ordering": false // Disable auto sorting
+    });
+});
+
 //fixed header
 document.addEventListener('DOMContentLoaded', function () {
   let table = new DataTable('#fixed-header', {
