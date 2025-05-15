@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoryController;
@@ -56,7 +55,6 @@ Route::post('/admin/company/add_process/', [CompanyController::class, 'store'])-
 Route::get('/admin/company/edit/{id}', [CompanyController::class, 'edit']);
 Route::put('/admin/company/update/{id}', [CompanyController::class, 'update']);
 Route::delete('/admin/company/delete/{id}', [CompanyController::class, 'destroy'])->name('company.destroy');
-
 
 // Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
 

@@ -20,4 +20,9 @@ class Company extends Model
     {
         return $this->hasMany(Company::class, 'parent_id');
     }
+
+    public function subcompanies()
+    {
+        return $this->hasMany(Company::class, 'parent_id');
+    }
 }
