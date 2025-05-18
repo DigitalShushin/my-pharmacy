@@ -6,6 +6,8 @@
 
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
 
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 
 @endsection
 @section('content')
@@ -35,18 +37,33 @@
                             <!-- Company Name -->
                             <div class="col-md-5">
                                 <div class="mb-3">
-                                    <label for="companyNameinput" class="form-label">Company Name</label>
-                                    <input type="text" class="form-control" name="name" placeholder="Enter company name" id="companyNameinput" required>
+                                    <label for="companySelect" class="form-label">Company Name</label>
+                                    <select class="form-control select2" name="company_id" id="companySelect" required>
+                                        <option value="" disabled selected>Select a company</option>
+
+                                        @foreach($companies as $company)
+                                        <option value="{{ $company->id }}" {{ old('company_id') == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
+                                            
+                                            @foreach($company->children as $child)
+                                            <option value="{{ $child->id }}" {{ old('company_id') == $child->id ? 'selected' : '' }}>&nbsp; {{ $child->name }}</option>
+                                            @endforeach
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
-
+                            
                             <!-- Contact Person -->
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="contactNameinput" class="form-label">Medicine Name</label>
                                     <input type="text" class="form-control" name="name" placeholder="Enter medicine name" id="nameinput">
+                                    @error('name')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
+
+
                             <!-- Submit -->
                             <div class="col-md-1">
                                 <div class="mb-3">
@@ -91,5 +108,12 @@
 
 <script src="{{ URL::asset('build/js/app.js') }}"></script>
 
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#companySelect').select2();
+    });
+</script>
 
 @endsection

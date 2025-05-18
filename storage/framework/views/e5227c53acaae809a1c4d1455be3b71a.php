@@ -32,13 +32,13 @@
                     <!-- <a class="addCompanyBtn btn btn-info add-btn" href="javascript:void(0);" data-bs-toggle="modal"><i class="ri-add-fill me-1 align-bottom text-muted"></i> Add New</a> -->
                 </div>
                 <div class="card-body">
-                    <table id="model-datatables" class="table table-bordered nowrap table-striped align-middle"
+                    <table id="company_datatable" class="table table-bordered nowrap table-striped align-middle"
                         style="width:100%">
                         <thead>
                             <tr>
                                 <th>SN</th>
-                                <th>Parent Company</th>
                                 <th>Company Name</th>
+                                <th>Parent Company</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -47,13 +47,24 @@
                             <?php $__currentLoopData = $companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr data-row-id="<?php echo e($company->id); ?>">
                                     <td><?php echo e(++$sn); ?></td>
-                                    <td><?php echo e($company->parent ? $company->parent->name : ''); ?></td>
                                     <td><?php echo e($company->name); ?></td>
+                                    <td><?php echo e($company->parent ? $company->parent->name : ''); ?></td>
                                     <td>
                                         <a class="editCompanyBtn" href="javascript:void(0);" data-bs-toggle="modal" data-id="<?php echo e($company->id); ?>"><i class="ri-pencil-fill align-bottom me-2 text-muted" style="color: green !important;"></i></a>
                                         <a class="remove-item-btn" href="#deleteRecordModal" data-bs-toggle="modal" data-company-id="<?php echo e($company->id); ?>"><i class="ri-delete-bin-fill align-bottom me-2 text-muted" style="color: red !important;"></i></a>
                                     </td>
                                 </tr>
+                                <?php $__currentLoopData = $company->subcompanies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcompany): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <tr>
+                                    <td></td>
+                                    <td>-- <?php echo e($subcompany->name); ?></td>
+                                    <td><?php echo e($company->name); ?></td>
+                                    <td>
+                                        <a class="editCompanyBtn" href="javascript:void(0);" data-bs-toggle="modal" data-id="<?php echo e($subcompany->id); ?>"><i class="ri-pencil-fill align-bottom me-2 text-muted" style="color: green !important;"></i></a>
+                                        <a class="remove-item-btn" href="#deleteRecordModal" data-bs-toggle="modal" data-company-id="<?php echo e($subcompany->id); ?>"><i class="ri-delete-bin-fill align-bottom me-2 text-muted" style="color: red !important;"></i></a>
+                                    </td>
+                                </tr>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
                     </table>

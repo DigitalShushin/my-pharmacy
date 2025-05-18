@@ -74,44 +74,44 @@
 
                             <!-- Companies Array (checkboxes) -->
                             <div class="col-lg-12">
-    <h6 class="fw-semibold">Companies Array</h6>
-    <div class="border p-3 rounded bg-light">
-        <div class="row">
-            @if($companies->has(null))
-                @foreach($companies[null] as $parent)
-                    <div class="col-md-3 mb-3">
-                        <!-- Parent checkbox -->
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" name="companies_array[]"
-                                value="{{ $parent->id }}" id="company_parent_{{ $parent->id }}"
-                                @if(isset($selectedCompanies) && in_array($parent->id, $selectedCompanies)) checked @endif>
-                            <label class="form-check-label" for="company_parent_{{ $parent->id }}">
-                                {{ $parent->name }}
-                            </label>
-                        </div>
+                                <h6 class="fw-semibold">Companies Array</h6>
+                                <div class="border p-3 rounded bg-light">
+                                    <div class="row">
+                                        @if($companies->has(null))
+                                            @foreach($companies[null] as $parent)
+                                                <div class="col-md-3 mb-3">
+                                                    <!-- Parent checkbox -->
+                                                    <div class="form-check mb-2">
+                                                        <input class="form-check-input" type="checkbox" name="companies_array[]"
+                                                            value="{{ $parent->id }}" id="company_parent_{{ $parent->id }}"
+                                                            @if(isset($selectedCompanies) && in_array($parent->id, $selectedCompanies)) checked @endif>
+                                                        <label class="form-check-label" for="company_parent_{{ $parent->id }}">
+                                                            {{ $parent->name }}
+                                                        </label>
+                                                    </div>
 
-                        @if($companies->has($parent->id))
-                            <div class="row ms-1">
-                                @foreach($companies[$parent->id] as $child)
-                                    <div class="col-12">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="companies_array[]"
-                                                value="{{ $child->id }}" id="company_{{ $child->id }}"
-                                                @if(isset($selectedCompanies) && in_array($child->id, $selectedCompanies)) checked @endif>
-                                            <label class="form-check-label" for="company_{{ $child->id }}">
-                                                {{ $child->name }}
-                                            </label>
-                                        </div>
+                                                    @if($companies->has($parent->id))
+                                                        <div class="row ms-1">
+                                                            @foreach($companies[$parent->id] as $child)
+                                                                <div class="col-12">
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="checkbox" name="companies_array[]"
+                                                                            value="{{ $child->id }}" id="company_{{ $child->id }}"
+                                                                            @if(isset($selectedCompanies) && in_array($child->id, $selectedCompanies)) checked @endif>
+                                                                        <label class="form-check-label" for="company_{{ $child->id }}">
+                                                                            {{ $child->name }}
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            @endforeach
+                                        @endif
                                     </div>
-                                @endforeach
+                                </div>
                             </div>
-                        @endif
-                    </div>
-                @endforeach
-            @endif
-        </div>
-    </div>
-</div>
 
 
 

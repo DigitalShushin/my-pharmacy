@@ -76,46 +76,46 @@
 
                         <!-- Companies Array (checkboxes) -->
                         <div class="col-lg-12">
-    <h6 class="fw-semibold">Companies Array</h6>
-    <div class="border p-3 rounded bg-light">
-        <div class="row">
-            <?php if($companies->has(null)): ?>
-                <?php $__currentLoopData = $companies[null]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $parent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <div class="col-md-3 mb-3">
-                        <!-- Parent checkbox -->
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="checkbox" name="companies_array[]"
-                                   value="<?php echo e($parent->id); ?>" id="company_parent_<?php echo e($parent->id); ?>"
-                                   <?php echo e(in_array($parent->id, $selectedCompanies ?? []) ? 'checked' : ''); ?>>
-                            <label class="form-check-label" for="company_parent_<?php echo e($parent->id); ?>">
-                                <?php echo e($parent->name); ?>
+                            <h6 class="fw-semibold">Companies Array</h6>
+                            <div class="border p-3 rounded bg-light">
+                                <div class="row">
+                                    <?php if($companies->has(null)): ?>
+                                        <?php $__currentLoopData = $companies[null]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $parent): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <div class="col-md-3 mb-3">
+                                                <!-- Parent checkbox -->
+                                                <div class="form-check mb-2">
+                                                    <input class="form-check-input" type="checkbox" name="companies_array[]"
+                                                        value="<?php echo e($parent->id); ?>" id="company_parent_<?php echo e($parent->id); ?>"
+                                                        <?php echo e(in_array($parent->id, $selectedCompanies ?? []) ? 'checked' : ''); ?>>
+                                                    <label class="form-check-label" for="company_parent_<?php echo e($parent->id); ?>">
+                                                        <?php echo e($parent->name); ?>
 
-                            </label>
-                        </div>
+                                                    </label>
+                                                </div>
 
-                        <?php if($companies->has($parent->id)): ?>
-                            <div class="row ms-1">
-                                <?php $__currentLoopData = $companies[$parent->id]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $child): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <div class="col-12">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="companies_array[]"
-                                                   value="<?php echo e($child->id); ?>" id="company_<?php echo e($child->id); ?>"
-                                                   <?php echo e(in_array($child->id, $selectedCompanies ?? []) ? 'checked' : ''); ?>>
-                                            <label class="form-check-label" for="company_<?php echo e($child->id); ?>">
-                                                <?php echo e($child->name); ?>
+                                                <?php if($companies->has($parent->id)): ?>
+                                                    <div class="row ms-1">
+                                                        <?php $__currentLoopData = $companies[$parent->id]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $child): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                            <div class="col-12">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" name="companies_array[]"
+                                                                        value="<?php echo e($child->id); ?>" id="company_<?php echo e($child->id); ?>"
+                                                                        <?php echo e(in_array($child->id, $selectedCompanies ?? []) ? 'checked' : ''); ?>>
+                                                                    <label class="form-check-label" for="company_<?php echo e($child->id); ?>">
+                                                                        <?php echo e($child->name); ?>
 
-                                            </label>
-                                        </div>
-                                    </div>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    </div>
+                                                <?php endif; ?>
+                                            </div>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <?php endif; ?>
+                                </div>
                             </div>
-                        <?php endif; ?>
-                    </div>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            <?php endif; ?>
-        </div>
-    </div>
-</div>
+                        </div>
 
 
                         <!-- Pan Number -->

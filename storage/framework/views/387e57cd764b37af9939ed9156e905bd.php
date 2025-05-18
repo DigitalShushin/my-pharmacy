@@ -31,32 +31,43 @@
                 <div class="card-body">
                     
                     <div class="live-preview">
-                    <form action="<?php echo e(route('products.store')); ?>" method="POST">
+                    <form action="<?php echo e(route('products.update', $product->id)); ?>" method="POST">
                         <?php echo csrf_field(); ?>
+                        <?php echo method_field('PUT'); ?> <!-- This is critical -->
+
                         <div class="row">
                             <!-- Company Name -->
                             <div class="col-md-5">
                                 <div class="mb-3">
                                     <label for="companySelect" class="form-label">Company Name</label>
                                     <select class="form-control select2" name="company_id" id="companySelect" required>
-                                        <option value="" disabled selected>Select a company</option>
+                                    <option value="" disabled selected>Select a company</option>
 
-                                        <?php $__currentLoopData = $companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <option value="<?php echo e($company->id); ?>" <?php echo e(old('company_id') == $company->id ? 'selected' : ''); ?>><?php echo e($company->name); ?></option>
-                                            
-                                            <?php $__currentLoopData = $company->children; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $child): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <option value="<?php echo e($child->id); ?>" <?php echo e(old('company_id') == $child->id ? 'selected' : ''); ?>>&nbsp; <?php echo e($child->name); ?></option>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <?php $__currentLoopData = $companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($company->id); ?>" 
+                                            <?php echo e((old('company_id', $product->company_id) == $company->id) ? 'selected' : ''); ?>>
+                                            <?php echo e($company->name); ?>
+
+                                        </option>
+
+                                        <?php $__currentLoopData = $company->children; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $child): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($child->id); ?>" 
+                                                <?php echo e((old('company_id', $product->company_id) == $child->id) ? 'selected' : ''); ?>>
+                                                &nbsp; <?php echo e($child->name); ?>
+
+                                            </option>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </select>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </select>
                                 </div>
                             </div>
                             
-                            <!-- Contact Person -->
+
+                            <!-- Medicine Name -->
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="contactNameinput" class="form-label">Medicine Name</label>
-                                    <input type="text" class="form-control" name="name" placeholder="Enter medicine name" id="nameinput">
+                                    <input type="text" class="form-control" name="name" placeholder="Enter medicine name" id="nameinput" value="<?php echo e($product->name); ?>">
                                     <?php $__errorArgs = ['name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -70,7 +81,6 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
 
-
                             <!-- Submit -->
                             <div class="col-md-1">
                                 <div class="mb-3">
@@ -81,6 +91,7 @@ unset($__errorArgs, $__bag); ?>
                         </div>
                     </form>
 
+                        
                     </div>
                     
                 </div>
@@ -125,4 +136,4 @@ unset($__errorArgs, $__bag); ?>
 
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\shushin_projects\pharmacy-laravel\resources\views/products/create.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\shushin_projects\pharmacy-laravel\resources\views/products/edit.blade.php ENDPATH**/ ?>

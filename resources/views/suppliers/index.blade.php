@@ -178,6 +178,10 @@
                 <!--end delete modal -->
             </div>
         </div>
+        {{-- Success message --}}
+        @if(session('success'))
+        <div class="text-danger">{{ session('success') }}</div>
+        @endif
     </div>
 @endsection
 @section('script')

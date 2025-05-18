@@ -26,8 +26,8 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Products List
-                        <a href="<?php echo e(route('products.create')); ?>" class="btn btn-info add-btn float-right" style="float: right;"><i class="ri-add-fill me-1 align-bottom"></i> Add New</a></h5>
+                <h5 class="card-title mb-0">Products List
+                <a href="<?php echo e(route('products.create')); ?>" class="btn btn-info add-btn float-right" style="float: right;"><i class="ri-add-fill me-1 align-bottom"></i> Add New</a></h5>
                     
                     <!-- <a class="addCompanyBtn btn btn-info add-btn" href="javascript:void(0);" data-bs-toggle="modal"><i class="ri-add-fill me-1 align-bottom text-muted"></i> Add New</a> -->
                 </div>
@@ -49,12 +49,11 @@
                         <tbody>
                             <?php $sn = 0; ?>
                             <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <tr data-row-id="<?php echo e($supplier->id); ?>">
+                                <tr data-row-id="<?php echo e($product->id); ?>">
                                     <td><?php echo e(++$sn); ?></td>
                                     <td><?php echo e($product->name); ?></td>
                                     <td><?php echo e($product->description); ?></td>
                                     <td><?php echo e($product->category_name); ?></td>
-                                    <!-- <td><?php echo e($product->company->name ?? ''); ?></td> -->
 
                                     <td><?php echo e($product->company ? $product->company->name : ''); ?></td>
                                     <td><?php echo e($product->image_path); ?></td>
@@ -62,7 +61,7 @@
                                         
                                     <td>
                                         <a href="<?php echo e(route('products.edit', $product->id)); ?>"><i class="ri-pencil-fill align-bottom me-2 text-muted" style="color: green !important;"></i></a>
-                                        <a class="remove-item-btn" href="#deleteRecordModal" data-bs-toggle="modal" data-company-id="<?php echo e($supplier->id); ?>"><i class="ri-delete-bin-fill align-bottom me-2 text-muted" style="color: red !important;"></i></a>
+                                        <a class="remove-item-btn" href="#deleteRecordModal" data-bs-toggle="modal" data-company-id="<?php echo e($product->id); ?>"><i class="ri-delete-bin-fill align-bottom me-2 text-muted" style="color: red !important;"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -131,9 +130,9 @@
                                 <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
                                     colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
                                 <div class="mt-4 text-center">
-                                    <h4 class="fs-semibold">You are about to delete a Supplier</h4>
+                                    <h4 class="fs-semibold">You are about to delete a Product</h4>
                                     <p class="text-muted fs-14 mb-4 pt-1">Deleting will remove all of your information from our database.</p>
-                                    <input type="hidden" id="delete-company-id" />
+                                    <input type="hidden" id="delete-product-id" />
                                     <div class="hstack gap-2 justify-content-center remove">
                                         <button class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close"
                                             data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
@@ -143,34 +142,21 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- <div class="modal fade zoomIn" id="deleteRecordModal" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="btn-close" id="deleteRecord-close" data-bs-dismiss="modal"
-                                    aria-label="Close" id="btn-close"></button>
-                            </div>
-                            <div class="modal-body p-5 text-center">
-                                <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
-                                    colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
-                                <div class="mt-4 text-center">
-                                    <h4 class="fs-semibold">You are about to delete a Company</h4>
-                                    <p class="text-muted fs-14 mb-4 pt-1">Deleting will
-                                        remove all of your information from our database.</p>
-                                    <div class="hstack gap-2 justify-content-center remove">
-                                        <button class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
-                                        <button class="btn btn-danger" id="delete-record">Yes,
-                                            Delete It!!</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
+                </div>                
                 <!--end delete modal -->
+
+                
             </div>
         </div>
+        
+        <?php if(session('success')): ?>
+        <div class="text-danger"><?php echo e(session('success')); ?></div>
+        <?php endif; ?>
+
+        
+        <?php if($errors->any()): ?>
+        <div class="text-danger"><?php echo e($error); ?></div>
+        <?php endif; ?>
     </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('script'); ?>
@@ -257,25 +243,18 @@
             if (event.target.closest('.remove-item-btn')) {
                 const btn = event.target.closest('.remove-item-btn');
                 const companyId = btn.getAttribute('data-company-id');
-                document.getElementById('delete-company-id').value = companyId;
+                document.getElementById('delete-product-id').value = companyId;
             }
         });
 
         document.addEventListener('DOMContentLoaded', function () {
-            // Open delete modal and set company ID
-            // document.querySelectorAll('.remove-item-btn').forEach(function (btn) {
-            //     btn.addEventListener('click', function () {
-            //         const companyId = this.getAttribute('data-company-id');
-            //         alert('companyId :'+companyId );
-            //         document.getElementById('delete-company-id').value = companyId;
-            //     });
-            // });
+            
 
             // Handle delete confirmation
             document.getElementById('delete-record').addEventListener('click', function () {
-                const supplierId = document.getElementById('delete-company-id').value;
+                const productId = document.getElementById('delete-product-id').value;
                 // Send DELETE request
-                fetch(`/suppliers/${supplierId}`, {
+                fetch(`/products/${productId}`, {
                     method: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>',
@@ -290,7 +269,7 @@
                         modal.hide();
 
                         // Remove the row from the table
-                        const row = document.querySelector(`tr[data-row-id="${supplierId}"]`);
+                        const row = document.querySelector(`tr[data-row-id="${productId}"]`);
                         if (row) row.remove();
 
                         // Show success message
@@ -319,6 +298,7 @@
             });
         });
     </script>
+
     <script>
         $(document).on('click', '.addCompanyBtn', function () {
             $.ajax({
