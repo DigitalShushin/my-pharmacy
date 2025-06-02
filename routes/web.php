@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PurchaseController;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
 
 Auth::routes();
 //Language Translation
@@ -61,3 +64,7 @@ Route::delete('/admin/company/delete/{id}', [CompanyController::class, 'destroy'
 
 // Product
 Route::resource('products', ProductController::class);
+
+// Purchase
+Route::resource('purchases', PurchaseController::class);
+Route::get('/purchase/{id}/edit', [PurchaseController::class, 'edit'])->name('purchase.edit');

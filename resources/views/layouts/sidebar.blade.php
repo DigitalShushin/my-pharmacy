@@ -1048,22 +1048,6 @@
                 </li><!-- end Supplier -->
                 
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarApps2" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
-                        <i class="las la-cart-plus"></i> <span>Purchase</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarApps2">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="apps-calendar" class="nav-link">List</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="apps-chat" class="nav-link">Add New</a>
-                            </li>                            
-                        </ul>
-                    </div>
-                </li><!-- end Dashboard Menu -->  
-                
-                <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarApps3" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
                         <i class="las la-prescription-bottle"></i> <span>Products</span>
                     </a>
@@ -1078,6 +1062,24 @@
                         </ul>
                     </div>
                 </li><!-- end Dashboard Menu --> 
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarApps2" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
+                        <i class="las la-cart-plus"></i> <span>Purchase</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarApps2">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('purchases.index') }}" class="nav-link">List</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="apps-chat" class="nav-link">Add New</a>
+                            </li>                            
+                        </ul>
+                    </div>
+                </li><!-- end Dashboard Menu -->  
+                
+                
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarApps4" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">

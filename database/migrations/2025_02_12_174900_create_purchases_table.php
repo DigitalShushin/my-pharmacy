@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->foreignId('supplier_id')->constrained()->onDelete('cascade');
+            $table->string('invoice_number')->unique();
+            $table->text('purchase_date'); // ✅ manually entered date (converted from BS to AD)
             $table->decimal('net_amount', 10, 2);
-            $table->decimal('VAT', 10, 2);
-            $table->decimal('discount', 10, 2);
+            $table->decimal('vat', 10, 2)->default(0);
+            $table->decimal('discount', 10, 2)->default(0);
             $table->decimal('total_amount', 10, 2);
-            $table->timestamps();
+            $table->timestamps(); // ✅ Laravel’s own system date tracking
         });
     }
 
