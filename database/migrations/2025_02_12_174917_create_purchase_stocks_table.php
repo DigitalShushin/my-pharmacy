@@ -23,7 +23,7 @@ return new class extends Migration
             $table->decimal('rate', 10, 2)->default(0); // Bonus units if any
             $table->decimal('cc', 10, 4)->default(0); // Cost contribution per unit
             $table->decimal('cc_on_bonus', 10, 4)->default(0); // Cost contribution on bonus
-            $table->decimal('marked_rate', 10, 2); // Rate printed on pack
+            // $table->decimal('marked_rate', 10, 2);
             $table->decimal('cost_price', 10, 4); // Cost per unit
             $table->decimal('selling_price', 10, 2); // Selling price per unit
             $table->date('expiry_date')->nullable(); // Optional expiry

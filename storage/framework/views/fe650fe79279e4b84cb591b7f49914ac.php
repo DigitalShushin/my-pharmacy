@@ -6,8 +6,15 @@
 
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
 
+<!-- Search for input -->
+ <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 <!-- Nepali Date Picker CSS -->
-<link rel="stylesheet" href="https://unpkg.com/nepali-date-picker@2.0.2/dist/nepaliDatePicker.min.css">
+<!-- <link rel="stylesheet" href="https://unpkg.com/nepali-date-picker@2.0.2/dist/nepaliDatePicker.min.css"> -->
+
+<!-- Nepali Date Picker CSS -->
+<link href="https://nepalidatepicker.sajanmaharjan.com.np/nepali.datepicker/css/nepali.datepicker.v4.0.8.min.css" rel="stylesheet" type="text/css"/>
+
 
 <!-- jQuery (must be loaded first) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -19,10 +26,17 @@
         width: 29% !important;
         z-index: 9999; /* Make sure it stays on top */
     }
+    
 
     .product-column-width{
-        width: 155px !important;
+        width: 160px !important;
     }
+
+    .table-column-width{
+        width: 120px !important;
+    }
+
+    
 </style>
 
 <?php $__env->stopSection(); ?>
@@ -62,32 +76,25 @@
                             </div>
                             
                             <!-- Nepali Date Input -->
-                            <div class="col-md-4">
+                            <div class="col-md-4 ">
                                 <div class="mb-3">
                                     <label for="nepaliDate" class="form-label">Purchase Date (B.S.)</label>
                                     <input type="text" class="form-control" name="purchase_date" id="nepaliDate" placeholder="Select Nepali Date">
                                 </div>
                             </div>
 
-                            <!-- Hidden input to store English date (A.D.) -->
-                            <input type="hidden" name="purchase_date_ad" id="englishDate">
-
-
-                            <!-- Hidden English Date (A.D.) to store in DB -->
-                            <input type="hidden" name="purchase_date_ad" id="englishDate">
-
-                            <!-- Supplier Name -->
+                            <!-- Supplier Dropdown -->
                             <div class="col-md-4"> 
-    <div class="mb-3">
-        <label for="supplierSelect" class="form-label">Supplier Name</label>
-        <select name="supplier_id" id="supplierSelect" class="form-control" required>
-            <option value="" disabled selected>Select a supplier</option>
-            <?php $__currentLoopData = $suppliers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $supplier): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <option value="<?php echo e($supplier->id); ?>"><?php echo e($supplier->name); ?></option>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        </select>
-    </div>
-</div>
+                                <div class="mb-3">
+                                    <label for="supplierSelect" class="form-label">Supplier Name</label>
+                                    <select name="supplier_id" id="supplierSelect" class="form-control" required>
+                                        <option value="" disabled selected>Select a supplier</option>
+                                        <?php $__currentLoopData = $suppliers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $supplier): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($supplier->id); ?>"><?php echo e($supplier->name); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    </select>
+                                </div>
+                            </div>
                             
                             <!-- Product Entry Table -->
                             <div class="col-12">
@@ -96,29 +103,33 @@
                                         <tr>
                                             <th>Product</th>
                                             <th>Pack</th>
-                                            <th>Batch</th>
+                                            <th class="table-column-width">Batch</th>
                                             <th>Expiry Date</th>
                                             <th>Quantity</th>
                                             <th>Bonus</th>
-                                            <th>Rate</th>
+                                            <th class="table-column-width">Rate</th>
                                             <th>CC %</th>
                                             <th>CC on bonus</th>
-                                            <th>M.R.F.</th>
+                                            <!-- <th>M.R.F.</th> -->
                                             <th>Amount</th>
-                                            <!-- <th>M.R.P.</th> -->
+                                            <th>Selling Price</th>
                                             <th><button type="button" class="btn btn-sm btn-success" id="addRowBtn">+</button></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td class="product-column-width">
-                                                <select name="products[0][product_id]" class="form-control">
-                                                    <option value="">Select Product</option>
+                                        <tr>                                           
+                                            <td>
+                                                <select name="products[0][product_id]" class="form-control select2" required>
+                                                    <option value="" disabled selected>Select Product</option>
                                                     <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                        <option value="<?php echo e($product->id); ?>"><?php echo e($product->name); ?></option>
+                                                        <option value="<?php echo e($product->id); ?>" <?php echo e(old('products.0.product_id') == $product->id ? 'selected' : ''); ?>>
+                                                            <?php echo e($product->name); ?>
+
+                                                        </option>
                                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </select>
                                             </td>
+
                                             <td><input type="number" name="products[0][pack]" class="form-control"></td>
                                             <td><input type="text" name="products[0][batch]" class="form-control"></td>
                                             <td><input type="date" name="products[0][expiry_date]" class="form-control"></td>
@@ -127,14 +138,17 @@
                                             <td><input type="text" name="products[0][rate]" class="form-control"></td>
                                             <td><input type="number" name="products[0][cc]" class="form-control" step="0.1" min="0"></td>
                                             <td><input type="text" name="products[0][cc_on_bonus]" class="form-control"></td>
-                                            <td><input type="text" name="products[0][marked_rate]" class="form-control"></td>
+                                            <!-- <td><input type="text" name="products[0][marked_rate]" class="form-control"></td> -->
                                             <td><input type="text" name="products[0][amount]" class="form-control"></td>
+                                            <td><input type="text" name="products[0][sp]" class="form-control"></td>
                                             <!-- <td><input type="text" name="products[0][mrp]" class="form-control"></td> -->
                                             <td><button type="button" class="btn btn-sm btn-danger removeRowBtn">-</button></td>
                                         </tr>
                                     </tbody>
+                                     
                                 </table>
-                            </div>
+                            </div>                            
+
 
                             <div class="col-md-12 d-flex justify-content-between">
                                 <div class="col-md-6">
@@ -180,14 +194,14 @@
                         </div>
 
                         <?php if($errors->any()): ?>
-    <div class="alert alert-danger">
-        <ul>
-            <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <li><?php echo e($error); ?></li>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        </ul>
-    </div>
-<?php endif; ?>
+                            <div class="alert alert-danger">
+                                <ul>
+                                    <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <li><?php echo e($error); ?></li>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </ul>
+                            </div>
+                        <?php endif; ?>
                     </form>
 
                     </div>
@@ -224,19 +238,34 @@
 
 <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
 
-
-<!-- Nepali Date Picker JS -->
-<script src="https://unpkg.com/nepali-date-picker@2.0.2/dist/nepaliDatePicker.min.js"></script>
+<!-- Search for input -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
-    $(document).ready(function () {
-        $('#nepaliDate').nepaliDatePicker({
-            ndpEnglishInput: 'englishDate',
-            dateFormat: '%y-%m-%d',
-            closeOnDateSelect: true
+    $(document).ready(function() {
+        $('.select2').select2({
+            width: '100%',
+            placeholder: 'Select Product',
+            allowClear: true
         });
     });
 </script>
+
+<!-- Nepali Date Picker JS -->
+<script src="https://nepalidatepicker.sajanmaharjan.com.np/nepali.datepicker/js/nepali.datepicker.v4.0.8.min.js"></script>
+
+<script>
+$(document).ready(function () {
+    const nepaliInput = document.getElementById('nepaliDate');
+    
+        $(nepaliInput).nepaliDatePicker({
+            dateFormat: '%y-%m-%d',
+            closeOnDateSelect: true
+        });
+    
+});
+</script>
+
 
 
 <!-- VAT switch button -->
@@ -258,47 +287,6 @@
 </script>
 
 
-<!-- Select product by user in the table -->
-<!-- <script>
-    let rowCount = 1;
-
-    document.getElementById('addRowBtn').addEventListener('click', function () {
-        const tableBody = document.querySelector('#productTable tbody');
-        const newRow = document.createElement('tr');
-
-        newRow.innerHTML = `
-            <td>
-                <select name="products[${rowCount}][product_id]" class="form-control">
-                    <option value="">Select Product</option>
-                    <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <option value="<?php echo e($product->id); ?>"><?php echo e($product->name); ?></option>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                </select>
-            </td>
-            <td><input type="text" name="products[${rowCount}][pack]" class="form-control"></td>
-            <td><input type="text" name="products[${rowCount}][batch]" class="form-control"></td>
-            <td><input type="date" name="products[${rowCount}][expiry_date]" class="form-control"></td>
-            <td><input type="number" name="products[${rowCount}][quantity]" class="form-control"></td>
-            <td><input type="text" name="products[${rowCount}][rate]" class="form-control"></td>
-            <td><input type="number" name="products[${rowCount}][cc]" class="form-control"></td>
-            <td><input type="number" name="products[${rowCount}][cc_on_bonus]" class="form-control"></td>
-            <td><input type="text" name="products[${rowCount}][amount]" class="form-control"></td>
-            <td><input type="text" name="products[${rowCount}][mrp]" class="form-control"></td>
-            <td><button type="button" class="btn btn-sm btn-danger removeRowBtn">-</button></td>
-        `;
-
-        tableBody.appendChild(newRow);
-        rowCount++;
-    });
-
-    // Remove row
-    document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('removeRowBtn')) {
-            e.target.closest('tr').remove();
-        }
-    });
-</script> -->
-
 <!-- Calculate Amount of value input bu user -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -316,6 +304,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const bonus = parseFloat(row.querySelector('[name*="[bonus]"]').value) || 0;
         const cc = parseFloat(row.querySelector('[name*="[cc]"]').value) || 0;
         const rate = parseFloat(row.querySelector('[name*="[rate]"]').value) || 0;
+        const pack = parseFloat(row.querySelector('[name*="[pack]"]').value) || 0;
 
         const ccOnBonus = (bonus * rate * (cc / 100));
         const amount = (quantity * rate) + ccOnBonus;
@@ -324,6 +313,15 @@ document.addEventListener('DOMContentLoaded', function () {
         row.querySelector('[name*="[amount]"]').value = amount.toFixed(2);
 
         updateNetAmount(); // Update net amount every time a row changes
+
+        // Selling Price Calculation
+        let sellingPrice = (rate * 1.16) / pack;
+
+        if (vatToggle.checked) {
+            sellingPrice *= 1.13;
+        }
+
+        row.querySelector('[name*="[sp]"]').value = sellingPrice.toFixed(2);
     }
 
     function updateNetAmount() {
@@ -368,6 +366,15 @@ document.addEventListener('DOMContentLoaded', function () {
     // When adding new rows
     document.getElementById('addRowBtn').addEventListener('click', function () {
     const newRow = tableBody.lastElementChild.cloneNode(true);
+    
+    // Clean Select2 from cloned row only (not all rows)
+    const clonedSelect = newRow.querySelector('.select2');
+    if (clonedSelect) {
+        // Destroy Select2 and unwrap DOM
+        $(clonedSelect).select2('destroy');
+        const parent = clonedSelect.parentElement;
+        parent.innerHTML = clonedSelect.outerHTML; // remove select2 wrapper markup
+    }
 
     newRow.querySelectorAll('input, select').forEach(function (el) {
         // Clear values
@@ -381,20 +388,63 @@ document.addEventListener('DOMContentLoaded', function () {
         if (el.name) {
             el.name = el.name.replace(/\[\d+\]/, `[${rowIndex}]`);
         }
+
+        // Specifically clear the product select
+        if (el.classList.contains('select2')) {
+            $(el).val('').trigger('change'); // Clear value and trigger Select2 UI reset
+        }
     });
 
+    // Append the new row first
     tableBody.appendChild(newRow);
+
+    // Re-initialize Select2 on the new row
+    $(newRow).find('.select2').select2({ width: '100%' });
+
+    function updateSelectOptions() {
+    const allSelects = tableBody.querySelectorAll('.select2');
+    const selectedValues = [];
+
+    // Gather all selected values
+    allSelects.forEach(select => {
+        const val = select.value;
+        if (val) selectedValues.push(val);
+    });
+
+    allSelects.forEach(currentSelect => {
+        const currentValue = currentSelect.value;
+
+        // Enable all options first
+        currentSelect.querySelectorAll('option').forEach(opt => {
+            opt.disabled = false;
+        });
+
+        // Re-initialize Select2 to reflect changes
+        $(currentSelect).select2({ width: '100%' });
+    });
+}
+
+    // Add change listener to the product select
+    newRow.querySelector('.select2').addEventListener('change', updateSelectOptions);
+
+    // Attach input event listeners for calculations
     attachEventListeners(newRow);
+
+    // Update dropdowns to disable selected products
+    updateSelectOptions();
+
+    // Increase the index for next row
     rowIndex++;
 });
 
 
-    // Remove row
-    document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('removeRowBtn')) {
+    tableBody.addEventListener('click', function (e) {
+        if (e.target && e.target.classList.contains('removeRowBtn')) {
             const row = e.target.closest('tr');
-            row.remove();
-            updateNetAmount();
+            if (row) {
+                row.remove();
+                updateNetAmount(); // Recalculate totals after removal
+            }
         }
     });
 
@@ -403,18 +453,6 @@ document.addEventListener('DOMContentLoaded', function () {
     vatToggle.addEventListener('change', updateTotal);
 });
 </script>
-
-
-<!-- <script>
-
-    document.querySelector("form").addEventListener("submit", function(e) {
-        const net = document.getElementById("netamountInput").value;
-        if (!net) {
-            e.preventDefault();
-            alert("Net Amount is empty!");
-        }
-    });
-</script> -->
 
 <?php $__env->stopSection(); ?>
 

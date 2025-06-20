@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('supplier_id')->constrained()->onDelete('cascade');
             $table->string('invoice_number')->unique();
-            $table->text('purchase_date'); // ✅ manually entered date (converted from BS to AD)
+            $table->text('purchase_date'); // date in BS (Nepali) format
+            $table->date('purchase_english_date'); // date in AD (English) format
             $table->decimal('net_amount', 10, 2);
             $table->decimal('vat', 10, 2)->default(0);
             $table->decimal('discount', 10, 2)->default(0);

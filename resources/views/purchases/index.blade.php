@@ -66,7 +66,7 @@
                                     <td>{{ $purchase->total_amount }}</td>
                                         
                                     <td>
-                                        <a href="{{ route('purchase.edit', $purchase->id) }}"><i class="ri-pencil-fill align-bottom me-2 text-muted" style="color: green !important;"></i></a>
+                                        <a href="{{ route('purchases.edit', $purchase->id) }}"><i class="ri-pencil-fill align-bottom me-2 text-muted" style="color: green !important;"></i></a>
                                         <a class="remove-item-btn" href="#deleteRecordModal" data-bs-toggle="modal" data-company-id="{{ $purchase->id }}"><i class="ri-delete-bin-fill align-bottom me-2 text-muted" style="color: red !important;"></i></a>
                                     </td>
                                 </tr>
@@ -74,55 +74,6 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- Add Company Modal -->
-                <div class="modal fade" id="addRecordModal" tabindex="-1" aria-labelledby="addModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content border-0">
-                            <div class="modal-header bg-soft-primary p-3">
-                                <h5 class="modal-title" id="addModalLabel">Add Company</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                                    id="close-modal"></button>
-                            </div>
-                            <form class="tablelist-form" autocomplete="off">
-                                <div class="modal-body">
-                                    <div class="row g-3">
-                                        
-
-                                        <div class="col-lg-12">
-                                            <label for="add-company-name-field" class="form-label">Company Name</label>
-                                            <input type="text" name="company_name" id="add-company-name-field" class="form-control"
-                                                placeholder="Enter company name" required />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <div class="hstack gap-2 justify-content-end">
-                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-success" id="add-btn">Add</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <!--end add modal-->
-
-                <!-- Edit Company Modal -->
-                <div class="modal fade" id="editCompanyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content border-0">
-                            <div class="modal-header bg-soft-info p-3">
-                                <h5 class="modal-title" id="exampleModalLabel">Edit Company</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
-                            </div>
-                            <div class="modal-body" id="editCompanyModalBody">
-
-                            </div>                
-                        </div>
-                    </div>
-                </div>
-                <!--end edit modal-->
                 
                 <!-- Delete Company Modal -->
                 <div class="modal fade zoomIn" id="deleteRecordModal" tabindex="-1" aria-hidden="true">
@@ -136,9 +87,9 @@
                                 <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
                                     colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
                                 <div class="mt-4 text-center">
-                                    <h4 class="fs-semibold">You are about to delete a Supplier</h4>
+                                    <h4 class="fs-semibold">You are about to delete a Purchase</h4>
                                     <p class="text-muted fs-14 mb-4 pt-1">Deleting will remove all of your information from our database.</p>
-                                    <input type="hidden" id="delete-company-id" />
+                                    <input type="hidden" id="delete-purchase-id" />
                                     <div class="hstack gap-2 justify-content-center remove">
                                         <button class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close"
                                             data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
@@ -174,92 +125,23 @@
     <!-- <script src="{{ URL::asset('build/js/pages/crm-contact.init.js') }}"></script> -->
     <script src="{{ URL::asset('build/libs/sweetalert2/sweetalert2.min.js') }}"></script>
 
-    <!-- Custom AJAX script -->
-
-    <!-- Add Company -->
-    <script>
-        document.getElementById('add-btn').addEventListener('click', function () {
-            const companyName = document.getElementById('add-company-name-field').value;
-            const parentId = document.getElementById('add-parent-company-field').value;
-
-            fetch('/admin/company/add_process/', {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: companyName,
-                    parent_id: parentId
-                })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // Optional: dynamically insert new row in the table
-
-                    // Close the modal
-                    const modal = bootstrap.Modal.getInstance(document.getElementById('addRecordModal'));
-                    modal.hide();
-
-                    //redirect()->route('companies.index')->with('success', 'Company added successfully!');
-
-                    // Show success message
-                    // Swal.fire('Added!', 'Company added successfully.', 'success');
-                    Swal.fire({
-                        title: 'Success!',
-                        text: 'A new company has been added.',
-                        icon: 'success',
-                        customClass: {
-                            title: 'swal2-title', // Custom class for title
-                            htmlContainer: 'custom-html' // Custom class for HTML container
-                        }
-                    });
-
-                    // Optional: reload the table or page
-                    setTimeout(function () {
-                        location.reload();
-                    }, 2000);
-
-                })
-                .catch(error => {
-                    console.error(error);
-                    // Swal.fire('Error!', 'Something went wrong while adding.', 'error');
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'Something went wrong with the adding.',
-                        icon: 'error',
-                        customClass: {
-                            title: 'swal2-title', // Custom class for title
-                            htmlContainer: 'custom-html' // Custom class for HTML container
-                        }
-                    });
-                });
-        });
-    </script>
+    <!-- Custom AJAX script -->   
     <script>
         document.addEventListener('click', function (event) {
             if (event.target.closest('.remove-item-btn')) {
                 const btn = event.target.closest('.remove-item-btn');
                 const companyId = btn.getAttribute('data-company-id');
-                document.getElementById('delete-company-id').value = companyId;
+                document.getElementById('delete-purchase-id').value = companyId;
             }
         });
 
         document.addEventListener('DOMContentLoaded', function () {
-            // Open delete modal and set company ID
-            // document.querySelectorAll('.remove-item-btn').forEach(function (btn) {
-            //     btn.addEventListener('click', function () {
-            //         const companyId = this.getAttribute('data-company-id');
-            //         alert('companyId :'+companyId );
-            //         document.getElementById('delete-company-id').value = companyId;
-            //     });
-            // });
-
+            
             // Handle delete confirmation
             document.getElementById('delete-record').addEventListener('click', function () {
-                const supplierId = document.getElementById('delete-company-id').value;
+                const supplierId = document.getElementById('delete-purchase-id').value;
                 // Send DELETE request
-                fetch(`/suppliers/${supplierId}`, {
+                fetch(`/purchases/${supplierId}`, {
                     method: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -281,7 +163,7 @@
                         //Swal.fire('Deleted!', data.message, 'success');
                         Swal.fire({
                             title: 'Success!',
-                            text: 'The selected Company has been deleted.',
+                            text: 'The selected Purchase has been deleted.',
                             icon: 'success',
                             customClass: {
                                 title: 'swal2-title', // Custom class for title
@@ -303,35 +185,7 @@
             });
         });
     </script>
-    <script>
-        $(document).on('click', '.addCompanyBtn', function () {
-            $.ajax({
-                url: '/admin/company/add/',
-                method: 'GET',
-                success: function (response) {
-                    $('#addCompanyModalBody').html(response);
-                    $('#addCompanyModal').modal('show');
-                },
-                error: function () {
-                    alert('Unable to fetch company data.');
-                }
-            });
-        });
-        $(document).on('click', '.editCompanyBtn', function () {
-            var companyId = $(this).data('id');
-            $.ajax({
-                url: '/admin/company/edit/' + companyId,
-                method: 'GET',
-                success: function (response) {
-                    $('#editCompanyModalBody').html(response);
-                    $('#editCompanyModal').modal('show');
-                },
-                error: function () {
-                    alert('Unable to fetch company data.');
-                }
-            });
-        });
-    </script>
+    
 
 @endsection
 <style>

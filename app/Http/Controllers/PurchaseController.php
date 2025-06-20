@@ -16,30 +16,28 @@ use Carbon\Carbon;
 class PurchaseController extends Controller
 {
     
-
-    /**
-     * Display a listing of the resource.
-     */
     public function index() {
         $purchases = Purchase::with('supplier')->latest()->get();
         return view('purchases.index', compact('purchases'));
     }
     
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create() {
         // $suppliers = Supplier::all();
         // return view('purchases.create', compact('suppliers'));
-
-        $suppliers = Supplier::all();   
-        $products = Product::all();
+        
+        // $suppliers = Supplier::all();
+        // $products = Product::all();
+        $suppliers = Supplier::orderBy('name', 'asc')->get();
+        $products = Product::orderBy('name', 'asc')->get();
         return view('purchases.create', compact('products', 'suppliers'));
 
         
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     // Helper function
     private function convertDevanagariToEnglish($nepaliDate)
     {
@@ -48,9 +46,6 @@ class PurchaseController extends Controller
         return str_replace($devanagari, $english, $nepaliDate);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         // Convert Nepali date to English
@@ -58,7 +53,12 @@ class PurchaseController extends Controller
         // $englishDate = NepaliDate::convertToEnglish($nepaliDate); 
 
         $nepaliDate = $request->input('purchase_date');
+        // \Log::info('Nepali Date: ' . $nepaliDate);
+
+        // Just before you convert the date, add this:
+
         $converted = $this->convertDevanagariToEnglish($nepaliDate);
+
         // $nepaliDate = $request->input('purchase_date'); // from Nepali date picker
         $englishDate = LaravelNepaliDate::from($converted)->toEnglishDate(); // converts to AD
 
@@ -91,7 +91,8 @@ class PurchaseController extends Controller
 
         $purchase = Purchase::create([
             'supplier_id' => $request->supplier_id,
-            'purchase_date' => $englishDate,
+            'purchase_date' => $request->purchase_date, // Nepali date
+            'purchase_english_date' => $englishDate,
             'net_amount' => $request->net_amount,
             'vat' => $request->vat ?? 0,
             'discount' => $request->discount ?? 0,
@@ -120,6 +121,9 @@ class PurchaseController extends Controller
 
             $costPricePerPack = $costPerPack / $pack; // cost price per pack
             $sellingPrice = ($rate * 1.16) / $pack; // Selling price is 16% of cost price
+            if (isset($request->vat) && $request->vat > 0) {
+                $sellingPrice = $sellingPrice * 1.13; // Adjust for VAT
+            }
 
             PurchaseStock::create([
                 'purchase_id' => $purchase->id,
@@ -131,9 +135,10 @@ class PurchaseController extends Controller
                 'rate' => $item['rate'] ?? 0,
                 'cc' => $item['cc'] ?? 0,
                 'cc_on_bonus' => round($ccOnBonus, 2),
-                'marked_rate' => $item['marked_rate'] ?? 0,
+                // 'marked_rate' => $item['marked_rate'] ?? 0,
                 'cost_price' => round($costPricePerPack, 2),
-                'selling_price' => round($sellingPrice, 2),
+                // 'selling_price' => round($sellingPrice, 2),
+                'selling_price' => $item['sp'] ?? 0,
                 'expiry_date' => $item['expiry_date'] ?? null,
             ]);
         }
@@ -141,35 +146,98 @@ class PurchaseController extends Controller
         return redirect()->route('purchases.index')->with('success', 'Purchase recorded successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id): Response
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id): Response
+    public function edit(Purchase $purchase)
     {
-        //
-    }
+        $suppliers = Supplier::orderBy('name', 'asc')->get();
+        $products = Product::orderBy('name', 'asc')->get();
+        $purchase->load('stocks'); // If you have a relation to get items
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id): RedirectResponse
-    {
-        //
+        return view('purchases.edit', compact('purchase', 'suppliers', 'products'));
     }
+    
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id): RedirectResponse
+    public function update(Request $request, Purchase $purchase)
     {
-        //
+        // Convert Nepali date to English
+        $nepaliDate = $request->input('purchase_date');
+        $converted = $this->convertDevanagariToEnglish($nepaliDate);
+        $englishDate = LaravelNepaliDate::from($converted)->toEnglishDate();
+
+        $request->validate([
+            'supplier_id' => 'required|exists:suppliers,id',
+            'purchase_date' => 'required',
+            'invoice_number' => 'required|unique:purchases,invoice_number,' . $purchase->id,
+            'net_amount' => 'required|numeric',
+            'vat' => 'nullable|numeric',
+            'discount' => 'nullable|numeric',
+            'total_amount' => 'required|numeric',
+            'products' => 'required|array',
+            'products.*.product_id' => 'required|exists:products,id',
+            'products.*.expiry_date' => 'nullable|date',
+        ]);
+
+        $purchase->update([
+            'supplier_id' => $request->supplier_id,
+            'purchase_date' => $request->purchase_date,
+            'purchase_english_date' => $englishDate,
+            'net_amount' => $request->net_amount,
+            'vat' => $request->vat ?? 0,
+            'discount' => $request->discount ?? 0,
+            'total_amount' => $request->total_amount,
+            'invoice_number' => $request->invoice_number,
+        ]);
+
+        // Remove existing stocks
+        $purchase->stocks()->delete();
+
+        $netAmount = $request->net_amount;
+        $totalAmount = $request->total_amount;
+
+        foreach ($request->products as $item) {
+            $pack = $item['pack'];
+            $quantity = $item['quantity'];
+            $rate = $item['rate'];
+            $bonus = $item['bonus'];
+            $cc = $item['cc'] ?? 0;
+
+            $totalPacks = $quantity + $bonus;
+            $ccOnBonus = $bonus * $rate * ($cc / 100);
+            $amount = ($quantity * $rate) + $ccOnBonus;
+            $proportion = $amount / $netAmount;
+            $costPerPack = ($proportion * $totalAmount) / $totalPacks;
+            $costPricePerPack = $costPerPack / $pack;
+            $sellingPrice = ($rate * 1.16) / $pack;
+
+            if (isset($request->vat) && $request->vat > 0) {
+                $sellingPrice = $sellingPrice * 1.13;
+            }
+
+            PurchaseStock::create([
+                'purchase_id' => $purchase->id,
+                'product_id' => $item['product_id'],
+                'batch' => $item['batch'] ?? 0,
+                'pack' => $item['pack'] ?? 0,
+                'quantity' => $item['quantity'] ?? 0,
+                'bonus' => $item['bonus'] ?? 0,
+                'rate' => $item['rate'] ?? 0,
+                'cc' => $item['cc'] ?? 0,
+                'cc_on_bonus' => round($ccOnBonus, 2),
+                'cost_price' => round($costPricePerPack, 2),
+                // 'selling_price' => round($sellingPrice, 2),                
+                'selling_price' => $item['sp'] ?? 0,
+                'expiry_date' => $item['expiry_date'] ?? null,
+            ]);
+        }
+
+        return redirect()->route('purchases.index')->with('success', 'Purchase updated successfully!');
+    }
+    
+    public function destroy($id)
+    {
+        $purchase = Purchase::findOrFail($id);
+        $purchase->delete(); // Cascade will handle purchase_stocks
+
+        return response()->json(['success' => true, 'message' => 'Purchase deleted successfully.']);
     }
 }

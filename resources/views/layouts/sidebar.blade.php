@@ -1024,9 +1024,9 @@
                             <li class="nav-item">
                                 <a href="{{ route('company.index') }}" class="nav-link">List</a>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a href="{{ route('company.create') }}" class="nav-link">Add New</a>
-                            </li>                            
+                            </li>                             -->
                         </ul>
                     </div>
                 </li><!-- end Dashboard Menu -->
@@ -1057,7 +1057,7 @@
                                 <a href="{{ route('products.index') }}" class="nav-link">List</a>
                             </li>
                             <li class="nav-item">
-                                <a href="" class="nav-link">Add New</a>
+                                <a href="{{ route('products.create') }}" class="nav-link">Add New</a>
                             </li>                            
                         </ul>
                     </div>
@@ -1073,7 +1073,7 @@
                                 <a href="{{ route('purchases.index') }}" class="nav-link">List</a>
                             </li>
                             <li class="nav-item">
-                                <a href="apps-chat" class="nav-link">Add New</a>
+                                <a href="{{ route('purchases.create') }}" class="nav-link">Add New</a>
                             </li>                            
                         </ul>
                     </div>
@@ -1088,10 +1088,13 @@
                     <div class="collapse menu-dropdown" id="sidebarApps4">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="apps-calendar" class="nav-link">List</a>
+                                <a href="{{ route('sales.index') }}" class="nav-link">List</a>
                             </li>
                             <li class="nav-item">
-                                <a href="apps-chat" class="nav-link">Add New</a>
+                                <a href="{{ route('sales.create') }}" class="nav-link">Add New</a>
+                            </li>                            
+                            <li class="nav-item">
+                                <a href="{{ route('sale-returns.index') }}" class="nav-link">Sale Returns</a>
                             </li>                            
                         </ul>
                     </div>

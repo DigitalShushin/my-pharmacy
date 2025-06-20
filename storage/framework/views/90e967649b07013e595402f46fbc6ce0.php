@@ -21,20 +21,14 @@
             padding-left: 100px;
             padding-bottom: 20px;
         }
-        .word-wrap {
-            white-space: normal !important;
-            word-break: break-word;
-            max-width: 250px; /* Optional: Limit cell width */
-        }
     </style>
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Purchase List
-                        <a href="<?php echo e(route('purchases.create')); ?>" class="btn btn-info add-btn float-right" style="float: right;"><i class="ri-add-fill me-1 align-bottom"></i> Add New</a></h5>
-                    
-                    <!-- <a class="addCompanyBtn btn btn-info add-btn" href="javascript:void(0);" data-bs-toggle="modal"><i class="ri-add-fill me-1 align-bottom text-muted"></i> Add New</a> -->
+                    <h5 class="card-title mb-0">Sales List
+                    <a href="<?php echo e(route('sales.create')); ?>" class="btn btn-info add-btn float-right" style="float: right;"><i class="ri-add-fill me-1 align-bottom"></i> Add New</a>
+                    </h5>
                 </div>
                 <div class="card-body">
                     <table id="model-datatables" class="table table-bordered nowrap table-striped align-middle"
@@ -42,39 +36,38 @@
                         <thead>
                             <tr>
                                 <th>SN</th>
-                                <th class="sort" data-sort="date" scope="col">Date</th>
-                                <th class="sort" data-sort="supplier_name" scope="col">Supplier Name</th>
-                                <th class="sort" data-sort="invoice" scope="col">Invoice Number</th>
+                                <th class="sort" data-sort="sales_id" scope="col">Sales ID</th>
+                                <th class="sort" data-sort="customer_id" scope="col">Customer ID</th>
                                 <th class="sort" data-sort="net_amount" scope="col">Net Amount</th>
                                 <th class="sort" data-sort="vat" scope="col">VAT</th>
                                 <th class="sort" data-sort="discount" scope="col">Discount</th>
                                 <th class="sort" data-sort="total_amount" scope="col">Total Amount</th>
-                        <th>Action</th>
+                                
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php $sn = 0; ?>
-                            <?php $__currentLoopData = $purchases; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $purchase): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <tr data-row-id="<?php echo e($purchase->id); ?>">
+                            <?php $__currentLoopData = $sales; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sale): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <tr data-row-id="<?php echo e($sale->id); ?>">
                                     <td><?php echo e(++$sn); ?></td>
-                                    <td><?php echo e($purchase->purchase_date); ?></td>
-                                    <td><?php echo e($purchase->supplier->name ?? 'N/A'); ?></td>
-                                    <td><?php echo e($purchase->invoice_number); ?></td>
-                                    <td><?php echo e($purchase->net_amount); ?></td>
-                                    <td><?php echo e($purchase->vat); ?></td>
-                                    <td><?php echo e($purchase->discount); ?></td>
-                                    <td><?php echo e($purchase->total_amount); ?></td>
+                                    <td><?php echo e($sale->id); ?></td>
+                                    <td><?php echo e($sale->customer->name ?? 'N/A'); ?></td>
+                                    <td><?php echo e($sale->net_amount); ?></td>
+                                    <td><?php echo e($sale->vat); ?></td>
+                                    <td><?php echo e($sale->discount); ?></td>
+                                    <td><?php echo e($sale->total_amount); ?></td>
                                         
                                     <td>
-                                        <a href="<?php echo e(route('purchases.edit', $purchase->id)); ?>"><i class="ri-pencil-fill align-bottom me-2 text-muted" style="color: green !important;"></i></a>
-                                        <a class="remove-item-btn" href="#deleteRecordModal" data-bs-toggle="modal" data-company-id="<?php echo e($purchase->id); ?>"><i class="ri-delete-bin-fill align-bottom me-2 text-muted" style="color: red !important;"></i></a>
+                                        <a href="<?php echo e(route('sales.edit', $sale->id)); ?>"><i class="ri-pencil-fill align-bottom me-2 text-muted" style="color: green !important;"></i></a>
+                                        <a class="remove-item-btn" href="#deleteRecordModal" data-bs-toggle="modal" data-sale-id="<?php echo e($sale->id); ?>"><i class="ri-delete-bin-fill align-bottom me-2 text-muted" style="color: red !important;"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
                     </table>
-                </div>
-                
+                </div>               
+                               
                 <!-- Delete Company Modal -->
                 <div class="modal fade zoomIn" id="deleteRecordModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
@@ -87,9 +80,9 @@
                                 <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
                                     colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
                                 <div class="mt-4 text-center">
-                                    <h4 class="fs-semibold">You are about to delete a Purchase</h4>
+                                    <h4 class="fs-semibold">You are about to delete a Sale</h4>
                                     <p class="text-muted fs-14 mb-4 pt-1">Deleting will remove all of your information from our database.</p>
-                                    <input type="hidden" id="delete-purchase-id" />
+                                    <input type="hidden" id="delete-sale-id" />
                                     <div class="hstack gap-2 justify-content-center remove">
                                         <button class="btn btn-link link-success fw-medium text-decoration-none" id="deleteRecord-close"
                                             data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
@@ -100,14 +93,23 @@
                         </div>
                     </div>
                 </div>                
+                <!--end delete modal -->
+
+                
             </div>
         </div>
         
         <?php if(session('success')): ?>
         <div class="text-danger"><?php echo e(session('success')); ?></div>
         <?php endif; ?>
+
+        
+        <?php if($errors->any()): ?>
+        <div class="text-danger"><?php echo e($error); ?></div>
+        <?php endif; ?>
     </div>
 <?php $__env->stopSection(); ?>
+
 <?php $__env->startSection('script'); ?>
     <!-- apexcharts -->
     <script src="<?php echo e(URL::asset('build/libs/apexcharts/apexcharts.min.js')); ?>"></script>
@@ -125,23 +127,26 @@
     <!-- <script src="<?php echo e(URL::asset('build/js/pages/crm-contact.init.js')); ?>"></script> -->
     <script src="<?php echo e(URL::asset('build/libs/sweetalert2/sweetalert2.min.js')); ?>"></script>
 
-    <!-- Custom AJAX script -->   
+    <!-- Custom AJAX script -->
+
+    
     <script>
         document.addEventListener('click', function (event) {
             if (event.target.closest('.remove-item-btn')) {
                 const btn = event.target.closest('.remove-item-btn');
-                const companyId = btn.getAttribute('data-company-id');
-                document.getElementById('delete-purchase-id').value = companyId;
+                const saleId = btn.getAttribute('data-sale-id');
+                document.getElementById('delete-sale-id').value = saleId;
             }
         });
 
         document.addEventListener('DOMContentLoaded', function () {
             
+
             // Handle delete confirmation
             document.getElementById('delete-record').addEventListener('click', function () {
-                const supplierId = document.getElementById('delete-purchase-id').value;
+                const saleId = document.getElementById('delete-sale-id').value;
                 // Send DELETE request
-                fetch(`/purchases/${supplierId}`, {
+                fetch(`/sales/${saleId}`, {
                     method: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>',
@@ -156,14 +161,14 @@
                         modal.hide();
 
                         // Remove the row from the table
-                        const row = document.querySelector(`tr[data-row-id="${supplierId}"]`);
+                        const row = document.querySelector(`tr[data-row-id="${saleId}"]`);
                         if (row) row.remove();
 
                         // Show success message
                         //Swal.fire('Deleted!', data.message, 'success');
                         Swal.fire({
                             title: 'Success!',
-                            text: 'The selected Purchase has been deleted.',
+                            text: 'The selected sale has been deleted.',
                             icon: 'success',
                             customClass: {
                                 title: 'swal2-title', // Custom class for title
@@ -185,7 +190,36 @@
             });
         });
     </script>
-    
+
+    <script>
+        $(document).on('click', '.addCompanyBtn', function () {
+            $.ajax({
+                url: '/admin/company/add/',
+                method: 'GET',
+                success: function (response) {
+                    $('#addCompanyModalBody').html(response);
+                    $('#addCompanyModal').modal('show');
+                },
+                error: function () {
+                    alert('Unable to fetch company data.');
+                }
+            });
+        });
+        $(document).on('click', '.editCompanyBtn', function () {
+            var companyId = $(this).data('id');
+            $.ajax({
+                url: '/admin/company/edit/' + companyId,
+                method: 'GET',
+                success: function (response) {
+                    $('#editCompanyModalBody').html(response);
+                    $('#editCompanyModal').modal('show');
+                },
+                error: function () {
+                    alert('Unable to fetch company data.');
+                }
+            });
+        });
+    </script>
 
 <?php $__env->stopSection(); ?>
 <style>
@@ -207,4 +241,4 @@
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 
 <script src="<?php echo e(URL::asset('build/js/pages/datatables.init.js')); ?>"></script>
-<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\shushin_projects\pharmacy-laravel\resources\views/purchases/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\shushin_projects\pharmacy-laravel\resources\views/sales/index.blade.php ENDPATH**/ ?>

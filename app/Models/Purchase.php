@@ -12,7 +12,8 @@ class Purchase extends Model
     protected $fillable = [
         'supplier_id',
         'invoice_number',
-        'purchase_date', // include this line for date
+        'purchase_date', // include this line for date in nepali format
+        'purchase_english_date', // include this line for date in english format
         'net_amount',
         'vat',
         'discount',

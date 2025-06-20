@@ -23,7 +23,7 @@ class ProductController extends Controller
     public function create()
     {
         // $companies = Company::all();
-        $companies = Company::with('children')->whereNull('parent_id')->get();
+        $companies = Company::with('children')->whereNull('parent_id')->orderBy('name', 'asc')->get();
         return view('products.create', compact('companies'));
     }   
 
@@ -60,7 +60,7 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        $companies = Company::with('children')->whereNull('parent_id')->get();
+        $companies = Company::with('children')->whereNull('parent_id')->orderBy('name', 'asc')->get();
         return view('products.edit', compact('product', 'companies'));
     }
 
@@ -87,7 +87,7 @@ class ProductController extends Controller
         // Delete the product
         $product->delete();
 
-        return response()->json(['success' => true, 'message' => 'product deleted successfully.']);
+        return response()->json(['success' => true, 'message' => 'Product deleted successfully.']);
     }
 
     

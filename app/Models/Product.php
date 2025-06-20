@@ -19,4 +19,19 @@ class Product extends Model
     {
         return $this->belongsTo(Company::class, 'company_id');
     }
+
+    public function purchaseStocks()
+    {
+        return $this->hasMany(PurchaseStock::class);
+    }
+
+    public function saleItems()
+    {
+        return $this->hasMany(SalesItem::class, 'product_id');
+    }
+
+    public function saleReturnItems()
+    {
+        return $this->hasMany(SaleReturnItem::class);
+    }
 }

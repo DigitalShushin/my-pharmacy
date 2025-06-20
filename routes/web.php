@@ -6,6 +6,9 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\SaleController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\SalesReturnController;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -67,4 +70,22 @@ Route::resource('products', ProductController::class);
 
 // Purchase
 Route::resource('purchases', PurchaseController::class);
-Route::get('/purchase/{id}/edit', [PurchaseController::class, 'edit'])->name('purchase.edit');
+// Route::get('/purchases/{purchase}/edit', [PurchaseController::class, 'edit'])->name('purchases.edit');
+Route::get('/purchases/edit/{purchase}', [PurchaseController::class, 'edit'])->name('purchases.edit');
+
+// Sales
+Route::get('/sales/customer-by-phone', [CustomerController::class, 'getByPhone']);
+Route::resource('sales', SaleController::class);
+// Route::get('/sales/get-selling-price/{product_id}', [App\Http\Controllers\SaleController::class, 'getSellingPrice'])->name('sales.getSellingPrice');
+
+// Sale Returns
+Route::resource('sale-returns', SalesReturnController::class);
+Route::get('/sale-returns/create', [SalesReturnController::class, 'create'])->name('sale-returns.create');
+
+
+
+// Route::prefix('sales-return')->group(function () {
+//     Route::get('/', [SalesReturnController::class, 'index'])->name('sales-return.index');
+//     Route::get('/create', [SalesReturnController::class, 'create'])->name('sales-return.create');
+//     Route::post('/', [SalesReturnController::class, 'store'])->name('sales-return.store');
+// });
