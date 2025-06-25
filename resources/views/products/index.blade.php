@@ -38,10 +38,11 @@
                             <tr>
                                 <th>SN</th>
                                 <th class="sort" data-sort="product_name" scope="col">Product Name</th>
-                                <th class="sort" data-sort="description" scope="col">Description</th>
-                                <th class="sort" data-sort="category_name" scope="col">Category Name</th>
+                                <!-- <th class="sort" data-sort="description" scope="col">Description</th> -->
+                                <!-- <th class="sort" data-sort="category_name" scope="col">Category Name</th> -->
                                 <th class="sort" data-sort="company_name" scope="col">Company Name</th>
-                                <th class="sort" data-sort="product_image" scope="col">Product Image</th>
+                                <!-- <th class="sort" data-sort="product_image" scope="col">Product Image</th> -->
+                                <th class="sort" data-sort="minimum_stock" scope="col">Minimum Stock</th>
                                 
                                 <th>Action</th>
                             </tr>
@@ -52,17 +53,19 @@
                                 <tr data-row-id="{{ $product->id }}">
                                     <td>{{ ++$sn }}</td>
                                     <td>{{ $product->name }}</td>
-                                    <td>{{ $product->description }}</td>
-                                    <td>{{ $product->category_name }}</td>
+                                    <!-- <td>{{ $product->description }}</td> -->
+                                    <!-- <td>{{ $product->category_name }}</td> -->
 
                                     <td>{{ $product->company ? $product->company->name : '' }}</td>
-                                    <td>{{ $product->image_path }}</td>
+                                    <!-- <td>{{ $product->image_path }}</td> -->
                                     
+                                    <td>{{ $product->min_stock ? $product->min_stock : '' }}</td>
                                         
                                     <td>
                                         <a href="{{ route('products.edit', $product->id) }}"><i class="ri-pencil-fill align-bottom me-2 text-muted" style="color: green !important;"></i></a>
                                         <a class="remove-item-btn" href="#deleteRecordModal" data-bs-toggle="modal" data-company-id="{{ $product->id }}"><i class="ri-delete-bin-fill align-bottom me-2 text-muted" style="color: red !important;"></i></a>
                                     </td>
+
                                 </tr>
                             @endforeach
                         </tbody>

@@ -14,7 +14,7 @@ class ProductController extends Controller
         // return view('products.index', compact('products'));
 
         // Fetch products with their associated company
-        $products = Product::with('company')->get();
+        $products = Product::with('company')->orderBy('name', 'asc')->get();
 
         return view('products.index', compact('products'));
 
@@ -38,6 +38,7 @@ class ProductController extends Controller
             Product::create([
                 'name' => $request->name,
                 'company_id' => $request->company_id,
+                'min_stock' => $request->min_stock ?? 0, // Default to 0 if not provided
             ]);
 
             return redirect()->route('products.index')->with('success', 'Product created successfully.');
@@ -74,6 +75,7 @@ class ProductController extends Controller
         $product->update([
             'name' => $request->name,
             'company_id' => $request->company_id,
+            'min_stock' => $request->min_stock ?? 0, // Default to 0 if not provided
         ]);
 
         return redirect()->route('products.index')->with('success', 'Product updated successfully.');
@@ -90,5 +92,27 @@ class ProductController extends Controller
         return response()->json(['success' => true, 'message' => 'Product deleted successfully.']);
     }
 
+    public function show($id)
+    {
+        $product = Product::findOrFail($id);
+        return view('products.show', compact('product'));
+    }
+
+    public function minimumStock()
+{
+    $products = Product::with('company', 'category')
+        ->whereRaw('
+            (
+                SELECT COALESCE(SUM(quantity + bonus), 0)
+                FROM purchase_stocks
+                WHERE product_id = products.id
+            )
+            <
+            min_stock
+        ')
+        ->get();
+
+    return view('products.minimum_stock', compact('products'));
+}
     
 }

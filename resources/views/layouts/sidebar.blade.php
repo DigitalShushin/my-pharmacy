@@ -1065,6 +1065,9 @@
                             <li class="nav-item">
                                 <a href="{{ route('products.create') }}" class="nav-link">Add New</a>
                             </li>                            
+                            <li class="nav-item">
+                                <a href="{{ route('products.minimum-stock') }}" class="nav-link">Order List</a>
+                            </li>                            
                         </ul>
                     </div>
                 </li><!-- end Dashboard Menu --> 

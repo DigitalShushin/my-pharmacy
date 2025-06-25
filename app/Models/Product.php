@@ -12,7 +12,7 @@ class Product extends Model
     protected $table = 'products';
 
     protected $fillable = [
-        'name', 'description', 'category_id', 'company_id', 'image_path'
+        'name', 'description', 'category_id', 'company_id', 'image_path', 'min_stock'
     ];
 
     public function company()
@@ -33,5 +33,17 @@ class Product extends Model
     public function saleReturnItems()
     {
         return $this->hasMany(SaleReturnItem::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function getTotalStockAttribute()
+    {
+        return $this->purchaseStocks->sum(function ($stock) {
+            return $stock->quantity + $stock->bonus;
+        });
     }
 }

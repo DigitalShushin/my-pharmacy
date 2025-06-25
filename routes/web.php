@@ -66,12 +66,15 @@ Route::delete('/admin/company/delete/{id}', [CompanyController::class, 'destroy'
 
 
 // Product
+// Minimum Stock
+Route::get('/products/order-list', [ProductController::class, 'minimumStock'])->name('products.minimum-stock');
 Route::resource('products', ProductController::class);
 
 // Purchase
 Route::resource('purchases', PurchaseController::class);
 // Route::get('/purchases/{purchase}/edit', [PurchaseController::class, 'edit'])->name('purchases.edit');
 Route::get('/purchases/edit/{purchase}', [PurchaseController::class, 'edit'])->name('purchases.edit');
+
 
 // Sales
 Route::get('/sales/customer-by-phone', [CustomerController::class, 'getByPhone']);

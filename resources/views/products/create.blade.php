@@ -35,7 +35,7 @@
                         @csrf
                         <div class="row">
                             <!-- Company Name -->
-                            <div class="col-md-5">
+                            <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="companySelect" class="form-label">Company Name</label>
                                     <select class="form-control select2" name="company_id" id="companySelect" required>
@@ -53,13 +53,21 @@
                             </div>
                             
                             <!-- Contact Person -->
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <div class="mb-3">
-                                    <label for="contactNameinput" class="form-label">Medicine Name</label>
-                                    <input type="text" class="form-control" name="name" placeholder="Enter medicine name" id="nameinput">
+                                    <label for="contactNameinput" class="form-label">Product / Medicine Name</label>
+                                    <input type="text" class="form-control" name="name" placeholder="Enter product / medicine name" id="nameinput">
                                     @error('name')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
+                                </div>
+                            </div>
+
+                            <!-- Minimum Stock -->
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label for="min_stock" class="form-label">Minimum Stock</label>
+                                    <input type="number" name="min_stock" id="min_stock" class="form-control" placeholder="Enter minimum stock">
                                 </div>
                             </div>
 

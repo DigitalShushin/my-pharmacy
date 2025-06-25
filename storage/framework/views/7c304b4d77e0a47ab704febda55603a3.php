@@ -26,8 +26,8 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                <h5 class="card-title mb-0">Products List
-                <a href="<?php echo e(route('products.create')); ?>" class="btn btn-info add-btn float-right" style="float: right;"><i class="ri-add-fill me-1 align-bottom"></i> Add New</a></h5>
+                <h5 class="card-title mb-0">Order List
+                <!-- <a href="<?php echo e(route('products.create')); ?>" class="btn btn-info add-btn float-right" style="float: right;"><i class="ri-add-fill me-1 align-bottom"></i> Add New</a></h5> -->
                     
                     <!-- <a class="addCompanyBtn btn btn-info add-btn" href="javascript:void(0);" data-bs-toggle="modal"><i class="ri-add-fill me-1 align-bottom text-muted"></i> Add New</a> -->
                 </div>
@@ -43,8 +43,9 @@
                                 <th class="sort" data-sort="company_name" scope="col">Company Name</th>
                                 <!-- <th class="sort" data-sort="product_image" scope="col">Product Image</th> -->
                                 <th class="sort" data-sort="minimum_stock" scope="col">Minimum Stock</th>
+                                <th class="sort" data-sort="stock" scope="col">Available Stock</th>
                                 
-                                <th>Action</th>
+                                <!-- <th>Action</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -60,11 +61,12 @@
                                     <!-- <td><?php echo e($product->image_path); ?></td> -->
                                     
                                     <td><?php echo e($product->min_stock ? $product->min_stock : ''); ?></td>
+                                    <td><?php echo e($product->min_stock ? $product->total_stock : 0); ?></td>
                                         
-                                    <td>
+                                    <!-- <td>
                                         <a href="<?php echo e(route('products.edit', $product->id)); ?>"><i class="ri-pencil-fill align-bottom me-2 text-muted" style="color: green !important;"></i></a>
                                         <a class="remove-item-btn" href="#deleteRecordModal" data-bs-toggle="modal" data-company-id="<?php echo e($product->id); ?>"><i class="ri-delete-bin-fill align-bottom me-2 text-muted" style="color: red !important;"></i></a>
-                                    </td>
+                                    </td> -->
 
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -352,4 +354,4 @@
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 
 <script src="<?php echo e(URL::asset('build/js/pages/datatables.init.js')); ?>"></script>
-<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\shushin_projects\pharmacy-laravel\resources\views/products/index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\shushin_projects\pharmacy-laravel\resources\views/products/minimum_stock.blade.php ENDPATH**/ ?>

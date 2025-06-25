@@ -24,7 +24,7 @@
         <div class="col-xxl-12">
             <div class="card">
                 <div class="card-header align-items-center d-flex">
-                    <h4 class="card-title mb-0 flex-grow-1">Add Product / Medicine</h4>
+                    <h4 class="card-title mb-0 flex-grow-1">Edit Product / Medicine</h4>
                     
                 </div><!-- end card header -->
 
@@ -37,7 +37,7 @@
 
                         <div class="row">
                             <!-- Company Name -->
-                            <div class="col-md-5">
+                            <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="companySelect" class="form-label">Company Name</label>
                                     <select class="form-control select2" name="company_id" id="companySelect" required>
@@ -64,10 +64,10 @@
                             
 
                             <!-- Medicine Name -->
-                            <div class="col-md-6">
+                            <div class="col-md-5">
                                 <div class="mb-3">
-                                    <label for="contactNameinput" class="form-label">Medicine Name</label>
-                                    <input type="text" class="form-control" name="name" placeholder="Enter medicine name" id="nameinput" value="<?php echo e($product->name); ?>">
+                                    <label for="contactNameinput" class="form-label">Product / Medicine Name</label>
+                                    <input type="text" class="form-control" name="name" placeholder="Enter product / medicine name" id="nameinput" value="<?php echo e($product->name); ?>">
                                     <?php $__errorArgs = ['name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -78,6 +78,14 @@ $message = $__bag->first($__errorArgs[0]); ?>
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
+                                </div>
+                            </div>
+
+                            <!-- Minimum Stock -->
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label for="min_stock" class="form-label">Minimum Stock</label>
+                                    <input type="number" name="min_stock" id="min_stock" class="form-control" placeholder="Enter minimum stock" value="<?php echo e(old('min_stock', $product->min_stock ?? 0)); ?>">
                                 </div>
                             </div>
 

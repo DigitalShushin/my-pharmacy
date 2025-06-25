@@ -1,10 +1,10 @@
-
-<?php $__env->startSection('title'); ?> <?php echo app('translator')->get('translation.dashboards'); ?> <?php $__env->stopSection(); ?>
-<?php $__env->startSection('css'); ?>
-    <link href="<?php echo e(URL::asset('build/libs/jsvectormap/css/jsvectormap.min.css')); ?>" rel="stylesheet" type="text/css" />
-    <link href="<?php echo e(URL::asset('build/libs/swiper/swiper-bundle.min.css')); ?>" rel="stylesheet" type="text/css" />
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('content'); ?>
+@extends('layouts.master')
+@section('title') @lang('translation.dashboards') @endsection
+@section('css')
+    <link href="{{ URL::asset('build/libs/jsvectormap/css/jsvectormap.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ URL::asset('build/libs/swiper/swiper-bundle.min.css')}}" rel="stylesheet" type="text/css" />
+@endsection
+@section('content')
     <!--datatable css-->
     <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
     <!--datatable responsive css-->
@@ -26,8 +26,8 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                <h5 class="card-title mb-0">Products List
-                <a href="<?php echo e(route('products.create')); ?>" class="btn btn-info add-btn float-right" style="float: right;"><i class="ri-add-fill me-1 align-bottom"></i> Add New</a></h5>
+                <h5 class="card-title mb-0">Order List
+                <!-- <a href="{{ route('products.create') }}" class="btn btn-info add-btn float-right" style="float: right;"><i class="ri-add-fill me-1 align-bottom"></i> Add New</a></h5> -->
                     
                     <!-- <a class="addCompanyBtn btn btn-info add-btn" href="javascript:void(0);" data-bs-toggle="modal"><i class="ri-add-fill me-1 align-bottom text-muted"></i> Add New</a> -->
                 </div>
@@ -43,31 +43,33 @@
                                 <th class="sort" data-sort="company_name" scope="col">Company Name</th>
                                 <!-- <th class="sort" data-sort="product_image" scope="col">Product Image</th> -->
                                 <th class="sort" data-sort="minimum_stock" scope="col">Minimum Stock</th>
+                                <th class="sort" data-sort="stock" scope="col">Available Stock</th>
                                 
-                                <th>Action</th>
+                                <!-- <th>Action</th> -->
                             </tr>
                         </thead>
                         <tbody>
                             <?php $sn = 0; ?>
-                            <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <tr data-row-id="<?php echo e($product->id); ?>">
-                                    <td><?php echo e(++$sn); ?></td>
-                                    <td><?php echo e($product->name); ?></td>
-                                    <!-- <td><?php echo e($product->description); ?></td> -->
-                                    <!-- <td><?php echo e($product->category_name); ?></td> -->
+                            @foreach($products as $product)
+                                <tr data-row-id="{{ $product->id }}">
+                                    <td>{{ ++$sn }}</td>
+                                    <td>{{ $product->name }}</td>
+                                    <!-- <td>{{ $product->description }}</td> -->
+                                    <!-- <td>{{ $product->category_name }}</td> -->
 
-                                    <td><?php echo e($product->company ? $product->company->name : ''); ?></td>
-                                    <!-- <td><?php echo e($product->image_path); ?></td> -->
+                                    <td>{{ $product->company ? $product->company->name : '' }}</td>
+                                    <!-- <td>{{ $product->image_path }}</td> -->
                                     
-                                    <td><?php echo e($product->min_stock ? $product->min_stock : ''); ?></td>
+                                    <td>{{ $product->min_stock ? $product->min_stock : '' }}</td>
+                                    <td>{{ $product->min_stock ? $product->total_stock : 0 }}</td>
                                         
-                                    <td>
-                                        <a href="<?php echo e(route('products.edit', $product->id)); ?>"><i class="ri-pencil-fill align-bottom me-2 text-muted" style="color: green !important;"></i></a>
-                                        <a class="remove-item-btn" href="#deleteRecordModal" data-bs-toggle="modal" data-company-id="<?php echo e($product->id); ?>"><i class="ri-delete-bin-fill align-bottom me-2 text-muted" style="color: red !important;"></i></a>
-                                    </td>
+                                    <!-- <td>
+                                        <a href="{{ route('products.edit', $product->id) }}"><i class="ri-pencil-fill align-bottom me-2 text-muted" style="color: green !important;"></i></a>
+                                        <a class="remove-item-btn" href="#deleteRecordModal" data-bs-toggle="modal" data-company-id="{{ $product->id }}"><i class="ri-delete-bin-fill align-bottom me-2 text-muted" style="color: red !important;"></i></a>
+                                    </td> -->
 
                                 </tr>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -151,33 +153,33 @@
                 
             </div>
         </div>
-        
-        <?php if(session('success')): ?>
-        <div class="text-danger"><?php echo e(session('success')); ?></div>
-        <?php endif; ?>
+        {{-- Success message --}}
+        @if(session('success'))
+        <div class="text-danger">{{ session('success') }}</div>
+        @endif
 
-        
-        <?php if($errors->any()): ?>
-        <div class="text-danger"><?php echo e($error); ?></div>
-        <?php endif; ?>
+        {{-- Error messages --}}
+        @if($errors->any())
+        <div class="text-danger">{{ $error }}</div>
+        @endif
     </div>
-<?php $__env->stopSection(); ?>
-<?php $__env->startSection('script'); ?>
+@endsection
+@section('script')
     <!-- apexcharts -->
-    <script src="<?php echo e(URL::asset('build/libs/apexcharts/apexcharts.min.js')); ?>"></script>
-    <script src="<?php echo e(URL::asset('build/libs/jsvectormap/js/jsvectormap.min.js')); ?>"></script>
-    <script src="<?php echo e(URL::asset('build/libs/jsvectormap/maps/world-merc.js')); ?>"></script>
-    <script src="<?php echo e(URL::asset('build/libs/swiper/swiper-bundle.min.js')); ?>"></script>
+    <script src="{{ URL::asset('build/libs/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ URL::asset('build/libs/jsvectormap/js/jsvectormap.min.js') }}"></script>
+    <script src="{{ URL::asset('build/libs/jsvectormap/maps/world-merc.js') }}"></script>
+    <script src="{{ URL::asset('build/libs/swiper/swiper-bundle.min.js')}}"></script>
     <!-- dashboard init -->
-    <script src="<?php echo e(URL::asset('build/js/pages/dashboard-ecommerce.init.js')); ?>"></script>
-    <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
+    <script src="{{ URL::asset('build/js/pages/dashboard-ecommerce.init.js') }}"></script>
+    <script src="{{ URL::asset('build/js/app.js') }}"></script>
 
 
 
-    <script src="<?php echo e(URL::asset('build/libs/list.js/list.min.js')); ?>"></script>
-    <script src="<?php echo e(URL::asset('build/libs/list.pagination.js/list.pagination.min.js')); ?>"></script>
-    <!-- <script src="<?php echo e(URL::asset('build/js/pages/crm-contact.init.js')); ?>"></script> -->
-    <script src="<?php echo e(URL::asset('build/libs/sweetalert2/sweetalert2.min.js')); ?>"></script>
+    <script src="{{ URL::asset('build/libs/list.js/list.min.js') }}"></script>
+    <script src="{{ URL::asset('build/libs/list.pagination.js/list.pagination.min.js') }}"></script>
+    <!-- <script src="{{ URL::asset('build/js/pages/crm-contact.init.js') }}"></script> -->
+    <script src="{{ URL::asset('build/libs/sweetalert2/sweetalert2.min.js') }}"></script>
 
     <!-- Custom AJAX script -->
 
@@ -190,7 +192,7 @@
             fetch('/admin/company/add_process/', {
                 method: 'POST',
                 headers: {
-                    'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
@@ -260,7 +262,7 @@
                 fetch(`/products/${productId}`, {
                     method: 'DELETE',
                     headers: {
-                        'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
                         'Content-Type': 'application/json'
                     }
                 })
@@ -332,7 +334,7 @@
         });
     </script>
 
-<?php $__env->stopSection(); ?>
+@endsection
 <style>
     .swal2-title {
     font-size: 1.5rem;
@@ -351,5 +353,4 @@
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 
-<script src="<?php echo e(URL::asset('build/js/pages/datatables.init.js')); ?>"></script>
-<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\shushin_projects\pharmacy-laravel\resources\views/products/index.blade.php ENDPATH**/ ?>
+<script src="{{ URL::asset('build/js/pages/datatables.init.js') }}"></script>
