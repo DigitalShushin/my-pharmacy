@@ -13,11 +13,11 @@
                 <div class="col-12">
                     <div class="d-flex align-items-lg-center flex-lg-row flex-column">
                         <div class="flex-grow-1">
-                            <h4 class="fs-16 mb-1">Good Morning, Shushin!</h4>
+                            <h4 class="fs-16 mb-1">Good Morning!</h4>
                             <p class="text-muted mb-0">Here's what's happening with your store
                                 today.</p>
                         </div>
-                        <div class="mt-3 mt-lg-0">
+                        <?php /* <div class="mt-3 mt-lg-0">
                             <form action="javascript:void(0);">
                                 <div class="row g-3 mb-0 align-items-center">
                                     <div class="col-sm-auto">
@@ -41,7 +41,7 @@
                                 </div>
                                 <!--end row-->
                             </form>
-                        </div>
+                        </div> */ ?>
                     </div><!-- end card header -->
                 </div>
                 <!--end col-->
@@ -49,28 +49,62 @@
             <!--end row-->
 
             <div class="row">
-                <div class="col-xl-3 col-md-6">
+                <div class="col-xl-6 col-md-6">
                     <!-- card -->
                     <div class="card card-animate">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1 overflow-hidden">
                                     <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
-                                        Total Earnings</p>
+                                        Daily Earnings</p>
                                 </div>
                                 <div class="flex-shrink-0">
-                                    <h5 class="text-success fs-14 mb-0">
-                                        <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
-                                        +16.24 %
+                                    <h5 class="fs-14 mb-0 <?php echo e($percentageChange >= 0 ? 'text-success' : 'text-danger'); ?>">
+                                        <i class="ri-arrow-right-<?php echo e($percentageChange >= 0 ? 'up' : 'down'); ?>-line fs-13 align-middle"></i>
+                                        <?php echo e($percentageChange >= 0 ? '+' : ''); ?><?php echo e(number_format($percentageChangeDaily, 2)); ?> %
                                     </h5>
                                 </div>
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
                                 <div>
-                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="559.25">0</span>k
+                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                        Rs.<span class="counter-value" data-target="<?php echo e(number_format($totalEarningsDaily, 2, '.', '')); ?>">0</span>
                                     </h4>
-                                    <a href="" class="text-decoration-underline text-muted">View net
-                                        earnings</a>
+                                    <!-- <a href="" class="text-decoration-underline text-muted">View net
+                                        earnings</a> -->
+                                </div>
+                                <div class="avatar-sm flex-shrink-0">
+                                    <span class="avatar-title bg-soft-success rounded fs-3">
+                                        <i class="bx bx-dollar-circle text-success"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+                <div class="col-xl-6 col-md-6">
+                    <!-- card -->
+                    <div class="card card-animate">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
+                                        Monthly Earnings</p>
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <h5 class="fs-14 mb-0 <?php echo e($percentageChange >= 0 ? 'text-success' : 'text-danger'); ?>">
+                                        <i class="ri-arrow-right-<?php echo e($percentageChange >= 0 ? 'up' : 'down'); ?>-line fs-13 align-middle"></i>
+                                        <?php echo e($percentageChange >= 0 ? '+' : ''); ?><?php echo e(number_format($percentageChange, 2)); ?> %
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-end justify-content-between mt-4">
+                                <div>
+                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                        Rs.<span class="counter-value" data-target="<?php echo e(number_format($totalEarnings, 2, '.', '')); ?>">0</span>
+                                    </h4>
+                                    <!-- <a href="" class="text-decoration-underline text-muted">View net
+                                        earnings</a> -->
                                 </div>
                                 <div class="avatar-sm flex-shrink-0">
                                     <span class="avatar-title bg-soft-success rounded fs-3">
@@ -82,7 +116,7 @@
                     </div><!-- end card -->
                 </div><!-- end col -->
 
-                <div class="col-xl-3 col-md-6">
+                <?php /* <div class="col-xl-4 col-md-6">
                     <!-- card -->
                     <div class="card card-animate">
                         <div class="card-body">
@@ -92,15 +126,19 @@
                                         Orders</p>
                                 </div>
                                 <div class="flex-shrink-0">
-                                    <h5 class="text-danger fs-14 mb-0">
-                                        <i class="ri-arrow-right-down-line fs-13 align-middle"></i>
-                                        -3.57 %
+                                    <h5 class="fs-14 mb-0 {{ $percentageChange >= 0 ? 'text-success' : 'text-danger' }}">
+                                        <i class="ri-arrow-right-{{ $percentageChange >= 0 ? 'up' : 'down' }}-line fs-13 align-middle"></i>
+                                        {{ $percentageChangeSale >= 0 ? '+' : '' }}{{ number_format($percentageChangeSale, 2) }} %
                                     </h5>
+
+                                    
                                 </div>
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
                                 <div>
-                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="36894">0</span></h4>
+                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                        <span class="counter-value" data-target="{{ $totalOrders }}">0</span>
+                                    </h4>
                                     <a href="" class="text-decoration-underline text-muted">View all
                                         orders</a>
                                 </div>
@@ -114,7 +152,7 @@
                     </div><!-- end card -->
                 </div><!-- end col -->
 
-                <div class="col-xl-3 col-md-6">
+                <div class="col-xl-4 col-md-6">
                     <!-- card -->
                     <div class="card card-animate">
                         <div class="card-body">
@@ -124,15 +162,16 @@
                                         Customers</p>
                                 </div>
                                 <div class="flex-shrink-0">
-                                    <h5 class="text-success fs-14 mb-0">
-                                        <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
-                                        +29.08 %
+                                    <h5 class="fs-14 mb-0 {{ $percentageChange >= 0 ? 'text-success' : 'text-danger' }}">
+                                        <i class="ri-arrow-right-{{ $percentageChange >= 0 ? 'up' : 'down' }}-line fs-13 align-middle"></i>
+                                        {{ $percentageChangeCustomer >= 0 ? '+' : '' }}{{ number_format($percentageChangeCustomer, 2) }} %
                                     </h5>
                                 </div>
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
                                 <div>
-                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="183.35">0</span>M
+                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                        <span class="counter-value" data-target="{{ $totalCustomers }}">0</span>
                                     </h4>
                                     <a href="" class="text-decoration-underline text-muted">See
                                         details</a>
@@ -147,7 +186,7 @@
                     </div><!-- end card -->
                 </div><!-- end col -->
 
-                <div class="col-xl-3 col-md-6">
+                 <div class="col-xl-3 col-md-6">
                     <!-- card -->
                     <div class="card card-animate">
                         <div class="card-body">
@@ -177,9 +216,116 @@
                             </div>
                         </div><!-- end card body -->
                     </div><!-- end card -->
-                </div><!-- end col -->
+                </div><!-- end col --> */ ?>
             </div> <!-- end row-->
 
+            <div class="row">
+                <div class="col-xl-12">
+                    <h3>Daily Earnings</h3>
+                    <div class="card">                                                
+
+                        <div class="card-header p-0 border-0 bg-soft-light">
+                            <div class="row g-0 align-items-center">
+                                <!-- Earnings Block on Right -->
+                                <div class="col-6 col-sm-3 ms-auto text-end">
+                                    <div class="p-3 border border-dashed border-start-0">
+                                        <h5 class="mb-1">Rs. <?php echo e(number_format($todayEarnings, 2)); ?></h5>
+                                        <p class="text-muted mb-0">Earnings</p>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                                
+                            </div>
+                        </div><!-- end card header -->
+
+                        <div class="card-body p-0 pb-2">
+                            <div class="w-100">
+                                <div id="customer_impression_charts_2" class="apex-charts" dir="ltr"></div>
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+
+                
+            </div>
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <h3>Monthly Earnings</h3>
+                    <div class="card">
+                        <?php /*<div class="card-header border-0 align-items-center d-flex">
+                            <h4 class="card-title mb-0 flex-grow-1">Revenue</h4>
+                            <div>
+                                <button type="button" class="btn btn-soft-secondary btn-sm">
+                                    ALL
+                                </button>
+                                <button type="button" class="btn btn-soft-secondary btn-sm">
+                                    1M
+                                </button>
+                                <button type="button" class="btn btn-soft-secondary btn-sm">
+                                    6M
+                                </button>
+                                <button type="button" class="btn btn-soft-primary btn-sm">
+                                    1Y
+                                </button>
+                            </div>
+                        </div><!-- end card header -->*/ ?>
+                        
+
+                        <div class="card-header p-0 border-0 bg-soft-light">
+                            <div class="row g-0 align-items-center">
+                                <!-- Earnings Block on Right -->
+                                <div class="col-6 col-sm-3 ms-auto text-end">
+                                    <div class="p-3 border border-dashed border-start-0">
+                                        <h5 class="mb-1">Rs. <?php echo e(number_format($totalEarnings, 2)); ?></h5>
+                                        <p class="text-muted mb-0">Earnings</p>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                                <?php /*
+                                <div class="col-6 col-sm-3">
+                                    <div class="p-3 border border-dashed border-start-0">
+                                        <h5 class="mb-1"><span class="counter-value" data-target="7585">0</span></h5>
+                                        <p class="text-muted mb-0">Orders</p>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                                <div class="col-6 col-sm-3">
+                                    <div class="p-3 border border-dashed border-start-0">
+                                        <h5 class="mb-1">$<span class="counter-value" data-target="22.89">0</span>k</h5>
+                                        <p class="text-muted mb-0">Earnings</p>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                                <div class="col-6 col-sm-3">
+                                    <div class="p-3 border border-dashed border-start-0">
+                                        <h5 class="mb-1"><span class="counter-value" data-target="367">0</span></h5>
+                                        <p class="text-muted mb-0">Refunds</p>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                                <div class="col-6 col-sm-3">
+                                    <div class="p-3 border border-dashed border-start-0 border-end-0">
+                                        <h5 class="mb-1 text-success"><span class="counter-value" data-target="18.92">0</span>%</h5>
+                                        <p class="text-muted mb-0">Conversation Ratio</p>
+                                    </div>
+                                </div>
+                                <!--end col-->*/ ?>
+                            </div>
+                        </div><!-- end card header -->
+
+                        <div class="card-body p-0 pb-2">
+                            <div class="w-100">
+                                <div id="customer_impression_charts" class="apex-charts" dir="ltr"></div>
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+
+                
+            </div>
+            
+<?php /*
             <div class="row">
                 <div class="col-xl-8">
                     <div class="card">
@@ -287,6 +433,8 @@
                 <!-- end col -->
             </div>
 
+            
+
             <div class="row">
                 <div class="col-xl-6">
                     <div class="card">
@@ -318,7 +466,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="avatar-sm bg-light rounded p-1 me-2">
-                                                        <img src="<?php echo e(URL::asset('build/images/products/img-1.png')); ?>" alt="" class="img-fluid d-block" />
+                                                        <img src="{{URL::asset('build/images/products/img-1.png')}}" alt="" class="img-fluid d-block" />
                                                     </div>
                                                     <div>
                                                         <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details" class="text-reset">Branded
@@ -348,7 +496,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="avatar-sm bg-light rounded p-1 me-2">
-                                                        <img src="<?php echo e(URL::asset('build/images/products/img-2.png')); ?>" alt="" class="img-fluid d-block" />
+                                                        <img src="{{URL::asset('build/images/products/img-2.png')}}" alt="" class="img-fluid d-block" />
                                                     </div>
                                                     <div>
                                                         <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details" class="text-reset">Bentwood
@@ -379,7 +527,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="avatar-sm bg-light rounded p-1 me-2">
-                                                        <img src="<?php echo e(URL::asset('build/images/products/img-3.png')); ?>" alt="" class="img-fluid d-block" />
+                                                        <img src="{{URL::asset('build/images/products/img-3.png')}}" alt="" class="img-fluid d-block" />
                                                     </div>
                                                     <div>
                                                         <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details" class="text-reset">Borosil Paper
@@ -409,7 +557,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="avatar-sm bg-light rounded p-1 me-2">
-                                                        <img src="<?php echo e(URL::asset('build/images/products/img-4.png')); ?>" alt="" class="img-fluid d-block" />
+                                                        <img src="{{URL::asset('build/images/products/img-4.png')}}" alt="" class="img-fluid d-block" />
                                                     </div>
                                                     <div>
                                                         <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details" class="text-reset">One Seater
@@ -440,7 +588,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="avatar-sm bg-light rounded p-1 me-2">
-                                                        <img src="<?php echo e(URL::asset('build/images/products/img-5.png')); ?>" alt="" class="img-fluid d-block" />
+                                                        <img src="{{URL::asset('build/images/products/img-5.png')}}" alt="" class="img-fluid d-block" />
                                                     </div>
                                                     <div>
                                                         <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details" class="text-reset">Stillbird
@@ -527,7 +675,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 me-2">
-                                                        <img src="<?php echo e(URL::asset('build/images/companies/img-1.png')); ?>" alt="" class="avatar-sm p-2" />
+                                                        <img src="{{URL::asset('build/images/companies/img-1.png')}}" alt="" class="avatar-sm p-2" />
                                                     </div>
                                                     <div>
                                                         <h5 class="fs-14 my-1 fw-medium"><a href="apps-ecommerce-seller-details" class="text-reset">iTest Factory</a>
@@ -555,7 +703,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 me-2">
-                                                        <img src="<?php echo e(URL::asset('build/images/companies/img-2.png')); ?>" alt="" class="avatar-sm p-2" />
+                                                        <img src="{{URL::asset('build/images/companies/img-2.png')}}" alt="" class="avatar-sm p-2" />
                                                     </div>
                                                     <div class="flex-grow-1">
                                                         <h5 class="fs-14 my-1 fw-medium"><a href="apps-ecommerce-seller-details" class="text-reset">Digitech
@@ -583,7 +731,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 me-2">
-                                                        <img src="<?php echo e(URL::asset('build/images/companies/img-3.png')); ?>" alt="" class="avatar-sm p-2" />
+                                                        <img src="{{URL::asset('build/images/companies/img-3.png')}}" alt="" class="avatar-sm p-2" />
                                                     </div>
                                                     <div class="flex-gow-1">
                                                         <h5 class="fs-14 my-1 fw-medium"><a href="apps-ecommerce-seller-details" class="text-reset">Nesta
@@ -612,7 +760,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 me-2">
-                                                        <img src="<?php echo e(URL::asset('build/images/companies/img-8.png')); ?>" alt="" class="avatar-sm p-2" />
+                                                        <img src="{{URL::asset('build/images/companies/img-8.png')}}" alt="" class="avatar-sm p-2" />
                                                     </div>
                                                     <div class="flex-grow-1">
                                                         <h5 class="fs-14 my-1 fw-medium"><a href="apps-ecommerce-seller-details" class="text-reset">Zoetic
@@ -640,7 +788,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 me-2">
-                                                        <img src="<?php echo e(URL::asset('build/images/companies/img-5.png')); ?>" alt="" class="avatar-sm p-2" />
+                                                        <img src="{{URL::asset('build/images/companies/img-5.png')}}" alt="" class="avatar-sm p-2" />
                                                     </div>
                                                     <div class="flex-grow-1">
                                                         <h5 class="fs-14 my-1 fw-medium"><a href="apps-ecommerce-seller-details" class="text-reset">Meta4Systems</a>
@@ -758,7 +906,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 me-2">
-                                                        <img src="<?php echo e(URL::asset('build/images/users/avatar-1.jpg')); ?>" alt="" class="avatar-xs rounded-circle" />
+                                                        <img src="{{URL::asset('build/images/users/avatar-1.jpg')}}" alt="" class="avatar-xs rounded-circle" />
                                                     </div>
                                                     <div class="flex-grow-1">Alex Smith</div>
                                                 </div>
@@ -783,7 +931,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 me-2">
-                                                        <img src="<?php echo e(URL::asset('build/images/users/avatar-2.jpg')); ?>" alt="" class="avatar-xs rounded-circle" />
+                                                        <img src="{{URL::asset('build/images/users/avatar-2.jpg')}}" alt="" class="avatar-xs rounded-circle" />
                                                     </div>
                                                     <div class="flex-grow-1">Jansh Brown</div>
                                                 </div>
@@ -808,7 +956,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 me-2">
-                                                        <img src="<?php echo e(URL::asset('build/images/users/avatar-3.jpg')); ?>" alt="" class="avatar-xs rounded-circle" />
+                                                        <img src="{{URL::asset('build/images/users/avatar-3.jpg')}}" alt="" class="avatar-xs rounded-circle" />
                                                     </div>
                                                     <div class="flex-grow-1">Ayaan Bowen</div>
                                                 </div>
@@ -833,7 +981,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 me-2">
-                                                        <img src="<?php echo e(URL::asset('build/images/users/avatar-4.jpg')); ?>" alt="" class="avatar-xs rounded-circle" />
+                                                        <img src="{{URL::asset('build/images/users/avatar-4.jpg')}}" alt="" class="avatar-xs rounded-circle" />
                                                     </div>
                                                     <div class="flex-grow-1">Prezy Mark</div>
                                                 </div>
@@ -858,7 +1006,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0 me-2">
-                                                        <img src="<?php echo e(URL::asset('build/images/users/avatar-6.jpg')); ?>" alt="" class="avatar-xs rounded-circle" />
+                                                        <img src="{{URL::asset('build/images/users/avatar-6.jpg')}}" alt="" class="avatar-xs rounded-circle" />
                                                     </div>
                                                     <div class="flex-grow-1">Vihan Hudda</div>
                                                 </div>
@@ -922,13 +1070,13 @@
                                     <p class="text-muted mb-1">By Nesta Technologies</p>
                                     <div class="d-inline-flex gap-2 border border-dashed p-2 mb-2">
                                         <a href="apps-ecommerce-product-details" class="bg-light rounded p-1">
-                                            <img src="<?php echo e(URL::asset('build/images/products/img-8.png')); ?>" alt="" class="img-fluid d-block" />
+                                            <img src="{{URL::asset('build/images/products/img-8.png')}}" alt="" class="img-fluid d-block" />
                                         </a>
                                         <a href="apps-ecommerce-product-details" class="bg-light rounded p-1">
-                                            <img src="<?php echo e(URL::asset('build/images/products/img-2.png')); ?>" alt="" class="img-fluid d-block" />
+                                            <img src="{{URL::asset('build/images/products/img-2.png')}}" alt="" class="img-fluid d-block" />
                                         </a>
                                         <a href="apps-ecommerce-product-details" class="bg-light rounded p-1">
-                                            <img src="<?php echo e(URL::asset('build/images/products/img-10.png')); ?>" alt="" class="img-fluid d-block" />
+                                            <img src="{{URL::asset('build/images/products/img-10.png')}}" alt="" class="img-fluid d-block" />
                                         </a>
                                     </div>
                                     <p class="mb-0 text-muted"><small>9:47 PM Yesterday</small></p>
@@ -936,7 +1084,7 @@
                             </div>
                             <div class="acitivity-item py-3 d-flex">
                                 <div class="flex-shrink-0">
-                                    <img src="<?php echo e(URL::asset('build/images/users/avatar-2.jpg')); ?>" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                    <img src="{{URL::asset('build/images/users/avatar-2.jpg')}}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h6 class="mb-1 lh-base">Natasha Carey have liked the products
@@ -1009,7 +1157,7 @@
                             </div>
                             <div class="acitivity-item d-flex">
                                 <div class="flex-shrink-0">
-                                    <img src="<?php echo e(URL::asset('build/images/users/avatar-3.jpg')); ?>" alt="" class="avatar-xs rounded-circle acitivity-avatar" />
+                                    <img src="{{URL::asset('build/images/users/avatar-3.jpg')}}" alt="" class="avatar-xs rounded-circle acitivity-avatar" />
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h6 class="mb-1 lh-base">Frank Hook Commented</h6>
@@ -1073,7 +1221,7 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 avatar-sm">
                                                     <div class="avatar-title bg-light rounded">
-                                                        <img src="<?php echo e(URL::asset('build/images/companies/img-1.png')); ?>" alt="" height="30">
+                                                        <img src="{{URL::asset('build/images/companies/img-1.png')}}" alt="" height="30">
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1 ms-3">
@@ -1103,7 +1251,7 @@
                                         <div class="card-body">
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0">
-                                                    <img src="<?php echo e(URL::asset('build/images/users/avatar-3.jpg')); ?>" alt="" class="avatar-sm rounded">
+                                                    <img src="{{URL::asset('build/images/users/avatar-3.jpg')}}" alt="" class="avatar-sm rounded">
                                                 </div>
                                                 <div class="flex-grow-1 ms-3">
                                                     <div>
@@ -1133,7 +1281,7 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 avatar-sm">
                                                     <div class="avatar-title bg-light rounded">
-                                                        <img src="<?php echo e(URL::asset('build/images/companies/img-8.png')); ?>" alt="" height="30">
+                                                        <img src="{{URL::asset('build/images/companies/img-8.png')}}" alt="" height="30">
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1 ms-3">
@@ -1163,7 +1311,7 @@
                                         <div class="card-body">
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0">
-                                                    <img src="<?php echo e(URL::asset('build/images/users/avatar-2.jpg')); ?>" alt="" class="avatar-sm rounded">
+                                                    <img src="{{URL::asset('build/images/users/avatar-2.jpg')}}" alt="" class="avatar-sm rounded">
                                                 </div>
                                                 <div class="flex-grow-1 ms-3">
                                                     <div>
@@ -1325,7 +1473,7 @@
 
                     <div class="card sidebar-alert bg-light border-0 text-center mx-4 mb-0 mt-3">
                         <div class="card-body">
-                            <img src="<?php echo e(URL::asset('build/images/giftbox.png')); ?>" alt="">
+                            <img src="{{URL::asset('build/images/giftbox.png')}}" alt="">
                             <div class="mt-4">
                                 <h5>Invite New Seller</h5>
                                 <p class="text-muted lh-base">Refer a new seller to us and earn $100
@@ -1338,7 +1486,8 @@
 
                 </div>
             </div> <!-- end card-->
-        </div> <!-- end .rightbar-->
+        </div> <!-- end .rightbar--> 
+        */ ?>
 
     </div> <!-- end col -->
 </div>
@@ -1353,6 +1502,124 @@
 <!-- dashboard init -->
 <script src="<?php echo e(URL::asset('build/js/pages/dashboard-ecommerce.init.js')); ?>"></script>
 <script src="<?php echo e(URL::asset('build/js/app.js')); ?>"></script>
+
+<script>
+    var earningsData = <?php echo json_encode(array_values($mergedEarnings), 15, 512) ?>;
+    var monthLabels = <?php echo json_encode(array_keys($mergedEarnings), 15, 512) ?>;
+
+    var dailyEarnings = <?php echo json_encode(array_values($mergedDailyEarnings), 15, 512) ?>;
+    var dailyLabels = <?php echo json_encode(array_keys($mergedDailyEarnings), 15, 512) ?>;
+</script>
+<!-- <script>
+    var options = {
+        chart: {
+            type: 'area',
+            height: 350,
+            toolbar: { show: false }
+        },
+        series: [{
+            name: 'Earnings',
+            data: earningsData
+        }],
+        xaxis: {
+            categories: monthLabels
+        },
+        colors: ['#3b76e1'], // You can customize the color
+        dataLabels: { enabled: false },
+        stroke: {
+            curve: 'smooth'
+        },
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shadeIntensity: 1,
+                opacityFrom: 0.6,
+                opacityTo: 0.1,
+                stops: [0, 90, 100]
+            }
+        },
+        tooltip: {
+            y: {
+                formatter: function (val) {
+                    return "Rs. " + val.toFixed(2);
+                }
+            }
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#customer_impression_charts"), options);
+    chart.render();
+</script> -->
+
+<!-- Daily -->
+<script>
+    var options = {
+    chart: {
+        type: 'bar',
+        height: 350,
+        toolbar: { show: false }
+    },
+    series: [{
+        name: 'Earnings',
+        data: dailyEarnings
+    }],
+    xaxis: {
+        categories: dailyLabels
+    },
+    colors: ['#3b76e1'],
+    dataLabels: { enabled: false },
+    plotOptions: {
+        bar: {
+            borderRadius: 4,
+            columnWidth: '50%',
+        }
+    },
+    tooltip: {
+        y: {
+            formatter: function (val) {
+                return "Rs. " + val.toFixed(2);
+            }
+        }
+    }
+};
+    var chart = new ApexCharts(document.querySelector("#customer_impression_charts_2"), options);
+    chart.render();
+</script>
+
+<!-- Monthly  -->
+ <script>
+    var options = {
+    chart: {
+        type: 'bar',
+        height: 350,
+        toolbar: { show: false }
+    },
+    series: [{
+        name: 'Earnings',
+        data: earningsData
+    }],
+    xaxis: {
+        categories: monthLabels
+    },
+    colors: ['#3b76e1'],
+    dataLabels: { enabled: true },
+    plotOptions: {
+        bar: {
+            borderRadius: 4,
+            columnWidth: '50%',
+        }
+    },
+    tooltip: {
+        y: {
+            formatter: function (val) {
+                return "Rs. " + val.toFixed(2);
+            }
+        }
+    }
+};
+    var chart = new ApexCharts(document.querySelector("#customer_impression_charts"), options);
+    chart.render();
+</script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\shushin_projects\pharmacy-laravel\resources\views/index.blade.php ENDPATH**/ ?>

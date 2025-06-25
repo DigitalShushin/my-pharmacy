@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 
+use App\Models\SaleReturn;
+use App\Models\SaleReturnItem;
+use App\Models\Sale;
+use App\Models\SalesItem;
+use App\Models\Customer;
+
+use Carbon\Carbon;
+
 class HomeController extends Controller
 {
     /**
@@ -36,7 +44,159 @@ class HomeController extends Controller
 
     public function root()
     {
-        return view('index');
+        $thisMonth = now()->month;
+        $thisYear = now()->year;
+
+        $today = Carbon::today();
+        $yesterday = Carbon::yesterday();
+
+        // Total sales amount(Daily Sales)
+        $totalSalesDaily = Sale::whereDate('created_at', $today)
+                            ->sum('total_amount');
+
+    
+        $totalReturnsDaily = SaleReturnItem::whereDate('created_at', $today)
+                                ->selectRaw('SUM(rate * quantity) as total')
+                                ->value('total') ?? 0;
+
+        $totalEarningsDaily = $totalSalesDaily - $totalReturnsDaily;
+
+        $currentEarningsDaily = Sale::whereDate('created_at', $today)
+                            ->sum('total_amount');
+
+        $previousEarningsDaily = Sale::whereDate('created_at', $yesterday)
+                            ->sum('total_amount');
+
+        if ($previousEarningsDaily == 0) {
+            $percentageChangeDaily = $currentEarningsDaily > 0 ? 100 : 0; // handle divide by zero
+        } else {
+            $percentageChangeDaily = (($currentEarningsDaily - $previousEarningsDaily) / $previousEarningsDaily) * 100;
+        }
+
+        // Total sales amount(Monthly Sales)
+        $totalSales = Sale::whereMonth('created_at', $thisMonth)
+                      ->whereYear('created_at', $thisYear)
+                      ->sum('total_amount');
+
+        $totalReturns = SaleReturn::whereMonth('created_at', $thisMonth)
+                         ->whereYear('created_at', $thisYear)
+                         ->sum('total_refund') ?? 0;
+
+        $totalEarnings = $totalSales - $totalReturns;
+
+        // Current month start and end
+        $thisMonthStart = Carbon::now()->startOfMonth()->toDateString();
+        $thisMonthEnd = Carbon::now()->endOfMonth()->toDateString();
+
+        // Last month start and end
+        $lastMonthStart = Carbon::now()->subMonth()->startOfMonth()->toDateString();
+        $lastMonthEnd = Carbon::now()->subMonth()->endOfMonth()->toDateString();
+
+        $currentEarnings = Sale::whereBetween('created_at', [$thisMonthStart, $thisMonthEnd])
+                           ->sum('total_amount');
+
+        $previousEarnings = Sale::whereBetween('created_at', [$lastMonthStart, $lastMonthEnd])
+                           ->sum('total_amount');
+
+        if ($previousEarnings == 0) {
+            $percentageChange = $currentEarnings > 0 ? 100 : 0; // handle divide by zero
+        } else {
+            $percentageChange = (($currentEarnings - $previousEarnings) / $previousEarnings) * 100;
+        }
+
+        // Sales COunt
+        // $totalOrders = Sale::whereMonth('created_at', now()->month)
+        //                     ->whereYear('created_at', now()->year)
+        //                     ->count();
+
+        // $currentEarningsSale = SalesItem::whereBetween('created_at', [$thisMonthStart, $thisMonthEnd])->count();
+
+        // $previousEarningsSale = SalesItem::whereBetween('created_at', [$lastMonthStart, $lastMonthEnd]) ->count();
+
+        // if ($previousEarningsSale == 0) {
+        //     $percentageChangeSale = $currentEarningsSale > 0 ? 100 : 0; // handle divide by zero
+        // } else {
+        //     $percentageChangeSale = (($currentEarningsSale - $previousEarningsSale) / $previousEarningsSale) * 100;
+        // }
+
+        // Customer Count
+        // $totalCustomers = Customer::whereMonth('created_at', $thisMonth)
+        //                   ->whereYear('created_at', $thisYear)
+        //                   ->count();
+
+        // $currentCustomer = Customer::whereBetween('created_at', [$thisMonthStart, $thisMonthEnd])->count();
+
+        // $previousCustomer = Customer::whereBetween('created_at', [$lastMonthStart, $lastMonthEnd]) ->count();
+
+        // if ($previousCustomer == 0) {
+        //     $percentageChangeCustomer = $currentCustomer > 0 ? 100 : 0;
+        // } else {
+        //     $percentageChangeCustomer = (($currentCustomer - $previousCustomer) / $previousCustomer) * 100;
+        // }
+
+        // dd($currentCustomer, $previousCustomer);
+
+        // return view('index', compact('totalEarnings', 'percentageChange', 'totalOrders', 'percentageChangeSale', 'totalCustomers', 'percentageChangeCustomer'));
+
+        // Earnings
+        $totalEarnings = Sale::selectRaw('SUM(total_amount) as total')->value('total') ?? 0;
+
+        // Daily earnings
+        $now = Carbon::now();
+        $daysInMonth = $now->daysInMonth; // e.g., 30 or 31
+
+        $startOfMonth = $now->copy()->startOfMonth(); // e.g., 2025-06-01 00:00:00
+        $endOfToday = $now->copy()->endOfDay();  
+
+        $dailyEarnings = Sale::selectRaw("DATE(created_at) as date, SUM(total_amount) as total")
+                                    ->whereBetween('created_at', [$startOfMonth, $endOfToday])
+                                    ->groupBy('date')
+                                    ->pluck('total', 'date')
+                                    ->toArray();
+
+        // Create array with keys = '01', '02', ... and values = 0
+        $allDays = [];
+
+        // generate upto today's date in a month
+        // for ($day = 1; $day <= $now->day; $day++) {
+        //     $date = $now->copy()->startOfMonth()->addDays($day - 1)->toDateString(); // e.g., 2025-06-01
+        //     $allDays[$date] = 0;
+        // }
+
+        // generate whole days in a month
+        for ($day = 1; $day <= $daysInMonth; $day++) {
+            $date = $now->copy()->startOfMonth()->addDays($day - 1)->toDateString(); // 'YYYY-MM-DD'
+            $allDays[$date] = 0;
+        }
+
+        $mergedDailyEarnings = array_merge($allDays, $dailyEarnings);
+
+        $today = Carbon::today(); // gets today's date at 00:00:00
+
+        $todayEarnings = Sale::whereDate('created_at', $today)
+                                ->sum('total_amount');
+    
+        // Monthly earnings
+
+        $dayLabels = array_keys($mergedDailyEarnings); 
+
+        $allMonths = [
+            'Jan' => 0, 'Feb' => 0, 'Mar' => 0, 'Apr' => 0,
+            'May' => 0, 'Jun' => 0, 'Jul' => 0, 'Aug' => 0,
+            'Sep' => 0, 'Oct' => 0, 'Nov' => 0, 'Dec' => 0
+        ];
+
+        $monthlyEarnings = Sale::selectRaw("DATE_FORMAT(sales_date, '%b') as month, SUM(total_amount) as total")
+                                ->whereYear('sales_date', now()->year)
+                                ->groupBy('month')
+                                ->pluck('total', 'month')
+                                ->toArray();
+
+        $mergedEarnings = array_merge($allMonths, $monthlyEarnings);
+
+        
+
+        return view('index', compact('totalEarningsDaily', 'percentageChangeDaily', 'totalEarnings', 'percentageChange', 'totalEarnings', 'monthlyEarnings', 'mergedEarnings','dayLabels', 'mergedDailyEarnings', 'todayEarnings'));
     }
 
     /*Language Translation*/

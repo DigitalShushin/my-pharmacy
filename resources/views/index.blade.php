@@ -14,11 +14,11 @@
                 <div class="col-12">
                     <div class="d-flex align-items-lg-center flex-lg-row flex-column">
                         <div class="flex-grow-1">
-                            <h4 class="fs-16 mb-1">Good Morning, Shushin!</h4>
+                            <h4 class="fs-16 mb-1">Good Morning!</h4>
                             <p class="text-muted mb-0">Here's what's happening with your store
                                 today.</p>
                         </div>
-                        <div class="mt-3 mt-lg-0">
+                        <?php /* <div class="mt-3 mt-lg-0">
                             <form action="javascript:void(0);">
                                 <div class="row g-3 mb-0 align-items-center">
                                     <div class="col-sm-auto">
@@ -42,7 +42,7 @@
                                 </div>
                                 <!--end row-->
                             </form>
-                        </div>
+                        </div> */ ?>
                     </div><!-- end card header -->
                 </div>
                 <!--end col-->
@@ -50,28 +50,62 @@
             <!--end row-->
 
             <div class="row">
-                <div class="col-xl-3 col-md-6">
+                <div class="col-xl-6 col-md-6">
                     <!-- card -->
                     <div class="card card-animate">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1 overflow-hidden">
                                     <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
-                                        Total Earnings</p>
+                                        Daily Earnings</p>
                                 </div>
                                 <div class="flex-shrink-0">
-                                    <h5 class="text-success fs-14 mb-0">
-                                        <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
-                                        +16.24 %
+                                    <h5 class="fs-14 mb-0 {{ $percentageChange >= 0 ? 'text-success' : 'text-danger' }}">
+                                        <i class="ri-arrow-right-{{ $percentageChange >= 0 ? 'up' : 'down' }}-line fs-13 align-middle"></i>
+                                        {{ $percentageChange >= 0 ? '+' : '' }}{{ number_format($percentageChangeDaily, 2) }} %
                                     </h5>
                                 </div>
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
                                 <div>
-                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value" data-target="559.25">0</span>k
+                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                        Rs.<span class="counter-value" data-target="{{ number_format($totalEarningsDaily, 2, '.', '') }}">0</span>
                                     </h4>
-                                    <a href="" class="text-decoration-underline text-muted">View net
-                                        earnings</a>
+                                    <!-- <a href="" class="text-decoration-underline text-muted">View net
+                                        earnings</a> -->
+                                </div>
+                                <div class="avatar-sm flex-shrink-0">
+                                    <span class="avatar-title bg-soft-success rounded fs-3">
+                                        <i class="bx bx-dollar-circle text-success"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+                <div class="col-xl-6 col-md-6">
+                    <!-- card -->
+                    <div class="card card-animate">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
+                                        Monthly Earnings</p>
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <h5 class="fs-14 mb-0 {{ $percentageChange >= 0 ? 'text-success' : 'text-danger' }}">
+                                        <i class="ri-arrow-right-{{ $percentageChange >= 0 ? 'up' : 'down' }}-line fs-13 align-middle"></i>
+                                        {{ $percentageChange >= 0 ? '+' : '' }}{{ number_format($percentageChange, 2) }} %
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-end justify-content-between mt-4">
+                                <div>
+                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                        Rs.<span class="counter-value" data-target="{{ number_format($totalEarnings, 2, '.', '') }}">0</span>
+                                    </h4>
+                                    <!-- <a href="" class="text-decoration-underline text-muted">View net
+                                        earnings</a> -->
                                 </div>
                                 <div class="avatar-sm flex-shrink-0">
                                     <span class="avatar-title bg-soft-success rounded fs-3">
@@ -83,7 +117,7 @@
                     </div><!-- end card -->
                 </div><!-- end col -->
 
-                <div class="col-xl-3 col-md-6">
+                <?php /* <div class="col-xl-4 col-md-6">
                     <!-- card -->
                     <div class="card card-animate">
                         <div class="card-body">
@@ -93,15 +127,19 @@
                                         Orders</p>
                                 </div>
                                 <div class="flex-shrink-0">
-                                    <h5 class="text-danger fs-14 mb-0">
-                                        <i class="ri-arrow-right-down-line fs-13 align-middle"></i>
-                                        -3.57 %
+                                    <h5 class="fs-14 mb-0 {{ $percentageChange >= 0 ? 'text-success' : 'text-danger' }}">
+                                        <i class="ri-arrow-right-{{ $percentageChange >= 0 ? 'up' : 'down' }}-line fs-13 align-middle"></i>
+                                        {{ $percentageChangeSale >= 0 ? '+' : '' }}{{ number_format($percentageChangeSale, 2) }} %
                                     </h5>
+
+                                    
                                 </div>
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
                                 <div>
-                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="36894">0</span></h4>
+                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                        <span class="counter-value" data-target="{{ $totalOrders }}">0</span>
+                                    </h4>
                                     <a href="" class="text-decoration-underline text-muted">View all
                                         orders</a>
                                 </div>
@@ -115,7 +153,7 @@
                     </div><!-- end card -->
                 </div><!-- end col -->
 
-                <div class="col-xl-3 col-md-6">
+                <div class="col-xl-4 col-md-6">
                     <!-- card -->
                     <div class="card card-animate">
                         <div class="card-body">
@@ -125,15 +163,16 @@
                                         Customers</p>
                                 </div>
                                 <div class="flex-shrink-0">
-                                    <h5 class="text-success fs-14 mb-0">
-                                        <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
-                                        +29.08 %
+                                    <h5 class="fs-14 mb-0 {{ $percentageChange >= 0 ? 'text-success' : 'text-danger' }}">
+                                        <i class="ri-arrow-right-{{ $percentageChange >= 0 ? 'up' : 'down' }}-line fs-13 align-middle"></i>
+                                        {{ $percentageChangeCustomer >= 0 ? '+' : '' }}{{ number_format($percentageChangeCustomer, 2) }} %
                                     </h5>
                                 </div>
                             </div>
                             <div class="d-flex align-items-end justify-content-between mt-4">
                                 <div>
-                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value" data-target="183.35">0</span>M
+                                    <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                        <span class="counter-value" data-target="{{ $totalCustomers }}">0</span>
                                     </h4>
                                     <a href="" class="text-decoration-underline text-muted">See
                                         details</a>
@@ -148,7 +187,7 @@
                     </div><!-- end card -->
                 </div><!-- end col -->
 
-                <div class="col-xl-3 col-md-6">
+                 <div class="col-xl-3 col-md-6">
                     <!-- card -->
                     <div class="card card-animate">
                         <div class="card-body">
@@ -178,9 +217,116 @@
                             </div>
                         </div><!-- end card body -->
                     </div><!-- end card -->
-                </div><!-- end col -->
+                </div><!-- end col --> */ ?>
             </div> <!-- end row-->
 
+            <div class="row">
+                <div class="col-xl-12">
+                    <h3>Daily Earnings</h3>
+                    <div class="card">                                                
+
+                        <div class="card-header p-0 border-0 bg-soft-light">
+                            <div class="row g-0 align-items-center">
+                                <!-- Earnings Block on Right -->
+                                <div class="col-6 col-sm-3 ms-auto text-end">
+                                    <div class="p-3 border border-dashed border-start-0">
+                                        <h5 class="mb-1">Rs. {{ number_format($todayEarnings, 2) }}</h5>
+                                        <p class="text-muted mb-0">Earnings</p>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                                
+                            </div>
+                        </div><!-- end card header -->
+
+                        <div class="card-body p-0 pb-2">
+                            <div class="w-100">
+                                <div id="customer_impression_charts_2" class="apex-charts" dir="ltr"></div>
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+
+                
+            </div>
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <h3>Monthly Earnings</h3>
+                    <div class="card">
+                        <?php /*<div class="card-header border-0 align-items-center d-flex">
+                            <h4 class="card-title mb-0 flex-grow-1">Revenue</h4>
+                            <div>
+                                <button type="button" class="btn btn-soft-secondary btn-sm">
+                                    ALL
+                                </button>
+                                <button type="button" class="btn btn-soft-secondary btn-sm">
+                                    1M
+                                </button>
+                                <button type="button" class="btn btn-soft-secondary btn-sm">
+                                    6M
+                                </button>
+                                <button type="button" class="btn btn-soft-primary btn-sm">
+                                    1Y
+                                </button>
+                            </div>
+                        </div><!-- end card header -->*/ ?>
+                        
+
+                        <div class="card-header p-0 border-0 bg-soft-light">
+                            <div class="row g-0 align-items-center">
+                                <!-- Earnings Block on Right -->
+                                <div class="col-6 col-sm-3 ms-auto text-end">
+                                    <div class="p-3 border border-dashed border-start-0">
+                                        <h5 class="mb-1">Rs. {{ number_format($totalEarnings, 2) }}</h5>
+                                        <p class="text-muted mb-0">Earnings</p>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                                <?php /*
+                                <div class="col-6 col-sm-3">
+                                    <div class="p-3 border border-dashed border-start-0">
+                                        <h5 class="mb-1"><span class="counter-value" data-target="7585">0</span></h5>
+                                        <p class="text-muted mb-0">Orders</p>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                                <div class="col-6 col-sm-3">
+                                    <div class="p-3 border border-dashed border-start-0">
+                                        <h5 class="mb-1">$<span class="counter-value" data-target="22.89">0</span>k</h5>
+                                        <p class="text-muted mb-0">Earnings</p>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                                <div class="col-6 col-sm-3">
+                                    <div class="p-3 border border-dashed border-start-0">
+                                        <h5 class="mb-1"><span class="counter-value" data-target="367">0</span></h5>
+                                        <p class="text-muted mb-0">Refunds</p>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                                <div class="col-6 col-sm-3">
+                                    <div class="p-3 border border-dashed border-start-0 border-end-0">
+                                        <h5 class="mb-1 text-success"><span class="counter-value" data-target="18.92">0</span>%</h5>
+                                        <p class="text-muted mb-0">Conversation Ratio</p>
+                                    </div>
+                                </div>
+                                <!--end col-->*/ ?>
+                            </div>
+                        </div><!-- end card header -->
+
+                        <div class="card-body p-0 pb-2">
+                            <div class="w-100">
+                                <div id="customer_impression_charts" class="apex-charts" dir="ltr"></div>
+                            </div>
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+
+                
+            </div>
+            
+<?php /*
             <div class="row">
                 <div class="col-xl-8">
                     <div class="card">
@@ -287,6 +433,8 @@
                 </div>
                 <!-- end col -->
             </div>
+
+            
 
             <div class="row">
                 <div class="col-xl-6">
@@ -1339,7 +1487,8 @@
 
                 </div>
             </div> <!-- end card-->
-        </div> <!-- end .rightbar-->
+        </div> <!-- end .rightbar--> 
+        */ ?>
 
     </div> <!-- end col -->
 </div>
@@ -1354,4 +1503,122 @@
 <!-- dashboard init -->
 <script src="{{ URL::asset('build/js/pages/dashboard-ecommerce.init.js') }}"></script>
 <script src="{{ URL::asset('build/js/app.js') }}"></script>
+
+<script>
+    var earningsData = @json(array_values($mergedEarnings));
+    var monthLabels = @json(array_keys($mergedEarnings));
+
+    var dailyEarnings = @json(array_values($mergedDailyEarnings));
+    var dailyLabels = @json(array_keys($mergedDailyEarnings));
+</script>
+<!-- <script>
+    var options = {
+        chart: {
+            type: 'area',
+            height: 350,
+            toolbar: { show: false }
+        },
+        series: [{
+            name: 'Earnings',
+            data: earningsData
+        }],
+        xaxis: {
+            categories: monthLabels
+        },
+        colors: ['#3b76e1'], // You can customize the color
+        dataLabels: { enabled: false },
+        stroke: {
+            curve: 'smooth'
+        },
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shadeIntensity: 1,
+                opacityFrom: 0.6,
+                opacityTo: 0.1,
+                stops: [0, 90, 100]
+            }
+        },
+        tooltip: {
+            y: {
+                formatter: function (val) {
+                    return "Rs. " + val.toFixed(2);
+                }
+            }
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#customer_impression_charts"), options);
+    chart.render();
+</script> -->
+
+<!-- Daily -->
+<script>
+    var options = {
+    chart: {
+        type: 'bar',
+        height: 350,
+        toolbar: { show: false }
+    },
+    series: [{
+        name: 'Earnings',
+        data: dailyEarnings
+    }],
+    xaxis: {
+        categories: dailyLabels
+    },
+    colors: ['#3b76e1'],
+    dataLabels: { enabled: false },
+    plotOptions: {
+        bar: {
+            borderRadius: 4,
+            columnWidth: '50%',
+        }
+    },
+    tooltip: {
+        y: {
+            formatter: function (val) {
+                return "Rs. " + val.toFixed(2);
+            }
+        }
+    }
+};
+    var chart = new ApexCharts(document.querySelector("#customer_impression_charts_2"), options);
+    chart.render();
+</script>
+
+<!-- Monthly  -->
+ <script>
+    var options = {
+    chart: {
+        type: 'bar',
+        height: 350,
+        toolbar: { show: false }
+    },
+    series: [{
+        name: 'Earnings',
+        data: earningsData
+    }],
+    xaxis: {
+        categories: monthLabels
+    },
+    colors: ['#3b76e1'],
+    dataLabels: { enabled: true },
+    plotOptions: {
+        bar: {
+            borderRadius: 4,
+            columnWidth: '50%',
+        }
+    },
+    tooltip: {
+        y: {
+            formatter: function (val) {
+                return "Rs. " + val.toFixed(2);
+            }
+        }
+    }
+};
+    var chart = new ApexCharts(document.querySelector("#customer_impression_charts"), options);
+    chart.render();
+</script>
 @endsection

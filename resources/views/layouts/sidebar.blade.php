@@ -12,12 +12,12 @@
             </span>
         </a>
         <!-- Light Logo-->
-        <a href="index" class="logo logo-light">
+        <a href="admin" class="logo logo-light">
             <span class="logo-sm">
-                <img src="{{ URL::asset('build/images/logo-sm.png') }}" alt="" height="22">
+                <img src="{{ URL::asset('/images/pharmacy-logo.png') }}" alt="" height="22">
             </span>
             <span class="logo-lg">
-                <img src="{{ URL::asset('build/images/logo-light.png') }}" alt="" height="17">
+                <img src="{{ URL::asset('/images/pharmacy-logo.png') }}" alt="" height="17">
             </span>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
@@ -984,7 +984,12 @@
 
             <ul class="navbar-nav" id="navbar-nav">
                 <li class="menu-title"><span>@lang('translation.menu')</span></li>
-                <li class="nav-item">
+                <li class="nav-item"></li>
+                    <a class="nav-link menu-link" href="/admin">
+                        <i class="las la-clinic-medical"></i> <span>@lang('translation.dashboards')</span>
+                    </a>
+                </li>
+                <?php /*<li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="las la-clinic-medical"></i> <span>@lang('translation.dashboards')</span>
                     </a>
@@ -1014,6 +1019,7 @@
                         </ul>
                     </div>
                 </li> <!-- end Dashboard Menu -->
+                */ ?>
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarCompany" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
@@ -1100,7 +1106,7 @@
                     </div>
                 </li><!-- end Dashboard Menu --> 
 
-                <li class="nav-item">
+                <?php /* <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarApps5" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarApps">
                         <i class="lar la-user-circle"></i> <span>Users</span>
                     </a>
@@ -1114,7 +1120,8 @@
                             </li>                            
                         </ul>
                     </div>
-                </li><!-- end Dashboard Menu -->   
+                </li><!-- end Dashboard Menu -->
+                */ ?>   
 
                 
 
